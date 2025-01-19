@@ -1,13 +1,16 @@
 'use client'
 
+import type { ElementType } from 'react'
 import { useDeferredValue } from 'react'
 import { useInView } from 'react-intersection-observer'
-import type { ElementType } from 'react'
 
-import { useIsMobile } from '~/atoms'
+import { useIsMobile } from '~/atoms/hooks'
+import { MaterialSymbolsProgressActivity } from '~/components/icons/Progress'
+import { MotionButtonBase } from '~/components/ui/button'
 import { RootPortal } from '~/components/ui/portal'
 import { useReadPercent } from '~/hooks/shared/use-read-percent'
 import { clsxm } from '~/lib/helper'
+import { springScrollToTop } from '~/lib/scroller'
 import { useIsEoFWrappedElement } from '~/providers/shared/WrappedElementProvider'
 
 export const ReadIndicator: Component<{
@@ -23,8 +26,21 @@ export const ReadIndicator: Component<{
       className={clsxm('text-gray-800 dark:text-neutral-300', className)}
       ref={ref}
     >
-      {readPercent}%
-      {!inView && <ReadIndicatorVertical className="right-[1px]" />}
+      <div className="flex items-center gap-2">
+        <MaterialSymbolsProgressActivity />
+        {readPercent}%<br />
+      </div>
+      <MotionButtonBase
+        onClick={springScrollToTop}
+        className={clsxm(
+          'mt-1 flex flex-nowrap items-center gap-2 opacity-50 transition-all duration-500 hover:opacity-100',
+          readPercent > 10 ? '' : 'pointer-events-none opacity-0',
+        )}
+      >
+        <i className="i-mingcute-arrow-up-circle-line" />
+        <span className="whitespace-nowrap">回到顶部</span>
+      </MotionButtonBase>
+      {!inView && <ReadIndicatorVertical className="right-px" />}
     </As>
   )
 }
@@ -36,7 +52,7 @@ const ReadIndicatorVertical: Component = ({ className }) => {
     <RootPortal>
       <div
         className={clsxm(
-          'fixed bottom-0 right-0 top-0 z-[99] w-[1px] transition-opacity duration-200 ease-in-out',
+          'fixed inset-y-0 right-0 z-[99] w-px transition-opacity duration-200 ease-in-out',
           isEOA ? 'opacity-0' : 'opacity-100',
           className,
         )}

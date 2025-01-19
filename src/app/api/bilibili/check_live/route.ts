@@ -1,8 +1,9 @@
 import type { NextRequest } from 'next/server'
-import type { BLUser } from './types/user'
 
 import { NextServerResponse } from '~/lib/edge-function.server'
 import { getQueryClient } from '~/lib/query-client.server'
+
+import type { BLUser } from './types/user'
 
 const headers = {
   referer: `https://live.bilibili.com/`,
@@ -20,8 +21,9 @@ export const revalidate = 10
 
 export const GET = async (req: NextRequest): Promise<Response> => {
   const liveId = req.nextUrl.searchParams.get('liveId')
+  const response = new NextServerResponse()
   if (!liveId) {
-    return new NextServerResponse().status(400).end()
+    return response.status(400).end()
   }
   const queryClient = getQueryClient()
   const res = await queryClient.fetchQuery({
@@ -37,8 +39,6 @@ export const GET = async (req: NextRequest): Promise<Response> => {
         .catch(() => null)
     },
   })
-
-  const response = new NextServerResponse()
 
   if (!res?.data) {
     return response.end()
@@ -60,6 +60,6 @@ export const GET = async (req: NextRequest): Promise<Response> => {
     return response.end()
   }
 
-  const info = (userInfo as BLUser).data.info
+  const { info } = (userInfo as BLUser).data
   return response.json({ ...info })
 }

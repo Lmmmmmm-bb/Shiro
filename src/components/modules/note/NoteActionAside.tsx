@@ -1,11 +1,12 @@
 'use client'
 
-import { m, useAnimationControls, useForceUpdate } from 'framer-motion'
+import { m, useAnimationControls } from 'motion/react'
 
-import { useIsMobile } from '~/atoms'
+import { useIsMobile } from '~/atoms/hooks'
 import { MotionButtonBase } from '~/components/ui/button'
 import { useModalStack } from '~/components/ui/modal'
 import { NumberSmoothTransition } from '~/components/ui/number-transition/NumberSmoothTransition'
+import { useForceUpdate } from '~/hooks/common/use-force-update'
 import { useIsClient } from '~/hooks/common/use-is-client'
 import { isLikedBefore, setLikeId } from '~/lib/cookie'
 import { clsxm } from '~/lib/helper'
@@ -35,7 +36,7 @@ export const NoteBottomBarAction: Component = () => {
   const isMobile = useIsMobile()
   if (!isMobile) return null
   return (
-    <div className="mb-8 flex items-center justify-center space-x-8">
+    <div className="mb-8 mt-4 flex items-center justify-center space-x-8">
       <LikeButton />
       <ShareButton />
       <SubscribeButton />
@@ -57,18 +58,20 @@ export const NoteActionAside: Component = ({ className }) => {
 }
 
 const NoteAsideCommentButton = () => {
-  const { title, id } =
+  const { title, id, allowComment } =
     useCurrentNoteDataSelector((_data) => {
       const { data } = _data || {}
       return {
         title: data?.title,
         id: data?.id,
+        allowComment: data?.allowComment,
       }
     }) || {}
 
   const isEoF = useIsEoFWrappedElement()
   if (!id) return null
   if (isEoF) return null
+  if (!allowComment) return null
   return <AsideCommentButton refId={id} title={title!} />
 }
 
@@ -108,7 +111,7 @@ const LikeButton = () => {
         toast('谢谢你！', undefined, {
           iconElement: (
             <m.i
-              className="icon-[mingcute--heart-fill] text-uk-red-light"
+              className="i-mingcute-heart-fill text-uk-red-light"
               initial={{
                 scale: 0.96,
               }}
@@ -130,8 +133,8 @@ const LikeButton = () => {
         className={clsxm(
           'duration-200 hover:text-uk-red-light',
           asideButtonStyles.base,
-          !isLiked && 'icon-[mingcute--heart-line]',
-          isLiked && 'icon-[mingcute--heart-fill] text-uk-red-light',
+          !isLiked && 'i-mingcute-heart-line',
+          isLiked && 'i-mingcute-heart-fill text-uk-red-light',
         )}
         animate={control}
         variants={{
@@ -144,7 +147,7 @@ const LikeButton = () => {
         }}
       />
       {!!likeCount && (
-        <span className="absolute bottom-0 right-0 translate-x-[10px] transform text-[10px]">
+        <span className="absolute bottom-0 right-0 translate-x-[10px] text-[10px]">
           <NumberSmoothTransition>{likeCount}</NumberSmoothTransition>
         </span>
       )}
@@ -156,7 +159,7 @@ const SubscribeButton = () => {
   const { present } = usePresentSubscribeModal(['note_c'])
   return (
     <MotionButtonBase className="flex flex-col space-y-2" onClick={present}>
-      <ActionAsideIcon className="icon-[material-symbols--notifications-active-outline] hover:text-accent" />
+      <ActionAsideIcon className="i-material-symbols-notifications-active-outline hover:text-accent" />
     </MotionButtonBase>
   )
 }
@@ -202,7 +205,7 @@ const ShareButton = () => {
         }
       }}
     >
-      <ActionAsideIcon className="icon-[mingcute--share-forward-line] hover:text-uk-cyan-light" />
+      <ActionAsideIcon className="i-mingcute-share-forward-line hover:text-uk-cyan-light" />
     </MotionButtonBase>
   )
 }

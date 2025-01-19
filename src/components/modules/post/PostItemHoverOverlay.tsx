@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence, m } from 'motion/react'
+import { useEffect, useRef, useState } from 'react'
 
 export const PostItemHoverOverlay = () => {
   const [mouseEnter, setMouseEnter] = useState(false)
@@ -57,8 +57,8 @@ export const PostItemHoverOverlay = () => {
             layoutId="post-item-hover-overlay"
             className={clsx(
               'absolute z-[-1] rounded-xl',
-              'bg-slate-300/50 dark:bg-neutral-800',
-              'bottom-[1rem] left-[-1rem] right-[-1.5rem] top-[1rem]',
+              'bg-accent/10 dark:bg-neutral-800',
+              'inset-y-4 -left-4 -right-6',
             )}
           />
         )}

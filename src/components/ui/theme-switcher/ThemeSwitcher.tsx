@@ -1,7 +1,7 @@
 'use client'
 
-import { flushSync } from 'react-dom'
 import { useTheme } from 'next-themes'
+import { flushSync } from 'react-dom'
 import { tv } from 'tailwind-variants'
 
 import { useIsClient } from '~/hooks/common/use-is-client'
@@ -103,7 +103,7 @@ const ThemeIndicator = () => {
   if (!theme) return null
   return (
     <div
-      className="absolute top-[4px] z-[-1] h-[32px] w-[32px] rounded-full bg-base-100 shadow-[0_1px_2px_0_rgba(127.5,127.5,127.5,.2),_0_1px_3px_0_rgba(127.5,127.5,127.5,.1)] duration-200"
+      className="absolute top-[4px] z-[-1] size-[32px] rounded-full bg-base-100 shadow-[0_1px_2px_0_rgba(127.5,127.5,127.5,.2),_0_1px_3px_0_rgba(127.5,127.5,127.5,.1)] duration-200"
       style={{
         left: { light: 4, system: 36, dark: 68 }[theme],
       }}
@@ -121,7 +121,7 @@ const ButtonGroup = () => {
   }
 
   return (
-    <div className="w-fit-content inline-flex rounded-full border border-slate-200 p-[3px] dark:border-neutral-800">
+    <div className="w-fit-content inline-flex rounded-full border border-zinc-200 p-[3px] dark:border-zinc-700">
       <button
         aria-label="Switch to light theme"
         type="button"

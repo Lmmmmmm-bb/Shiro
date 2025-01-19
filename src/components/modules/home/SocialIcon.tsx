@@ -1,8 +1,9 @@
-/* eslint-disable react/jsx-key */
-import { memo, useMemo } from 'react'
+/* eslint-disable @eslint-react/no-missing-key */
 import type { ReactNode } from 'react'
+import { memo, useMemo } from 'react'
 
 import { BilibiliIcon } from '~/components/icons/platform/BilibiliIcon'
+import { BlueskyIcon } from '~/components/icons/platform/BlueskyIcon'
 import { NeteaseCloudMusicIcon } from '~/components/icons/platform/NeteaseIcon'
 import { XIcon } from '~/components/icons/platform/XIcon'
 import { MotionButtonBase } from '~/components/ui/button'
@@ -13,60 +14,42 @@ interface SocialIconProps {
   id: string
 }
 
-const type2Copy = {
-  github: 'GitHub',
-  twitter: 'Twitter',
-  telegram: 'Telegram',
-  mail: 'Email',
-  rss: 'RSS',
-  email: 'Email',
-  feed: 'RSS',
-  bilibili: '哔哩哔哩',
-  netease: '网易云音乐',
-
-  qq: 'QQ',
-  wechat: '微信',
-  weibo: '微博',
-
-  x: 'X',
-} as any
-const icons = new Set(Object.keys(type2Copy))
-
 const iconSet: Record<
   string,
   [string, ReactNode, string, (id: string) => string]
 > = {
   github: [
     'Github',
-    <i className="icon-[mingcute--github-line]" />,
+    <i className="i-mingcute-github-line" />,
     '#181717',
     (id) => `https://github.com/${id}`,
   ],
   twitter: [
     'Twitter',
-    <i className="icon-[mingcute--twitter-line]" />,
+    <i className="i-mingcute-twitter-line" />,
     '#1DA1F2',
     (id) => `https://twitter.com/${id}`,
   ],
   x: ['x', <XIcon />, 'rgba(36,46,54,1.00)', (id) => `https://x.com/${id}`],
   telegram: [
     'Telegram',
-    <i className="icon-[mingcute--telegram-line]" />,
+    <i className="i-mingcute-telegram-line" />,
     '#0088cc',
     (id) => `https://t.me/${id}`,
   ],
   mail: [
     'Email',
-    <i className="icon-[mingcute--mail-line]" />,
+    <i className="i-mingcute-mail-line" />,
     '#D44638',
     (id) => `mailto:${id}`,
   ],
-  rss: [
-    'RSS',
-    <i className="icon-[mingcute--rss-line]" />,
-    '#FFA500',
-    (id) => id,
-  ],
+  get email() {
+    return this.mail
+  },
+  get feed() {
+    return this.rss
+  },
+  rss: ['RSS', <i className="i-mingcute-rss-line" />, '#FFA500', (id) => id],
   bilibili: [
     '哔哩哔哩',
     <BilibiliIcon />,
@@ -81,30 +64,43 @@ const iconSet: Record<
   ],
   qq: [
     'QQ',
-    <i className="icon-[mingcute--qq-fill]" />,
+    <i className="i-mingcute-qq-fill" />,
     '#1e6fff',
     (id) => `https://wpa.qq.com/msgrd?v=3&uin=${id}&site=qq&menu=yes`,
   ],
   wechat: [
     '微信',
-    <i className="icon-[mingcute--wechat-fill]" />,
+    <i className="i-mingcute-wechat-fill" />,
     '#2DC100',
     (id) => id,
   ],
   weibo: [
     '微博',
-    <i className="icon-[mingcute--weibo-line]" />,
+    <i className="i-mingcute-weibo-line" />,
     '#E6162D',
     (id) => `https://weibo.com/${id}`,
   ],
+  discord: [
+    'Discord',
+    <i className="i-mingcute-discord-fill" />,
+    '#7289DA',
+    (id) => `https://discord.gg/${id}`,
+  ],
+  bluesky: [
+    'Bluesky',
+    <BlueskyIcon />,
+    '#0085FF',
+    (id) => `https://bsky.app/profile/${id}`,
+  ],
 }
+const icons = Object.keys(iconSet)
 
-export const isSupportIcon = (icon: string) => icons.has(icon)
+export const isSupportIcon = (icon: string) => icons.includes(icon)
 export const SocialIcon = memo((props: SocialIconProps) => {
   const { id, type } = props
 
   const [name, Icon, iconBg, hrefFn] = useMemo(() => {
-    const [name, Icon, iconBg, hrefFn] = iconSet[type] || []
+    const [name, Icon, iconBg, hrefFn] = (iconSet as any)[type as any] || []
     return [name, Icon, iconBg, hrefFn]
   }, [type])
 
@@ -114,9 +110,9 @@ export const SocialIcon = memo((props: SocialIconProps) => {
   return (
     <FloatPopover
       type="tooltip"
-      TriggerComponent={() => (
+      triggerElement={
         <MotionButtonBase
-          className="flex aspect-square h-10 w-10 rounded-full text-2xl text-white center"
+          className="center flex aspect-square size-10 rounded-full text-2xl text-white"
           style={{
             background: iconBg,
           }}
@@ -124,15 +120,15 @@ export const SocialIcon = memo((props: SocialIconProps) => {
           <a
             target="_blank"
             href={href}
-            className="flex center"
+            className="center flex"
             rel="noreferrer"
           >
             {Icon}
           </a>
         </MotionButtonBase>
-      )}
+      }
     >
-      {type2Copy[type] || ''}
+      {name}
     </FloatPopover>
   )
 })

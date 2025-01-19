@@ -1,10 +1,12 @@
+import chroma from 'chroma-js'
 import Color from 'colorjs.io'
-import type { FC } from 'react'
+
+import { createPngNoiseBackground } from '~/lib/noise'
 
 const hexToOklchString = (hex: string) => {
+  // @ts-ignore
   return new Color(hex).oklch
 }
-
 const accentColorLight = [
   // 浅葱
   '#33A6B8',
@@ -24,9 +26,14 @@ const accentColorDark = [
   '#838BC6',
 ]
 const defaultAccentColor = { light: accentColorLight, dark: accentColorDark }
-export const AccentColorStyleInjector: FC<{
+
+const lightBg = 'rgb(250, 250, 250)'
+const darkBg = 'rgb(0, 2, 18)'
+export async function AccentColorStyleInjector({
+  color,
+}: {
   color?: AccentColor
-}> = ({ color }) => {
+}) {
   const { light, dark } = color || defaultAccentColor
 
   const lightColors = light ?? accentColorLight
@@ -43,17 +50,36 @@ export const AccentColorStyleInjector: FC<{
   const [hl, sl, ll] = lightOklch
   const [hd, sd, ld] = darkOklch
 
+  const [lightBgImage, darkBgImage] = await Promise.all([
+    createPngNoiseBackground(currentAccentColorLRef),
+    createPngNoiseBackground(currentAccentColorDRef),
+  ])
+
   return (
     <style
       id="accent-color-style"
       data-light={currentAccentColorLRef}
       data-dark={currentAccentColorDRef}
       dangerouslySetInnerHTML={{
-        __html: `html[data-theme='light'] {
+        __html: `
+        html[data-theme='light'].noise body::before {
+          background-image: ${lightBgImage}
+        }
+        html[data-theme='dark'].noise body::before {
+          background-image: ${darkBgImage}
+        }
+        html[data-theme='light'] {
           --a: ${`${hl} ${sl} ${ll}`};
         }
         html[data-theme='dark'] {
           --a: ${`${hd} ${sd} ${ld}`};
+        }
+        html {
+          --root-bg: ${chroma.mix(lightBg, currentAccentColorLRef, 0.05, 'rgb').hex()};
+          background-color: var(--root-bg) !important;
+        }
+        html[data-theme='dark'] {
+          --root-bg: ${chroma.mix(darkBg, currentAccentColorDRef, 0.12, 'rgb').hex()};
         }
         `,
       }}

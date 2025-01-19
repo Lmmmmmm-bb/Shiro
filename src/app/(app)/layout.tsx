@@ -1,31 +1,30 @@
-import { Analytics } from '@vercel/analytics/react'
-import { ToastContainer } from 'react-toastify'
-import type { AggregateRoot } from '@mx-space/api-client'
-import type { Viewport } from 'next'
+/* eslint-disable no-console */
 
-import { ClerkProvider } from '@clerk/nextjs'
+import type { Metadata, Viewport } from 'next'
+import { PublicEnvScript } from 'next-runtime-env'
+import type { PropsWithChildren } from 'react'
+import { ToastContainer } from 'react-toastify'
 
 import PKG from '~/../package.json'
+import { Global } from '~/components/common/Global'
 import { HydrationEndDetector } from '~/components/common/HydrationEndDetector'
 import { ScrollTop } from '~/components/common/ScrollTop'
+import { SyncServerTime } from '~/components/common/SyncServerTime'
 import { Root } from '~/components/layout/root/Root'
 import { AccentColorStyleInjector } from '~/components/modules/shared/AccentColorStyleInjector'
 import { SearchPanelWithHotKey } from '~/components/modules/shared/SearchFAB'
 import { TocAutoScroll } from '~/components/modules/toc/TocAutoScroll'
-import { attachUAAndRealIp } from '~/lib/attach-ua'
+import { PreRenderError } from '~/lib/error-factory'
 import { sansFont, serifFont } from '~/lib/fonts'
-import { getQueryClient } from '~/lib/query-client.server'
 import { AggregationProvider } from '~/providers/root/aggregation-data-provider'
-import { queries } from '~/queries/definition'
+import { AppFeatureProvider } from '~/providers/root/app-feature-provider'
+import { ScriptInjectProvider } from '~/providers/root/script-inject-provider'
 
 import { WebAppProviders } from '../../providers/root'
 import { Analyze } from './analyze'
+import { fetchAggregationData } from './api'
 
 const { version } = PKG
-
-export const revalidate = 60
-
-let aggregationData: (AggregateRoot & { theme: AppThemeConfig }) | null = null
 
 export function generateViewport(): Viewport {
   return {
@@ -41,14 +40,9 @@ export function generateViewport(): Viewport {
   }
 }
 
-export const generateMetadata = async () => {
-  const queryClient = getQueryClient()
+export const generateMetadata = async (): Promise<Metadata> => {
+  const fetchedData = await fetchAggregationData()
 
-  const fetchedData =
-    aggregationData ??
-    (await queryClient.fetchQuery(queries.aggregation.root()))
-
-  aggregationData = fetchedData
   const {
     seo,
     url,
@@ -107,45 +101,67 @@ export const generateMetadata = async () => {
       type: 'website',
       url: url.webUrl,
       images: {
-        url: user.avatar,
+        url: `${url.webUrl}/og`,
         username: user.name,
       },
     },
     twitter: {
-      creator: `@${user.username}`,
+      creator: `@${user.socialIds?.twitter || user.socialIds?.x || '__oQuery'}`,
       card: 'summary_large_image',
       title: seo.title,
       description: seo.description,
     },
-  }
-}
 
-type Props = {
-  children: React.ReactNode
+    alternates: {
+      canonical: url.webUrl,
+      types: {
+        'application/rss+xml': [{ url: 'feed', title: 'RSS 订阅' }],
+      },
+    },
+  } satisfies Metadata
 }
-
-export default async function RootLayout(props: Props) {
-  attachUAAndRealIp()
+export const dynamic = 'force-dynamic'
+export default async function RootLayout(props: PropsWithChildren) {
   const { children } = props
 
-  const queryClient = getQueryClient()
-
-  const data = await queryClient.fetchQuery({
-    ...queries.aggregation.root(),
+  const data = await fetchAggregationData().catch((err) => {
+    return new PreRenderError(err.message)
   })
+
+  if (data instanceof PreRenderError) {
+    return (
+      <html lang="zh-CN" className="noise themed" suppressHydrationWarning>
+        <head>
+          <PublicEnvScript />
+
+          <SayHi />
+        </head>
+        <body
+          className={`${sansFont.variable} ${serifFont.variable} m-0 h-full p-0 font-sans`}
+        >
+          <div className="center flex h-screen">
+            初始数据的获取失败，请检查 API
+            服务器是否正常运行。接口请求错误信息：
+            <br />
+            {data.message}
+          </div>
+        </body>
+      </html>
+    )
+  }
 
   const themeConfig = data.theme
 
-  aggregationData = data
-
   return (
-    // <ClerkProvider localization={ClerkZhCN}>
-    <ClerkProvider>
-      <html lang="zh-CN" className="noise" suppressHydrationWarning>
+    <AppFeatureProvider tmdb={!!process.env.TMDB_API_KEY}>
+      <html lang="zh-CN" className="noise themed" suppressHydrationWarning>
         <head>
+          <PublicEnvScript />
+          <Global />
           <SayHi />
           <HydrationEndDetector />
-          <AccentColorStyleInjector />
+          <AccentColorStyleInjector color={themeConfig.config.color} />
+
           <link
             rel="shortcut icon"
             href={themeConfig.config.site.faviconDark}
@@ -158,6 +174,7 @@ export default async function RootLayout(props: Props) {
             type="image/x-icon"
             media="(prefers-color-scheme: light)"
           />
+          <ScriptInjectProvider />
         </head>
         <body
           className={`${sansFont.variable} ${serifFont.variable} m-0 h-full p-0 font-sans`}
@@ -167,7 +184,6 @@ export default async function RootLayout(props: Props) {
               aggregationData={data}
               appConfig={themeConfig.config}
             />
-
             <div data-theme>
               <Root>{children}</Root>
             </div>
@@ -175,13 +191,14 @@ export default async function RootLayout(props: Props) {
             <TocAutoScroll />
             <SearchPanelWithHotKey />
             <Analyze />
+            <SyncServerTime />
+            <ToastContainer />
+            <ScrollTop />
+            <div className="fixed inset-y-0 right-0 w-[var(--removed-body-scroll-bar-size)]" />
           </WebAppProviders>
-          <ToastContainer />
-          <ScrollTop />
         </body>
       </html>
-      <Analytics />
-    </ClerkProvider>
+    </AppFeatureProvider>
   )
 }
 
@@ -192,12 +209,12 @@ const SayHi = () => {
         __html: `var version = "${version}";
     (${function () {
       console.log(
-        `%c Mix Space %c https://github.com/mx-space `,
+        `%c Mix Space %c https://github.com/mx-space`,
         'color: #fff; margin: 1em 0; padding: 5px 0; background: #2980b9;',
         'margin: 1em 0; padding: 5px 0; background: #efefef;',
       )
       console.log(
-        `%c Shiro ${window.version} %c https://innei.ren `,
+        `%c Shiro ${window.version} %c https://innei.in`,
         'color: #fff; margin: 1em 0; padding: 5px 0; background: #39C5BB;',
         'margin: 1em 0; padding: 5px 0; background: #efefef;',
       )

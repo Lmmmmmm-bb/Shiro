@@ -1,8 +1,8 @@
 'use client'
 
 import * as SelectImpl from '@radix-ui/react-select'
-import React from 'react'
 import type { PropsWithChildren } from 'react'
+import React from 'react'
 
 import { clsxm } from '~/lib/helper'
 
@@ -43,7 +43,7 @@ export const Select = function Select<T>(
     >
       <SelectImpl.Trigger
         className={clsxm(
-          'inline-flex w-full items-center justify-between gap-1 rounded-lg border border-neutral-400/50 dark:border-neutral-700',
+          'border-border inline-flex w-full items-center justify-between gap-1 rounded-lg border',
           'p-2',
           'text-[0.9em]',
 
@@ -51,18 +51,18 @@ export const Select = function Select<T>(
         )}
       >
         <SelectImpl.Value placeholder={placeholder} />
-        <SelectImpl.Icon>
+        <SelectImpl.Icon className="flex items-center">
           {isLoading ? (
-            <i className="mingcute--loading-line animate-spin" />
+            <i className="i-mingcute-loading-line animate-spin" />
           ) : (
-            <i className="icon-[mingcute--down-line]" />
+            <i className="i-mingcute-down-line" />
           )}
         </SelectImpl.Icon>
       </SelectImpl.Trigger>
       <SelectImpl.Portal>
-        <SelectImpl.Content className="z-[990] rounded-lg border border-zinc-200 bg-zinc-50/80 backdrop-blur dark:border-neutral-800 dark:bg-neutral-800 dark:bg-neutral-900/60">
+        <SelectImpl.Content className="z-[990] rounded-lg border border-zinc-200 bg-zinc-50/80 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/60">
           <SelectImpl.ScrollUpButton className="flex h-3 items-center justify-center">
-            <i className="icon-[mingcute--up-line]" />
+            <i className="i-mingcute-up-line" />
           </SelectImpl.ScrollUpButton>
           <SelectImpl.Viewport>
             {values.map((item) => (
@@ -77,7 +77,7 @@ export const Select = function Select<T>(
             ))}
           </SelectImpl.Viewport>
           <SelectImpl.ScrollDownButton className="flex h-3 items-center justify-center">
-            <i className="icon-[mingcute--down-line]" />
+            <i className="i-mingcute-down-line" />
           </SelectImpl.ScrollDownButton>
         </SelectImpl.Content>
       </SelectImpl.Portal>
@@ -101,8 +101,8 @@ const SelectItem = React.forwardRef<
         </span>
       </SelectImpl.ItemText>
 
-      <SelectImpl.ItemIndicator className="flex-shrink-0">
-        <i className="icon-[mingcute--check-line]" />
+      <SelectImpl.ItemIndicator className="shrink-0">
+        <i className="i-mingcute-check-line" />
       </SelectImpl.ItemIndicator>
     </SelectImpl.Item>
   )

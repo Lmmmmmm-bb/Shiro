@@ -1,2 +1,2 @@
-export { socketClient } from './socket-client'
-export type { TSocketClient } from './socket-client'
+export type { TSocketClient } from './worker-client'
+export { socketWorker } from './worker-client'

@@ -1,17 +1,11 @@
 html {
-  --border-color: #eee;
   --font-sans: theme('fontFamily.sans');
-  --theme-color: var(--auto-theme-color, theme('colors.accent'));
-  --hover-color: var(--auto-hover-color, theme('colors.accent/80'));
-  --header-height: auto;
+
   /* Accent color for form controls */
-  accent-color: var(--theme-color);
+  accent-color: theme(colors.accent);
 
   /* make app like native app in mobile */
   -webkit-tap-highlight-color: transparent;
-  /*  for firefox */
-  scrollbar-color: var(--theme-color) transparent;
-  scrollbar-width: thin;
 
   font-family: var(--font-sans);
 }
@@ -30,9 +24,13 @@ details summary {
 }
 
 ::selection {
-  background-color: var(--theme-color) !important;
+  background-color: theme(colors.accent);
   color: theme(colors.white) !important;
   text-shadow: none;
+}
+
+[data-theme='dark'] ::selection {
+  background-color: theme(colors.accent/0.3);
 }
 
 ::view-transition-new(root) {

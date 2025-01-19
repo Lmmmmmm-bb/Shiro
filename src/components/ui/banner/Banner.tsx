@@ -1,5 +1,6 @@
-import React from 'react'
+/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 import { clsx } from 'clsx'
+import type React from 'react'
 import type { FC } from 'react'
 
 import {
@@ -62,7 +63,7 @@ export const Banner: FC<{
       {showIcon && (
         <Icon
           className={clsx(
-            `flex-shrink-0 text-3xl md:mr-2 md:self-start md:text-left`,
+            `shrink-0 text-3xl md:mr-2 md:self-start md:text-left`,
             iconColorMap[nextType] || iconColorMap.info,
           )}
         />

@@ -1,13 +1,13 @@
-import { useContext, useMemo } from 'react'
 import type { CommentModel } from '@mx-space/api-client'
-
 import { CollectionRefTypes } from '@mx-space/api-client'
+import { useContext, useMemo } from 'react'
 
 import { RelativeTime } from '~/components/ui/relative-time'
 import { EllipsisHorizontalTextWithTooltip } from '~/components/ui/typography'
 import { clsxm } from '~/lib/helper'
 import { apiClient } from '~/lib/request'
 
+import { CommentMarkdown } from '../../comment/CommentMarkdown'
 import { CommentAction } from './CommentAction'
 import { CommentDataContext } from './CommentContext'
 import { CommentUrlRender } from './UrlRender'
@@ -29,9 +29,9 @@ export const CommentContentCell: Component<{ comment: CommentModel }> = (
   const ref = ctx.refModelMap.get(id)
 
   const TitleEl = useMemo(() => {
-    if (!ref) return <span className="text-foreground/60">已删除</span>
+    if (!ref) return <span className="opacity-60">已删除</span>
     if (refType === CollectionRefTypes.Recently)
-      return `${ref.text.slice(0, 20)}...`
+      return `${ref.text?.slice(0, 20)}...`
     return (
       <div className="flex w-0 grow items-center">
         <a
@@ -57,11 +57,13 @@ export const CommentContentCell: Component<{ comment: CommentModel }> = (
         <RelativeTime date={created} /> 于 {TitleEl}
       </div>
 
-      <p className="break-words">{text}</p>
+      <div className="break-words">
+        <CommentMarkdown>{text}</CommentMarkdown>
+      </div>
 
       {parentComment && typeof parentComment !== 'string' && (
         <div className="relative mt-2 break-words">
-          <blockquote className="ml-3 pl-3 before:absolute before:bottom-0 before:left-[3px] before:top-0 before:h-full before:w-[3px] before:rounded-lg before:bg-accent before:content-['']">
+          <blockquote className="ml-3 pl-3 before:absolute before:inset-y-0 before:left-[3px] before:h-full before:w-[3px] before:rounded-lg before:bg-accent before:content-['']">
             <div>
               <CommentUrlRender
                 author={parentComment.author}
@@ -69,7 +71,9 @@ export const CommentContentCell: Component<{ comment: CommentModel }> = (
               />{' '}
               在 <RelativeTime date={parentComment.created} /> 说：
             </div>
-            <p className="mt-2">{parentComment.text}</p>
+            <div className="mt-2">
+              <CommentMarkdown>{parentComment.text}</CommentMarkdown>
+            </div>
           </blockquote>
         </div>
       )}

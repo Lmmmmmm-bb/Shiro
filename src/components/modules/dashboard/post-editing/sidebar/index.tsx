@@ -1,3 +1,4 @@
+import { XLogEnable } from '../../crossbell/XLogEnabled'
 import { ImageDetailSection } from '../../writing/ImageDetailSection'
 import { MetaKeyValueEditSection } from '../../writing/MetaKeyValueEditSection'
 import { PresentComponentFab } from '../../writing/PresentComponentFab'
@@ -9,19 +10,18 @@ import { RelatedPostSelector } from './RelatedPostSelector'
 import { SummaryInput } from './SummaryInput'
 import { TagsInput } from './TagsInput'
 
-const Sidebar = () => {
-  return (
-    <SidebarWrapper>
-      <CategorySelector />
-      <RelatedPostSelector />
-      <TagsInput />
-      <PostCombinedSwitch />
-      <SummaryInput />
-      <PostImageSection />
-      <PostMetaSection />
-    </SidebarWrapper>
-  )
-}
+const Sidebar = () => (
+  <SidebarWrapper>
+    <CategorySelector />
+    <RelatedPostSelector />
+    <TagsInput />
+    <PostCombinedSwitch />
+    <SummaryInput />
+    <XLogEnable />
+    <PostImageSection />
+    <PostMetaSection />
+  </SidebarWrapper>
+)
 
 const PostImageSection = () => {
   const [images, setImages] = usePostModelSingleFieldAtom('images')
@@ -41,12 +41,10 @@ const PostMetaSection = () => {
   return <MetaKeyValueEditSection keyValue={meta} onChange={setMeta} />
 }
 
-export const PostEditorSidebar = () => {
-  return (
-    <div className="hidden flex-col lg:flex">
-      <Sidebar />
+export const PostEditorSidebar = () => (
+  <div className="hidden flex-col lg:flex">
+    <Sidebar />
 
-      <PresentComponentFab Component={Sidebar} />
-    </div>
-  )
-}
+    <PresentComponentFab Component={Sidebar} />
+  </div>
+)

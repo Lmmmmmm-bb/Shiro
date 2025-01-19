@@ -1,7 +1,8 @@
 'use client'
 
-import { useRef } from 'react'
 import { useServerInsertedHTML } from 'next/navigation'
+import { useRef } from 'react'
+
 import type { TrackerAction } from '~/constants/tracker'
 
 declare global {
@@ -30,9 +31,16 @@ export const Analyze = () => {
               'click',
               async (e) => {
                 const $ = e.target as HTMLElement
-                const event = $.dataset.event
+
+                let current: HTMLElement | null = $
+                let { event } = $.dataset
+                while (!event && current && current !== document.body) {
+                  event = current.dataset.event
+                  current = current.parentElement
+                }
 
                 if (event) {
+                  console.info('dom track click event', event)
                   window.umami?.track(event, {
                     type: 'click',
                   })
@@ -47,7 +55,7 @@ export const Analyze = () => {
                 label: string
               }
 
-              console.log(detail, 'detail')
+              console.info(detail, 'detail')
               window.umami?.track(detail.label, {
                 type: 'impression',
               })

@@ -1,14 +1,13 @@
-import { useContext } from 'react'
 import type { CommentModel } from '@mx-space/api-client'
-
 import { CommentState } from '@mx-space/api-client'
+import { useContext } from 'react'
 
 import { MotionButtonBase } from '~/components/ui/button'
 import { useModalStack } from '~/components/ui/modal'
 import {
   useDeleteCommentMutation,
   useUpdateCommentStateMutation,
-} from '~/queries/definition/comment'
+} from '~/queries/hooks/comment'
 
 import { DeleteConfirmButton } from '../../shared/DeleteConfirmButton'
 import {

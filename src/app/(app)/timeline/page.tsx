@@ -1,21 +1,21 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
-import { memo, useEffect } from 'react'
-import clsx from 'clsx'
-import { m } from 'framer-motion'
-import { useRouter, useSearchParams } from 'next/navigation'
 import type { TimelineData } from '@mx-space/api-client'
-
 import { TimelineType } from '@mx-space/api-client'
+import { useQuery } from '@tanstack/react-query'
+import clsx from 'clsx'
+import { m } from 'motion/react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { memo, useEffect } from 'react'
 
 import { SolidBookmark } from '~/components/icons/bookmark'
 import { NormalContainer } from '~/components/layout/container/Normal'
 import { PeekLink } from '~/components/modules/peek/PeekLink'
 import { TimelineProgress } from '~/components/modules/timeline/TimelineProgress'
 import { Divider } from '~/components/ui/divider'
+import { BackToTopFAB } from '~/components/ui/fab'
 import { TimelineList } from '~/components/ui/list/TimelineList'
-import { BottomToUpSoftScaleTransitionView } from '~/components/ui/transition/BottomToUpSoftScaleTransitionView'
+import { BottomToUpSoftScaleTransitionView } from '~/components/ui/transition'
 import { apiClient } from '~/lib/request'
 import { springScrollToElement } from '~/lib/scroller'
 
@@ -36,7 +36,7 @@ type MapType = {
 
 const useJumpTo = () => {
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       const jumpToId = new URLSearchParams(location.search).get('selectId')
 
       if (!jumpToId) return
@@ -68,6 +68,8 @@ const useJumpTo = () => {
 
       // wait for user focus
     }, 100)
+
+    return () => clearTimeout(timer)
   }, [])
 }
 
@@ -135,7 +137,7 @@ export default function TimelinePage() {
   }
 
   notes
-    .filter((n) => (memory ? n.hasMemory : true))
+    .filter((n) => (memory ? n.bookmark : true))
     .forEach((note) => {
       const date = new Date(note.created)
       const year = date.getFullYear()
@@ -151,7 +153,7 @@ export default function TimelinePage() {
 
         type: ArticleType.Note,
         id: note.id,
-        important: note.hasMemory,
+        important: note.bookmark,
       }
 
       sortedMap.set(
@@ -195,7 +197,7 @@ export default function TimelinePage() {
               <m.h4
                 className={clsx(
                   'relative mb-4 ml-3 text-lg font-medium',
-                  'rounded-md before:absolute before:-left-3 before:bottom-[4px] before:top-[4px] before:w-[2px] before:bg-accent before:content-auto',
+                  'rounded-md before:content-auto before:absolute before:inset-y-[4px] before:-left-3 before:w-[2px] before:bg-accent',
                 )}
               >
                 {year}
@@ -210,6 +212,7 @@ export default function TimelinePage() {
           )
         })}
       </main>
+      <BackToTopFAB />
     </NormalContainer>
   )
 }
@@ -225,18 +228,14 @@ const Item = memo<{
       className="flex items-center justify-between"
       data-id={item.id}
     >
-      <span className="flex min-w-0 flex-shrink items-center">
+      <span className="flex min-w-0 shrink items-center">
         <span className="mr-2 inline-block w-12 tabular-nums">
           {Intl.DateTimeFormat('en-us', {
             month: '2-digit',
             day: '2-digit',
           }).format(item.date)}
         </span>
-        <PeekLink
-          prefetch={false}
-          href={item.href}
-          className="min-w-0 truncate leading-6"
-        >
+        <PeekLink href={item.href} className="min-w-0 truncate leading-6">
           <span className="min-w-0 truncate">{item.title}</span>
         </PeekLink>
         {item.important && (

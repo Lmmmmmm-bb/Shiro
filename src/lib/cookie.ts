@@ -1,14 +1,12 @@
 import dayjs from 'dayjs'
 import Cookies from 'js-cookie'
 
-export const TokenKey = 'mx-token'
+const TokenKey = 'mx-token'
+
+export const AuthKeyNames = [TokenKey]
 
 export function getToken(): string | null {
-  // FUCK clerk constants not export, and mark it internal and can not custom
-  // packages/backend/src/constants.ts
-  const clerkJwt = Cookies.get('__session')
-
-  const token = Cookies.get(TokenKey) || clerkJwt
+  const token = Cookies.get(TokenKey)
 
   return token || null
 }

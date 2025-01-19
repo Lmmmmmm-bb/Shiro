@@ -1,18 +1,21 @@
-import React from 'react'
 import type { Metadata } from 'next'
+import React, { cache } from 'react'
 
 import { CommentAreaRootLazy } from '~/components/modules/comment'
 import { TocFAB } from '~/components/modules/toc/TocFAB'
-import { BottomToUpSoftScaleTransitionView } from '~/components/ui/transition/BottomToUpSoftScaleTransitionView'
-import { BottomToUpTransitionView } from '~/components/ui/transition/BottomToUpTransitionView'
+import {
+  BottomToUpSoftScaleTransitionView,
+  BottomToUpTransitionView,
+} from '~/components/ui/transition'
 import { OnlyMobile } from '~/components/ui/viewport/OnlyMobile'
-import { attachUAAndRealIp } from '~/lib/attach-ua'
+import { attachServerFetch } from '~/lib/attach-fetch'
 import { getOgUrl } from '~/lib/helper.server'
 import { getSummaryFromMd } from '~/lib/markdown'
-import { getQueryClient } from '~/lib/query-client.server'
+import { apiClient } from '~/lib/request'
+import { definePrerenderPage, requestErrorHandler } from '~/lib/request.server'
 import { CurrentPageDataProvider } from '~/providers/page/CurrentPageDataProvider'
 import { LayoutRightSideProvider } from '~/providers/shared/LayoutRightSideProvider'
-import { queries } from '~/queries/definition'
+import { WrappedElementProvider } from '~/providers/shared/WrappedElementProvider'
 
 import {
   HeaderMetaInfoSetting,
@@ -22,13 +25,14 @@ import {
   PageTitle,
 } from './pageExtra'
 
-const getData = async (params: PageParams) => {
-  attachUAAndRealIp()
-  const data = await getQueryClient().fetchQuery(
-    queries.page.bySlug(params.slug),
-  )
-  return data
-}
+export const dynamic = 'force-dynamic'
+const getData = cache(async (params: PageParams) => {
+  attachServerFetch()
+  const data = await apiClient.page
+    .getBySlug(params.slug)
+    .catch(requestErrorHandler)
+  return data.$serialized
+})
 
 export const generateMetadata = async ({
   params,
@@ -71,45 +75,62 @@ interface PageParams {
   slug: string
 }
 
-export default async (props: NextPageParams<PageParams>) => {
-  const data = await getData(props.params)
-  return (
-    <>
-      <CurrentPageDataProvider data={data} />
-      <div className="relative flex min-h-[120px] w-full">
-        <PageLoading>
-          <div className="relative w-full min-w-0">
-            <HeaderMetaInfoSetting />
-            <article className="prose">
-              <header className="mb-8">
-                <BottomToUpSoftScaleTransitionView lcpOptimization delay={0}>
-                  <PageTitle />
-                </BottomToUpSoftScaleTransitionView>
+export default definePrerenderPage<PageParams>()({
+  fetcher(params) {
+    return getData(params)
+  },
 
-                <BottomToUpSoftScaleTransitionView lcpOptimization delay={200}>
-                  <PageSubTitle />
-                </BottomToUpSoftScaleTransitionView>
-              </header>
-              <BottomToUpTransitionView lcpOptimization delay={600}>
-                {props.children}
-              </BottomToUpTransitionView>
-            </article>
+  Component: ({ data, children }) => {
+    return (
+      <>
+        <CurrentPageDataProvider data={data} />
+        <div className="relative flex min-h-[120px] w-full">
+          <PageLoading>
+            <div className="relative w-full min-w-0">
+              <HeaderMetaInfoSetting />
 
-            <BottomToUpSoftScaleTransitionView delay={1000}>
-              <PagePaginator />
-            </BottomToUpSoftScaleTransitionView>
-          </div>
-        </PageLoading>
+              <WrappedElementProvider eoaDetect>
+                <article className="prose">
+                  <header className="mb-8">
+                    <BottomToUpSoftScaleTransitionView
+                      lcpOptimization
+                      delay={0}
+                    >
+                      <PageTitle />
+                    </BottomToUpSoftScaleTransitionView>
 
-        <LayoutRightSideProvider className="absolute bottom-0 right-0 top-0 hidden translate-x-full lg:block" />
-      </div>
-      <BottomToUpSoftScaleTransitionView delay={1000}>
-        <CommentAreaRootLazy refId={data.id} allowComment={data.allowComment} />
-      </BottomToUpSoftScaleTransitionView>
+                    <BottomToUpSoftScaleTransitionView
+                      lcpOptimization
+                      delay={200}
+                    >
+                      <PageSubTitle />
+                    </BottomToUpSoftScaleTransitionView>
+                  </header>
+                  <BottomToUpTransitionView lcpOptimization delay={600}>
+                    {children}
+                  </BottomToUpTransitionView>
+                </article>
+              </WrappedElementProvider>
 
-      <OnlyMobile>
-        <TocFAB />
-      </OnlyMobile>
-    </>
-  )
-}
+              <BottomToUpSoftScaleTransitionView delay={1000}>
+                <PagePaginator />
+              </BottomToUpSoftScaleTransitionView>
+            </div>
+          </PageLoading>
+
+          <LayoutRightSideProvider className="absolute inset-y-0 right-0 hidden translate-x-full lg:block" />
+        </div>
+        <BottomToUpSoftScaleTransitionView delay={1000}>
+          <CommentAreaRootLazy
+            refId={data.id}
+            allowComment={data.allowComment}
+          />
+        </BottomToUpSoftScaleTransitionView>
+
+        <OnlyMobile>
+          <TocFAB />
+        </OnlyMobile>
+      </>
+    )
+  },
+})

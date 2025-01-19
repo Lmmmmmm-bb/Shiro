@@ -1,4 +1,5 @@
 import { getWebUrl } from '~/atoms'
+import { allowedBangumiTypes } from '~/lib/bangumi'
 
 import { isClientSide, isDev } from './env'
 
@@ -7,6 +8,21 @@ export const getTweetId = (url: URL) => {
 }
 
 const GITHUB_HOST = 'github.com'
+
+export const isLeetCodeUrl = (url: URL) => {
+  return url.hostname === 'leetcode.cn' || url.hostname === 'leetcode.com'
+}
+
+export const isQQMusicSongUrl = (url: URL) => {
+  return url.hostname === 'y.qq.com' && url.pathname.includes('/songDetail/')
+}
+
+export const isNeteaseMusicSongUrl = (url: URL) => {
+  return (
+    url.hostname === 'music.163.com' &&
+    (url.pathname.includes('/song') || url.hash.includes('/song'))
+  )
+}
 
 export const isGithubRepoUrl = (url: URL) => {
   return (
@@ -74,6 +90,10 @@ export const isBilibiliUrl = (url: URL) => {
   return url.hostname.includes('bilibili.com')
 }
 
+export const isBilibiliVideoUrl = (url: URL) => {
+  return isBilibiliUrl(url) && url.pathname.startsWith('/video/BV')
+}
+
 export const isSelfArticleUrl = (url: URL) => {
   if (!isClientSide) return false
 
@@ -101,6 +121,22 @@ export const isWikipediaUrl = (url: URL) => {
 
 export const isTMDBUrl = (url: URL) => {
   return url.hostname.includes('themoviedb.org')
+}
+
+export const isBangumiUrl = (url: URL) => {
+  const pathname = url.pathname.split('/').slice(1)
+  return (
+    (url.hostname === 'bgm.tv' || url.hostname === 'bangumi.tv') &&
+    allowedBangumiTypes.includes(pathname[0])
+  )
+}
+
+export const isNpmUrl = (url: URL) => {
+  return url.hostname.includes('npmjs.com')
+}
+
+export const isMozillaUrl = (url: URL) => {
+  return url.hostname.includes('mozilla.org')
 }
 
 export const parseSelfArticleUrl = (url: URL) => {
@@ -172,6 +208,15 @@ export const parseGithubPrUrl = (url: URL) => {
 }
 
 export const parseTMDBUrl = (url: URL) => {
+  const [_, type, id] = url.pathname.split('/')
+  return {
+    type,
+    id,
+  }
+}
+
+export const parseBilibiliVideoUrl = (url: URL) => {
+  // https://www.bilibili.com/video/BV1tj42197hU
   const [_, type, id] = url.pathname.split('/')
   return {
     type,

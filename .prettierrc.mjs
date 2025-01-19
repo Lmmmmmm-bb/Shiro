@@ -1,3 +1,5 @@
-import config from '@innei/prettier'
+import { factory } from '@innei/prettier'
 
-export default config
+export default factory({
+  importSort: false,
+})

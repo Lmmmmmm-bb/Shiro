@@ -43,8 +43,8 @@ declare global {
 
   export interface Custom {
     css: string[]
-    styles: any[]
     js: string[]
+    styles: string[]
     scripts: ScriptProps[]
   }
 
@@ -82,9 +82,7 @@ declare global {
   }
 
   declare module '*?worker' {
-    const workerConstructor: {
-      new (): Worker
-    }
+    const workerConstructor: new () => Worker
     export default workerConstructor
   }
 }

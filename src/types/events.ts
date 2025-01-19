@@ -27,14 +27,22 @@ export const enum EventTypes {
   SAY_DELETE = 'SAY_DELETE',
   SAY_UPDATE = 'SAY_UPDATE',
 
-  DANMAKU_CREATE = 'DANMAKU_CREATE',
-
   RECENTLY_CREATE = 'RECENTLY_CREATE',
   RECENTLY_DELETE = 'RECENTLY_DELETE',
+
+  ACTIVITY_UPDATE_PRESENCE = 'ACTIVITY_UPDATE_PRESENCE',
+  ACTIVITY_LEAVE_PRESENCE = 'ACTIVITY_LEAVE_PRESENCE',
+  ARTICLE_READ_COUNT_UPDATE = 'ARTICLE_READ_COUNT_UPDATE',
 }
 
 export interface EventTypesPayload {
   [EventTypes.VISITOR_ONLINE]: { online: number }
   [EventTypes.VISITOR_OFFLINE]: { online: number }
   [EventTypes.NOTE_UPDATE]: NoteModel
+}
+
+export enum SocketEmitEnum {
+  Join = 'join',
+  Leave = 'leave',
+  UpdateSid = 'updateSid',
 }

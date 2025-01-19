@@ -1,6 +1,6 @@
-import { useState } from 'react'
 import { load } from 'js-yaml'
 import type { FC } from 'react'
+import { useState } from 'react'
 
 import { StyledButton } from '~/components/ui/button'
 import { TextArea } from '~/components/ui/input'
@@ -65,6 +65,7 @@ export const ImportMarkdownButton: FC<{
         导入
       </StyledButton>
       <DeclarativeModal
+        modalClassName="z-[999] pointer-events-auto"
         clickOutsideToDismiss={false}
         open={isOpen}
         onOpenChange={onOpenChange}
@@ -76,7 +77,8 @@ export const ImportMarkdownButton: FC<{
             ref.current = el
             setTextAreaEl(el)
           }}
-          className="h-[calc(70vh-15rem)] max-h-[600px] w-[600px] max-w-full flex-grow resize-none rounded-md border focus-visible:border-accent"
+          className="h-[calc(70vh-15rem)] max-h-[600px] w-[600px] max-w-full grow resize-none focus-visible:border-accent"
+          rounded="md"
         />
 
         <DeclarativeModal.FooterAction>

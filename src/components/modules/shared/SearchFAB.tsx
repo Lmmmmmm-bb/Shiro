@@ -2,6 +2,11 @@
 
 import * as Dialog from '@radix-ui/react-dialog'
 import { useQuery } from '@tanstack/react-query'
+import clsx from 'clsx'
+import { atom, useAtomValue, useSetAtom } from 'jotai'
+import { AnimatePresence, m } from 'motion/react'
+import Link from 'next/link'
+import type { KeyboardEventHandler } from 'react'
 import {
   memo,
   startTransition,
@@ -10,18 +15,16 @@ import {
   useRef,
   useState,
 } from 'react'
-import axios from 'axios'
-import clsx from 'clsx'
-import { AnimatePresence, m } from 'framer-motion'
-import { atom, useAtomValue, useSetAtom } from 'jotai'
-import Link from 'next/link'
-import type { KeyboardEventHandler } from 'react'
 
+import { useIsLogged } from '~/atoms/hooks'
 import { EmptyIcon } from '~/components/icons/empty'
+import { MotionButtonBase } from '~/components/ui/button'
 import { FABPortable } from '~/components/ui/fab'
+import { FloatPopover } from '~/components/ui/float-popover'
 import { microDampingPreset } from '~/constants/spring'
 import useDebounceValue from '~/hooks/common/use-debounce-value'
 import { useIsClient } from '~/hooks/common/use-is-client'
+import { getToken } from '~/lib/cookie'
 import { noopArr } from '~/lib/noop'
 import { apiClient } from '~/lib/request'
 import { jotaiStore } from '~/lib/store'
@@ -38,7 +41,7 @@ export const SearchFAB = () => {
           jotaiStore.set(searchPanelOpenAtom, true)
         }}
       >
-        <i className="icon-[mingcute--search-line]" />
+        <i className="i-mingcute-search-line" />
       </FABPortable>
     </>
   )
@@ -47,7 +50,7 @@ export const SearchFAB = () => {
 export const SearchPanelWithHotKey = () => {
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'k' && e.metaKey) {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
         jotaiStore.set(searchPanelOpenAtom, true)
       }
@@ -79,7 +82,7 @@ const SearchPanel = () => {
         {panelOpen && (
           <Dialog.Portal>
             <Dialog.Content>
-              <div className="fixed inset-0 z-[20] flex center">
+              <div className="center fixed inset-0 z-20 flex">
                 <div
                   className="fixed inset-0 z-[-1]"
                   onClick={() => {
@@ -122,16 +125,11 @@ const SearchPanelImpl = () => {
       if (!keyword) {
         return
       }
-      return axios
-        .get<Awaited<ReturnType<typeof apiClient.search.searchByAlgolia>>>(
-          apiClient.search.proxy('algolia').toString(true),
-          {
-            params: {
-              keyword,
-            },
-          },
-        )
-        .then((data) => data.data)
+      return apiClient.search.proxy('algolia').get({
+        params: {
+          keyword,
+        },
+      })
     },
     select: useCallback((data: any) => {
       if (!data?.data) {
@@ -140,27 +138,30 @@ const SearchPanelImpl = () => {
 
       const _list: SearchListType[] = data?.data.map((item: any) => {
         switch (item.type) {
-          case 'post':
+          case 'post': {
             return {
               title: item.title,
               subtitle: item.category.name,
               id: item.id,
               url: `/posts/${item.category.slug}/${item.slug}`,
             }
-          case 'note':
+          }
+          case 'note': {
             return {
               title: item.title,
               subtitle: '手记',
               id: item.id,
               url: `/notes/${item.nid}`,
             }
-          case 'page':
+          }
+          case 'page': {
             return {
               title: item.title,
               subtitle: '页面',
               id: item.id,
               url: `/pages/${item.slug}`,
             }
+          }
         }
       })
       setCurrentSelect(0)
@@ -212,12 +213,14 @@ const SearchPanelImpl = () => {
     [data.length],
   )
 
+  const isLogged = useIsLogged()
+
   return (
     <m.div
       className={clsx(
-        'h-[600px] max-h-[80vh] w-[800px] max-w-[100vw] rounded-none md:h-screen md:max-h-[60vh] md:max-w-[80vw]',
-        'min-h-50 flex flex-col bg-slate-50/80 shadow-2xl backdrop-blur-md md:rounded-xl dark:bg-neutral-900/80',
-        'border-0 border-zinc-200 md:border dark:border-zinc-800',
+        'h-[600px] max-h-[80vh] w-[800px] max-w-screen rounded-none md:h-screen md:max-h-[60vh] md:max-w-[80vw]',
+        'min-h-50 flex flex-col bg-zinc-50/80 shadow-2xl backdrop-blur-md dark:bg-neutral-900/80 md:rounded-xl',
+        'border-0 border-zinc-200 dark:border-zinc-800 md:border',
       )}
       onKeyDown={handleKeyDown}
       role="dialog"
@@ -233,7 +236,7 @@ const SearchPanelImpl = () => {
     >
       <input
         autoFocus
-        className="w-full flex-shrink-0 border-b border-zinc-200 bg-transparent p-4 px-5 text-lg leading-4 dark:border-neutral-700"
+        className="w-full shrink-0 border-b border-zinc-200 bg-transparent p-4 px-5 text-lg leading-4 dark:border-neutral-700"
         placeholder="Search..."
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
@@ -254,16 +257,16 @@ const SearchPanelImpl = () => {
         }}
       />
       <div />
-      <div className="relative h-0 flex-shrink flex-grow overflow-auto">
+      <div className="relative h-0 shrink grow overflow-auto">
         <ul className="h-full px-2 py-4" ref={listRef}>
           {data.length === 0 && !isLoading ? (
             <div className="flex h-full items-center justify-center">
               <div className="flex flex-col items-center space-y-2">
                 {!keyword ? (
-                  <i className="icon-[mingcute--search-line] text-[60px]" />
-                ) : !isLoading ? (
+                  <i className="i-mingcute-search-line text-[60px]" />
+                ) : (
                   <EmptyIcon />
-                ) : null}
+                )}
 
                 {!data && isLoading && isFetching && (
                   <div className="loading-dots text-[30px]" />
@@ -276,10 +279,35 @@ const SearchPanelImpl = () => {
               return <SearchItem key={item.id} {...item} index={index} />
             })
           )}
+
+          {data.length === 0 && isLoading && (
+            <div className="center flex h-full grow">
+              <div className="loading loading-spinner" />
+            </div>
+          )}
         </ul>
       </div>
 
-      <div className="flex flex-shrink-0 items-center justify-end px-4 py-2">
+      <div className="flex shrink-0 items-center justify-between px-4 py-2">
+        {isLogged ? (
+          <MotionButtonBase
+            onClick={() => {
+              window.open(
+                `${apiClient.search.proxy('algolia')('import-json').toString(true)}?token=${getToken()}`,
+              )
+            }}
+          >
+            <FloatPopover
+              mobileAsSheet
+              type="tooltip"
+              triggerElement={<i className="i-mingcute-download-2-line" />}
+            >
+              下载搜索索引文件以便导入 algolia 搜索
+            </FloatPopover>
+          </MotionButtonBase>
+        ) : (
+          <div />
+        )}
         <a
           href="https://www.algolia.com"
           target="_blank"
@@ -312,7 +340,7 @@ const SearchItem = memo(function Item({
     <li
       className={clsx(
         'relative flex w-full justify-between px-1',
-        'before:absolute before:inset-0 before:rounded-md before:content-auto',
+        'before:content-auto before:absolute before:inset-0 before:rounded-md',
         'before:z-0 hover:before:bg-zinc-200/80 dark:hover:before:bg-zinc-800/80',
         isSelect && 'before:bg-zinc-200/80 dark:before:bg-zinc-800/80',
       )}
@@ -327,10 +355,10 @@ const SearchItem = memo(function Item({
         href={item.url}
         className="relative z-10 flex w-full justify-between p-3"
       >
-        <span className="block min-w-0 flex-1 flex-shrink-0 truncate">
+        <span className="block min-w-0 flex-1 shrink-0 truncate">
           {item.title}
         </span>
-        <span className="block min-w-0 flex-shrink-0 flex-grow-0 text-zinc-800 dark:text-slate-200/80">
+        <span className="block min-w-0 shrink-0 grow-0 text-zinc-800 dark:text-slate-200/80">
           {item.subtitle}
         </span>
       </Link>

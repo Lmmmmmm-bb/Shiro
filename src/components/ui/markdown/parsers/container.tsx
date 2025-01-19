@@ -1,8 +1,10 @@
-import React from 'react'
-import { Priority } from 'markdown-to-jsx'
+'use client'
+
 import type { MarkdownToJSX } from 'markdown-to-jsx'
+import { Priority } from 'markdown-to-jsx'
 
 import { clsxm } from '~/lib/helper'
+import { WrappedElementProvider } from '~/providers/shared/WrappedElementProvider'
 
 import { Banner } from '../../banner/Banner'
 import { Gallery } from '../../gallery/Gallery'
@@ -29,13 +31,13 @@ const shouldCatchContainerName = [
 export const ContainerRule: MarkdownToJSX.Rule = {
   match: (source: string) => {
     const result =
-      /^\s*::: *(?<type>.*?) *(?:{(?<params>.*?)})? *\n(?<content>[\s\S]+?)\s*::: *(?:\n *)+\n?/.exec(
+      /^\s*::: *(?<type>.*?) *(?:\{(?<params>.*?)\})? *\n(?<content>[\s\S]+?)\s*::: *(?:\n *)+/.exec(
         source,
       )
 
     if (!result) return null
 
-    const type = result.groups!.type
+    const { type } = result.groups!
     if (!type || !type.match(shouldCatchContainerName)) return null
     return result
   },
@@ -75,11 +77,13 @@ export const ContainerRule: MarkdownToJSX.Rule = {
             className="my-4"
             key={state?.key}
           >
-            <Markdown
-              value={content}
-              allowsScript
-              className="w-full [&>p:first-child]:mt-0"
-            />
+            <WrappedElementProvider className="w-full">
+              <Markdown
+                value={content}
+                allowsScript
+                className="w-full [&>p:first-child]:mt-0"
+              />
+            </WrappedElementProvider>
           </Banner>
         )
       }
@@ -90,11 +94,13 @@ export const ContainerRule: MarkdownToJSX.Rule = {
 
         return (
           <Banner type={params} className="my-4" key={state?.key}>
-            <Markdown
-              value={content}
-              allowsScript
-              className="w-full [&>p:first-child]:mt-0"
-            />
+            <WrappedElementProvider className="w-full">
+              <Markdown
+                value={content}
+                allowsScript
+                className="w-full [&>p:first-child]:mt-0"
+              />
+            </WrappedElementProvider>
           </Banner>
         )
       }
@@ -150,8 +156,9 @@ export const ContainerRule: MarkdownToJSX.Rule = {
               />
             )
           }
-          default:
+          default: {
             return null
+          }
         }
       }
     }
@@ -174,9 +181,7 @@ export const ContainerRule: MarkdownToJSX.Rule = {
  * :::
  */
 
-type ParsedResult = {
-  [key: string]: string
-}
+type ParsedResult = Record<string, string>
 
 function parseParams(input: string): ParsedResult {
   const regex = /(\w+)=(\w+)/g

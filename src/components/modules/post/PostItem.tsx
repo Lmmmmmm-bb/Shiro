@@ -1,9 +1,8 @@
-import { memo } from 'react'
-import { Balancer } from 'react-wrap-balancer'
+import type { PostModel } from '@mx-space/api-client'
 import clsx from 'clsx'
 import Link from 'next/link'
+import { memo } from 'react'
 import RemoveMarkdown from 'remove-markdown'
-import type { PostModel } from '@mx-space/api-client'
 
 import { PostPinIcon } from '~/components/modules/post/PostPinIcon'
 
@@ -25,14 +24,14 @@ export const PostItem = memo<{ data: PostModel }>(function PostItem({ data }) {
       className="relative flex flex-col py-8 focus-visible:!shadow-none"
     >
       <PostItemHoverOverlay />
-      <h2 className="relative break-words text-2xl font-medium">
-        <Balancer>{data.title}</Balancer>
+      <h2 className="relative text-balance break-words text-2xl font-medium">
+        {data.title}
 
         <PostPinIcon pin={!!data.pin} id={data.id} />
       </h2>
-      <main className="relative mt-8 space-y-2">
+      <div className="relative mt-8 space-y-2">
         {!!data.summary && (
-          <p className="break-all leading-relaxed text-gray-900 dark:text-slate-50">
+          <p className="mb-4 break-all rounded-md px-4 py-2 text-sm leading-relaxed text-gray-900 ring-1 ring-accent/10 dark:text-zinc-50">
             摘要： {data.summary}
           </p>
         )}
@@ -40,7 +39,7 @@ export const PostItem = memo<{ data: PostModel }>(function PostItem({ data }) {
           {hasImage && (
             <div
               className={clsx(
-                'float-right mb-2 ml-3 h-[5.5rem] w-[5.5rem] overflow-hidden rounded-md',
+                'float-right mb-2 ml-3 size-[5.5rem] overflow-hidden rounded-md',
                 'bg-cover bg-center bg-no-repeat',
               )}
               style={{ backgroundImage: `url(${hasImage})` }}
@@ -50,13 +49,13 @@ export const PostItem = memo<{ data: PostModel }>(function PostItem({ data }) {
             {displayText}
           </p>
         </div>
-      </main>
+      </div>
 
       <div className="post-meta-bar mt-2 flex select-none flex-wrap items-center justify-end gap-4 text-base-content/60">
         <PostMetaBar meta={data} />
-        <span className="flex flex-shrink-0 select-none items-center space-x-1 text-right text-accent hover:text-accent [&>svg]:hover:ml-2">
+        <span className="flex shrink-0 select-none items-center space-x-1 text-right text-accent hover:text-accent [&>svg]:hover:ml-2">
           <span>阅读全文</span>
-          <i className="icon-[mingcute--arrow-right-line] text-lg transition-[margin]" />
+          <i className="i-mingcute-arrow-right-line text-lg transition-[margin]" />
         </span>
       </div>
     </Link>

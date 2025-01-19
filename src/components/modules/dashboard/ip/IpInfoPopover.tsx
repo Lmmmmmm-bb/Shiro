@@ -45,12 +45,13 @@ export const IpInfoPopover: Component<IpInfoPopoverProps> = (props) => {
 
   return (
     <FloatPopover
+      mobileAsSheet
       type="tooltip"
       wrapperClassName="truncate"
       onOpen={() => {
         refetch()
       }}
-      TriggerComponent={() => <span className={className}>{ip}</span>}
+      triggerElement={<span className={className}>{ip}</span>}
     >
       {isLoading ? (
         '...'

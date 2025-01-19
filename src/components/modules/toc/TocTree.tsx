@@ -1,6 +1,11 @@
 'use client'
 
-import React, {
+import clsx from 'clsx'
+import { atom, useAtom } from 'jotai'
+import { m } from 'motion/react'
+import type { FC } from 'react'
+import * as React from 'react'
+import {
   memo,
   startTransition,
   useCallback,
@@ -8,20 +13,16 @@ import React, {
   useMemo,
   useRef,
 } from 'react'
-import clsx from 'clsx'
-import { m } from 'framer-motion'
-import { atom, useAtom } from 'jotai'
-import type { FC } from 'react'
-import type { TocSharedProps } from './TocAside'
-import type { ITocItem } from './TocItem'
 
 import { Divider } from '~/components/ui/divider'
-import { RightToLeftTransitionView } from '~/components/ui/transition/RightToLeftTransitionView'
+import { RightToLeftTransitionView } from '~/components/ui/transition'
 import { useStateToRef } from '~/hooks/common/use-state-ref'
 import { useMaskScrollArea } from '~/hooks/shared/use-mask-scrollarea'
 import { clsxm } from '~/lib/helper'
 import { springScrollToElement } from '~/lib/scroller'
 
+import type { TocSharedProps } from './TocAside'
+import type { ITocItem } from './TocItem'
 import { TocItem } from './TocItem'
 
 const tocActiveIdAtom = atom<string | null>(null)
@@ -76,13 +77,18 @@ export const TocTree: Component<
   const toc: ITocItem[] = useMemo(() => {
     return Array.from($headings).map((el, idx) => {
       const depth = +el.tagName.slice(1)
-      const title = el.textContent || ''
+      const elClone = el.cloneNode(true) as HTMLElement
+      elClone.querySelectorAll('del, .katex-container').forEach((del) => {
+        del.remove()
+      })
+
+      const title = elClone.textContent || ''
 
       const index = idx
 
       return {
         depth,
-        index: isNaN(index) ? -1 : index,
+        index: Number.isNaN(index) ? -1 : index,
         title,
         anchorId: el.id,
         $heading: el,
@@ -133,31 +139,26 @@ export const TocTree: Component<
 
   return (
     <ul
-      className={clsxm(
-        'flex flex-grow flex-col px-2 scrollbar-none',
-        className,
-      )}
+      className={clsxm('scrollbar-none flex grow flex-col px-2', className)}
       ref={containerRef}
     >
       <ul
-        className={clsx('overflow-auto scrollbar-none', scrollClassname)}
+        className={clsx('scrollbar-none overflow-auto', scrollClassname)}
         ref={scrollContainerRef}
       >
-        {toc?.map((heading) => {
-          return (
-            <MemoedItem
-              heading={heading}
-              isActive={heading.anchorId === activeId}
-              key={heading.title}
-              rootDepth={rootDepth}
-              onClick={handleScrollTo}
-            />
-          )
-        })}
+        {toc?.map((heading) => (
+          <MemoedItem
+            heading={heading}
+            isActive={heading.anchorId === activeId}
+            key={`${heading.title}-${heading.index}`}
+            rootDepth={rootDepth}
+            onClick={handleScrollTo}
+          />
+        ))}
       </ul>
       {accessoryElement && (
-        <li className="flex-shrink-0">
-          {!!toc.length && <Divider />}
+        <li className="shrink-0">
+          {toc.length > 0 && <Divider />}
           {accessoryElement}
         </li>
       )}
@@ -187,16 +188,18 @@ const MemoedItem = memo<{
     if (!$item) return
     const $container = $item.parentElement
     if (!$container) return
-    const itemInContainerTop = $item.offsetTop
-    const halfOfContainerHeight = $container.clientHeight / 2
-    // 如果当前元素在容器的上半部分，不滚动
-    if (itemInContainerTop < halfOfContainerHeight) {
-      if ($container.scrollTop < halfOfContainerHeight) {
-        $container.scrollTop = 0
-      }
-    } else {
-      // 如果当前元素在容器的下半部分，滚动到容器中间
-      $container.scrollTop = itemInContainerTop + halfOfContainerHeight
+
+    // 把当前 active Item 滚动到容器的中间
+    const containerHeight = $container.clientHeight
+    const itemHeight = $item.clientHeight
+    const itemOffsetTop = $item.offsetTop
+    const { scrollTop } = $container
+
+    const itemTop = itemOffsetTop - scrollTop
+    const itemBottom = itemTop + itemHeight
+    if (itemTop < 0 || itemBottom > containerHeight) {
+      $container.scrollTop =
+        itemOffsetTop - containerHeight / 2 + itemHeight / 2
     }
   }, [isActive])
 
@@ -217,7 +220,7 @@ const MemoedItem = memo<{
         <m.span
           layoutId="active-toc-item"
           layout
-          className="absolute bottom-[3px] left-0 top-[3px] w-[2px] rounded-sm bg-accent"
+          className="absolute inset-y-[3px] left-0 w-[2px] rounded-sm bg-accent"
         />
       )}
       <TocItem

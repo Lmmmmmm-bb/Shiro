@@ -1,6 +1,5 @@
-import type { Pager, PaginateResult, PostModel } from '@mx-space/api-client'
+import type { PostModel } from '@mx-space/api-client'
 
-export { Pager, PaginateResult }
 export interface Count {
   read: number
   like: number
@@ -63,11 +62,13 @@ export type NoteDto = {
   mood: string | null
   weather: string | null
   password: string | null
-  secret?: Date | null
-  hasMemory?: boolean
+  publicAt?: Date | null
+  bookmark?: boolean
   music?: NoteMusicRecord[]
   location?: null | string
   nid?: null | number
   coordinates?: null | Coordinate
   topicId: string | null | undefined
 } & WriteBaseType
+
+export { type Pager, type PaginateResult } from '@mx-space/api-client'

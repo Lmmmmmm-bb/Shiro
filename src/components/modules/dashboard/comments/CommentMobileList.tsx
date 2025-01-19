@@ -1,7 +1,7 @@
 import { Divider } from '~/components/ui/divider'
 import { AbsoluteCenterSpinner, Spinner } from '~/components/ui/spinner'
-import { isUndefined } from '~/lib/_'
 import { clsxm } from '~/lib/helper'
+import { isUndefined } from '~/lib/lodash'
 
 import { Empty } from '../../shared/Empty'
 import { OffsetMainLayout } from '../layouts'
@@ -14,19 +14,17 @@ export const CommentMobileList = () => {
 
   if (isLoading && isUndefined(data)) {
     return (
-      <div className="flex flex-grow items-center justify-center">
+      <div className="flex grow items-center justify-center">
         <Spinner />
       </div>
     )
   }
 
   const totalLength =
-    data?.pages.reduce((acc, page) => {
-      return acc + page.data.length
-    }, 0) || 0
+    data?.pages.reduce((acc, page) => acc + page.data.length, 0) || 0
 
   if (totalLength === 0) {
-    return <Empty className="flex-grow" />
+    return <Empty className="grow" />
   }
 
   return (
@@ -38,8 +36,8 @@ export const CommentMobileList = () => {
           isLoading && 'opacity-80',
         )}
       >
-        {data?.pages.map((page, i) => {
-          return page.data.map((item, j) => {
+        {data?.pages.map((page, i) =>
+          page.data.map((item, j) => {
             const idx = i * page.data.length + j
             return (
               <li key={item.id} className="flex flex-col gap-2">
@@ -49,8 +47,8 @@ export const CommentMobileList = () => {
                 {idx !== totalLength - 1 && <Divider />}
               </li>
             )
-          })
-        })}
+          }),
+        )}
       </ul>
     </OffsetMainLayout>
   )

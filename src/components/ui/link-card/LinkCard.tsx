@@ -1,24 +1,27 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { useInView } from 'react-intersection-observer'
-import clsx from 'clsx'
-import { m, useMotionTemplate, useMotionValue } from 'framer-motion'
+/* eslint-disable unicorn/switch-case-braces */
+import { simpleCamelcaseKeys as camelcaseKeys } from '@mx-space/api-client'
+import { m, useMotionTemplate, useMotionValue } from 'motion/react'
 import Link from 'next/link'
+import type * as React from 'react'
+import type { FC, ReactNode, SyntheticEvent } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 import RemoveMarkdown from 'remove-markdown'
 import uniqolor from 'uniqolor'
-import type { FC, ReactNode, SyntheticEvent } from 'react'
-
-import { simpleCamelcaseKeys as camelcaseKeys } from '@mx-space/api-client'
 
 import { LazyLoad } from '~/components/common/Lazyload'
 import { MingcuteStarHalfFill } from '~/components/icons/star'
 import { usePeek } from '~/components/modules/peek/usePeek'
 import { LanguageToColorMap } from '~/constants/language'
 import { useIsClientTransition } from '~/hooks/common/use-is-client'
+import useIsCommandOrControlPressed from '~/hooks/common/use-is-command-or-control-pressed'
+import { allowedBangumiTypes } from '~/lib/bangumi'
 import { preventDefault } from '~/lib/dom'
 import { fetchGitHubApi } from '~/lib/github'
 import { clsxm } from '~/lib/helper'
 import { getDominantColor } from '~/lib/image'
 import { apiClient } from '~/lib/request'
+import { useFeatureEnabled } from '~/providers/root/app-feature-provider'
 
 import { LinkCardSource } from './enums'
 import styles from './LinkCard.module.css'
@@ -29,16 +32,23 @@ export interface LinkCardProps {
   className?: string
 
   fallbackUrl?: string
+  placeholder: ReactNode
 }
 
-export const LinkCard = (props: LinkCardProps) => {
+export const LinkCard = (props: Omit<LinkCardProps, 'placeholder'>) => {
   const isClient = useIsClientTransition()
 
-  if (!isClient) return null
+  const placeholder = (
+    <LinkCardSkeleton
+      className={props.source === 'tmdb' ? '!w-screen max-w-full' : ''}
+    />
+  )
+
+  if (!isClient) return placeholder
 
   return (
-    <LazyLoad placeholder={<LinkCardSkeleton />}>
-      <LinkCardImpl {...props} />
+    <LazyLoad placeholder={placeholder}>
+      <LinkCardImpl {...props} placeholder={placeholder} />
     </LazyLoad>
   )
 }
@@ -65,12 +75,43 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
   const [cardInfo, setCardInfo] = useState<CardState>()
 
   const peek = usePeek()
+  const isCommandPressed = useIsCommandOrControlPressed()
+
   const handleCanPeek = useCallback(
     async (e: SyntheticEvent<any>) => {
+      if (isCommandPressed) return
       const success = peek(fullUrl)
       if (success) preventDefault(e)
     },
-    [fullUrl],
+    [fullUrl, isCommandPressed, peek],
+  )
+
+  const tmdbEnabled = useFeatureEnabled('tmdb')
+  const validTypeAndFetchFunction = useCallback(
+    (source: LinkCardSource, id: string) => {
+      const fetchDataFunctions = {
+        [LinkCardSource.MixSpace]: fetchMxSpaceData,
+        [LinkCardSource.GHRepo]: fetchGitHubRepoData,
+        [LinkCardSource.GHCommit]: fetchGitHubCommitData,
+        [LinkCardSource.GHPr]: fetchGitHubPRData,
+        [LinkCardSource.Self]: fetchMxSpaceData,
+        [LinkCardSource.LEETCODE]: fetchLeetCodeQuestionData,
+        [LinkCardSource.QQMusicSong]: fetchQQMusicSongData,
+        [LinkCardSource.NeteaseMusicSong]: fetchNeteaseMusicSongData,
+        [LinkCardSource.Bangumi]: fetchBangumiData,
+      } as Record<LinkCardSource, FetchObject>
+      if (tmdbEnabled)
+        fetchDataFunctions[LinkCardSource.TMDB] = fetchTheMovieDBData
+
+      const fetchFunction = fetchDataFunctions[source]
+      if (!fetchFunction) {
+        return { isValid: false, fetchFn: null }
+      }
+
+      const isValid = fetchFunction.isValid(id)
+      return { isValid, fetchFn: isValid ? fetchFunction.fetch : null }
+    },
+    [tmdbEnabled],
   )
 
   const { isValid, fetchFn } = useMemo(
@@ -85,7 +126,7 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
     setLoading(true)
 
     await fetchFn(id, setCardInfo, setFullUrl).catch((err) => {
-      console.log('fetch card info error: ', err)
+      console.error('fetch card info error:', err)
       setIsError(true)
     })
     setLoading(false)
@@ -110,7 +151,7 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
       const bounds = currentTarget.getBoundingClientRect()
       mouseX.set(clientX - bounds.left)
       mouseY.set(clientY - bounds.top)
-      radius.set(Math.sqrt(bounds.width ** 2 + bounds.height ** 2) * 1.3)
+      radius.set(Math.hypot(bounds.width, bounds.height) * 1.3)
     },
     [mouseX, mouseY, radius],
   )
@@ -124,22 +165,36 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
   const LinkComponent = source === 'self' ? Link : 'a'
 
   const classNames = cardInfo?.classNames || {}
+
+  if (loading) {
+    return (
+      <a
+        ref={ref}
+        href={fullUrl}
+        target={source !== 'self' ? '_blank' : '_self'}
+        rel="noreferrer"
+      >
+        {props.placeholder}
+      </a>
+    )
+  }
   return (
     <LinkComponent
       href={fullUrl}
       target={source !== 'self' ? '_blank' : '_self'}
-      ref={ref}
       className={clsxm(
         styles['card-grid'],
         (loading || isError) && styles['skeleton'],
         isError && styles['error'],
+        'not-prose',
+
         'group',
 
         className,
         classNames.cardRoot,
       )}
       style={{
-        borderColor: cardInfo?.color ? `${cardInfo.color}30` : '',
+        borderColor: cardInfo?.color ? `${cardInfo.color}30` : undefined,
       }}
       onClick={handleCanPeek}
       onMouseMove={handleMouseMove}
@@ -184,9 +239,11 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
   )
 }
 
-const LinkCardSkeleton = () => {
+const LinkCardSkeleton: FC<{
+  className?: string
+}> = ({ className }) => {
   return (
-    <span className={clsx(styles['card-grid'], styles['skeleton'])}>
+    <span className={clsxm(styles['card-grid'], styles['skeleton'], className)}>
       <span className={styles['contents']}>
         <span className={styles['title']} />
         <span className={styles['desc']} />
@@ -207,25 +264,6 @@ type FetchObject = {
   fetch: FetchFunction
 }
 
-function validTypeAndFetchFunction(source: LinkCardSource, id: string) {
-  const fetchDataFunctions = {
-    [LinkCardSource.MixSpace]: fetchMxSpaceData,
-    [LinkCardSource.GHRepo]: fetchGitHubRepoData,
-    [LinkCardSource.GHCommit]: fetchGitHubCommitData,
-    [LinkCardSource.GHPr]: fetchGitHubPRData,
-    [LinkCardSource.Self]: fetchMxSpaceData,
-    [LinkCardSource.TMDB]: fetchTheMovieDBData,
-  } as Record<LinkCardSource, FetchObject>
-
-  const fetchFunction = fetchDataFunctions[source]
-  if (!fetchFunction) {
-    return { isValid: false, fetchFn: null }
-  }
-
-  const isValid = fetchFunction.isValid(id)
-  return { isValid, fetchFn: isValid ? fetchFunction.fetch : null }
-}
-
 const fetchGitHubRepoData: FetchObject = {
   isValid: (id) => {
     // owner/repo
@@ -244,10 +282,10 @@ const fetchGitHubRepoData: FetchObject = {
         title: (
           <span className="flex items-center gap-2">
             <span className="flex-1">{data.name}</span>
-            <span className="flex-shrink-0 self-end justify-self-end">
+            <span className="shrink-0 self-end justify-self-end">
               {data.stargazersCount > 0 && (
-                <span className="inline-flex flex-shrink-0 items-center gap-1 self-center text-sm text-orange-400 dark:text-yellow-500">
-                  <i className="icon-[mingcute--star-line]" />
+                <span className="inline-flex shrink-0 items-center gap-1 self-center text-sm text-orange-400 dark:text-yellow-500">
+                  <i className="i-mingcute-star-line" />
                   <span className="font-sans font-medium">
                     {data.stargazersCount}
                   </span>
@@ -323,7 +361,7 @@ const fetchGitHubPRData: FetchObject = {
     return parts.length === 3 && parts.every((part) => part.length > 0)
   },
   fetch: async (id, setCardInfo, setFullUrl) => {
-    const [owner, repo, , prNumber] = id.split('/')
+    const [owner, repo, prNumber] = id.split('/')
     try {
       const response = await fetchGitHubApi(
         `https://api.github.com/repos/${owner}/${repo}/pulls/${prNumber}`,
@@ -374,7 +412,7 @@ const fetchMxSpaceData: FetchObject = {
         images?: { src: string }[]
         meta?: Record<string, any>
         cover?: string
-        summary?: string
+        summary?: string | null
       } = { title: '', text: '' }
 
       if (type === 'posts') {
@@ -434,7 +472,10 @@ const fetchTheMovieDBData: FetchObject = {
     setCardInfo({
       classNames: { cardRoot: '!w-full' },
     })
-    const json = await fetch(`/api/tmdb/${type}/${realId}?language=zh-CN`)
+    const userLanguage = navigator.language || 'en-US'
+    const json = await fetch(
+      `/api/tmdb/${type}/${realId}?language=${userLanguage}`,
+    )
       .then((r) => r.json())
       .catch((err) => {
         console.error('Error fetching TMDB data:', err)
@@ -451,7 +492,7 @@ const fetchTheMovieDBData: FetchObject = {
           {title !== originalTitle && (
             <span className="text-sm opacity-70">({originalTitle})</span>
           )}
-          <span className="inline-flex flex-shrink-0 items-center gap-1 self-center text-xs text-orange-400 dark:text-yellow-500">
+          <span className="inline-flex shrink-0 items-center gap-1 self-center text-xs text-orange-400 dark:text-yellow-500">
             <MingcuteStarHalfFill />
             <span className="font-sans font-medium">
               {json.vote_average > 0 && json.vote_average.toFixed(1)}
@@ -476,5 +517,305 @@ const fetchTheMovieDBData: FetchObject = {
       },
     })
     json.homepage && setFullUrl(json.homepage)
+  },
+}
+
+const fetchBangumiData: FetchObject = {
+  isValid(id) {
+    const [type, realId] = id.split('/')
+    return allowedBangumiTypes.includes(type) && realId.length > 0
+  },
+  async fetch(id, setCardInfo, _setFullUrl) {
+    const [type, realId] = id.split('/')
+
+    setCardInfo({
+      classNames: { cardRoot: '!w-full' },
+    })
+    const json = await fetch(`/api/bangumi/${type}/${realId}`)
+      .then((r) => r.json())
+      .catch((err) => {
+        console.error('Error fetching Bangumi data:', err)
+        throw err
+      })
+
+    let title = ''
+    let originalTitle = ''
+    if (type === 'subject') {
+      if (json.name_cn && json.name_cn !== json.name && json.name_cn !== '') {
+        title = json.name_cn
+        originalTitle = json.name
+      } else {
+        title = json.name
+        originalTitle = json.name
+      }
+    } else if (type === 'character' || type === 'person') {
+      const { infobox } = json
+      infobox.forEach(
+        (item: { key: string; value: string | { v: string }[] }) => {
+          if (item.key === '简体中文名') {
+            title =
+              typeof item.value === 'string' ? item.value : item.value[0].v
+          } else if (item.key === '别名') {
+            const aliases: { v: string }[] = item.value as { v: string }[]
+            aliases.forEach((alias: { v: string }) => {
+              originalTitle += `${alias.v} / `
+            })
+            originalTitle = originalTitle.slice(0, -3)
+          }
+        },
+      )
+    } else {
+      throw new Error('Unknown bangumi type')
+    }
+    setCardInfo({
+      title: (
+        <span className="flex flex-wrap items-end gap-2">
+          <span>{title}</span>
+          {title !== originalTitle && (
+            <span className="text-sm opacity-70">({originalTitle})</span>
+          )}
+          {type === 'subject' && (
+            <span className="inline-flex shrink-0 items-center gap-1 self-center text-xs text-orange-400 dark:text-yellow-500">
+              <MingcuteStarHalfFill />
+              <span className="font-sans font-medium">
+                {json.rating.score > 0 && json.rating.score.toFixed(1)}
+              </span>
+            </span>
+          )}
+        </span>
+      ),
+      desc: (
+        <span className="line-clamp-none overflow-visible whitespace-pre-wrap">
+          {json.summary}
+        </span>
+      ),
+      image: json.images.grid,
+      color: uniqolor(title, {
+        saturation: [30, 35],
+        lightness: [60, 70],
+      }).color,
+
+      classNames: {
+        image:
+          type === 'subject'
+            ? 'self-start !h-[70px] !w-[50px]'
+            : 'self-start !h-[50px] !w-[50px]',
+        cardRoot: '!w-full !flex-row-reverse',
+      },
+    })
+  },
+}
+
+const fetchLeetCodeQuestionData: FetchObject = {
+  isValid: (id) => {
+    // 检查 titleSlug 是否是一个有效的字符串
+    return typeof id === 'string' && id.length > 0
+  },
+  fetch: async (id, setCardInfo, setFullUrl) => {
+    try {
+      //获取题目信息
+      const body = {
+        query: `query questionData($titleSlug: String!) {\n  question(titleSlug: $titleSlug) {translatedTitle\n   difficulty\n    likes\n     topicTags { translatedName\n }\n    stats\n  }\n}\n`,
+        variables: { titleSlug: id },
+      }
+      const questionData = await fetch(`/api/leetcode`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }).then(async (res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch LeetCode question title')
+        }
+        return res.json()
+      })
+      const questionTitleData = camelcaseKeys(questionData.data.question)
+      const stats = JSON.parse(questionTitleData.stats)
+      // 设置卡片信息
+      setCardInfo({
+        title: (
+          <>
+            <span className="flex items-center gap-2">
+              <span className="flex-1">
+                {questionTitleData.translatedTitle}
+              </span>
+              <span className="shrink-0 self-end justify-self-end">
+                {questionTitleData.likes > 0 && (
+                  <span className="inline-flex shrink-0 items-center gap-1 self-center text-sm text-orange-400 dark:text-yellow-500">
+                    <i className="i-mingcute-thumb-up-line" />
+                    <span className="font-sans font-medium">
+                      {questionTitleData.likes}
+                    </span>
+                  </span>
+                )}
+              </span>
+            </span>
+          </>
+        ),
+        desc: (
+          <>
+            <span
+              className={`mr-4 font-bold ${getDifficultyColorClass(questionTitleData.difficulty)}`}
+            >
+              {questionTitleData.difficulty}
+            </span>
+            <span className="overflow-hidden">
+              {questionTitleData.topicTags
+                .map((tag: any) => tag.translatedName)
+                .join(' / ')}
+            </span>
+            <span className="float-right overflow-hidden">
+              AR: {stats.acRate}
+            </span>
+          </>
+        ),
+        image:
+          'https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png',
+        color: getDifficultyColor(questionTitleData.difficulty),
+      })
+
+      setFullUrl(`https://leetcode.cn/problems/${id}/description`)
+    } catch (err) {
+      console.error('Error fetching LeetCode question data:', err)
+      throw err
+    }
+
+    function getDifficultyColor(difficulty: string) {
+      switch (difficulty) {
+        case 'Easy':
+          return '#00BFA5'
+        case 'Medium':
+          return '#FFA726'
+        case 'Hard':
+          return '#F44336'
+        default:
+          return '#757575'
+      }
+    }
+
+    function getDifficultyColorClass(difficulty: string) {
+      switch (difficulty) {
+        case 'Easy':
+          return 'text-green-500'
+        case 'Medium':
+          return 'text-yellow-500'
+        case 'Hard':
+          return 'text-red-500'
+        default:
+          return 'text-gray-500'
+      }
+    }
+  },
+}
+
+const fetchQQMusicSongData: FetchObject = {
+  isValid: (id) => {
+    return typeof id === 'string' && id.length > 0
+  },
+  fetch: async (id, setCardInfo, _setFullUrl) => {
+    try {
+      const songData = await fetch(`/api/music/tencent`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ songId: id }),
+      }).then(async (res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch QQMusic song title')
+        }
+        return res.json()
+      })
+      const songInfo = songData.data[0]
+      const albumId = songInfo.album.mid
+      setCardInfo({
+        title: (
+          <>
+            <span>{songInfo.title}</span>
+            {songInfo.subtitle && (
+              <span className="ml-2 text-sm text-gray-400">
+                {songInfo.subtitle}
+              </span>
+            )}
+          </>
+        ),
+        desc: (
+          <>
+            <span className="block">
+              <span className="font-bold">歌手：</span>
+              <span>
+                {songInfo.singer.map((person: any) => person.name).join(' / ')}
+              </span>
+            </span>
+            <span className="block">
+              <span className="font-bold">专辑：</span>
+              <span>{songInfo.album.name}</span>
+            </span>
+          </>
+        ),
+        image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${albumId}.jpg?max_age=2592000`,
+        color: '#31c27c',
+      })
+    } catch (err) {
+      console.error('Error fetching QQMusic song data:', err)
+      throw err
+    }
+  },
+}
+
+const fetchNeteaseMusicSongData: FetchObject = {
+  isValid: (id) => {
+    return id.length > 0
+  },
+  fetch: async (id, setCardInfo, _setFullUrl) => {
+    try {
+      const songData = await fetch(`/api/music/netease`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ songId: id }),
+      }).then(async (res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch NeteaseMusic song title')
+        }
+        return res.json()
+      })
+      const songInfo = songData.songs[0]
+      const albumInfo = songInfo.al
+      const singerInfo = songInfo.ar
+      setCardInfo({
+        title: (
+          <>
+            <span>{songInfo.name}</span>
+            {songInfo.tns && (
+              <span className="ml-2 text-sm text-gray-400">
+                {songInfo.tns[0]}
+              </span>
+            )}
+          </>
+        ),
+        desc: (
+          <>
+            <span className="block">
+              <span className="font-bold">歌手：</span>
+              <span>
+                {singerInfo.map((person: any) => person.name).join(' / ')}
+              </span>
+            </span>
+            <span className="block">
+              <span className="font-bold">专辑：</span>
+              <span>{albumInfo.name}</span>
+            </span>
+          </>
+        ),
+        image: albumInfo.picUrl,
+        color: '#e72d2c',
+      })
+    } catch (err) {
+      console.error('Error fetching NeteaseMusic song data:', err)
+      throw err
+    }
   },
 }

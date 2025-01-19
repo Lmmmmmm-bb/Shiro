@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { useIsMobile } from '~/atoms'
+import { useIsMobile } from '~/atoms/hooks'
 import { useModalStack } from '~/components/ui/modal'
 
 import { PeekModal } from './PeekModal'
@@ -27,7 +27,7 @@ export const usePeek = () => {
             ...basePresentProps,
             CustomModalComponent: () => (
               <PeekModal to={href}>
-                <NotePreview noteId={parseInt(href.split('/').pop()!)} />
+                <NotePreview noteId={Number.parseInt(href.split('/').pop()!)} />
               </PeekModal>
             ),
             content: () => null,

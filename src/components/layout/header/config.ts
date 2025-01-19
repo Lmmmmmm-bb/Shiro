@@ -1,5 +1,5 @@
-import { createElement as h } from 'react'
 import type { ReactNode } from 'react'
+import { createElement as h } from 'react'
 
 import {
   FaSolidCircle,
@@ -21,7 +21,8 @@ export interface IHeaderMenu {
   path: string
   type?: string
   icon?: ReactNode
-  subMenu?: IHeaderMenu[]
+  subMenu?: Omit<IHeaderMenu, 'exclude'>[]
+  exclude?: string[]
 }
 export const headerMenuConfig: IHeaderMenu[] = [
   {
@@ -43,20 +44,21 @@ export const headerMenuConfig: IHeaderMenu[] = [
     type: 'Note',
     path: '/notes',
     icon: h(FaSolidFeatherAlt),
+    exclude: ['/notes/topics'],
   },
 
   {
-    title: '速览',
+    title: '时光',
     icon: h(FaSolidHistory),
     path: '/timeline',
     subMenu: [
       {
-        title: '生活',
+        title: '手记',
         icon: h(FaSolidFeatherAlt),
         path: '/timeline?type=note',
       },
       {
-        title: '博文',
+        title: '文稿',
         icon: h(IonBook),
         path: '/timeline?type=post',
       },
@@ -69,7 +71,7 @@ export const headerMenuConfig: IHeaderMenu[] = [
         title: '专栏',
         path: '/notes/topics',
         icon: h('i', {
-          className: 'icon-[mingcute--align-bottom-fill] flex center',
+          className: 'i-mingcute-align-bottom-fill flex center',
         }),
       },
     ],

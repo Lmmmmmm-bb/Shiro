@@ -1,3 +1,7 @@
+import clsx from 'clsx'
+import Fuse from 'fuse.js'
+import { AnimatePresence } from 'motion/react'
+import type { KeyboardEvent } from 'react'
 import {
   forwardRef,
   useEffect,
@@ -6,17 +10,13 @@ import {
   useRef,
   useState,
 } from 'react'
-import clsx from 'clsx'
-import { AnimatePresence } from 'framer-motion'
-import Fuse from 'fuse.js'
-import type { KeyboardEvent } from 'react'
-import type { AdvancedInputProps } from '../input'
 
 import { useEventCallback } from '~/hooks/common/use-event-callback'
-import { merge, throttle } from '~/lib/_'
 import { stopPropagation } from '~/lib/dom'
 import { clsxm } from '~/lib/helper'
+import { merge, throttle } from '~/lib/lodash'
 
+import type { AdvancedInputProps } from '../input'
 import { Input } from '../input'
 import { RootPortal } from '../portal'
 
@@ -153,7 +153,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
         {/* FIXME: https://github.com/radix-ui/primitives/issues/2125 */}
         <ul
           className={clsx(
-            'pointer-events-auto max-h-48 flex-grow overflow-auto',
+            'pointer-events-auto max-h-48 grow',
             'overflow-hidden rounded-md border border-zinc-200 bg-zinc-50/90 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/90',
           )}
           onWheel={stopPropagation}
@@ -194,7 +194,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
         />
         <AnimatePresence>
           {isOpen &&
-            !!filterableSuggestions.length &&
+            filterableSuggestions.length > 0 &&
             (portal ? <RootPortal>{ListElement}</RootPortal> : ListElement)}
         </AnimatePresence>
       </div>

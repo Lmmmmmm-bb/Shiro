@@ -1,11 +1,15 @@
 import { DialogContent, DialogPortal, Root } from '@radix-ui/react-dialog'
-import { AnimatePresence, m } from 'framer-motion'
 import { atom, useAtomValue, useSetAtom } from 'jotai'
-import type { HTMLMotionProps } from 'framer-motion'
+import type { HTMLMotionProps } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
+import { useState } from 'react'
 
+import { useIsMobile } from '~/atoms/hooks'
 import { ImpressionView } from '~/components/common/ImpressionTracker'
+import { RiUserHeartLine } from '~/components/icons/user-heart'
 import { MotionButtonBase } from '~/components/ui/button'
 import { DialogOverlay } from '~/components/ui/dialog/DialogOverlay'
+import { PresentSheet } from '~/components/ui/sheet'
 import { TrackerAction } from '~/constants/tracker'
 import { useIsClient } from '~/hooks/common/use-is-client'
 import { clsxm } from '~/lib/helper'
@@ -39,16 +43,8 @@ export const AsideDonateButton = () => {
               {overlayOpen && (
                 <>
                   <DialogOverlay />
-                  <DialogContent className="fixed inset-0 z-[11] flex flex-wrap space-x-4 overflow-auto center">
-                    {donate.qrcode.map((src) => (
-                      <m.img
-                        exit={{ opacity: 0 }}
-                        src={src}
-                        alt="donate"
-                        className="h-[300px] max-h-[70vh]"
-                        key={src}
-                      />
-                    ))}
+                  <DialogContent className="center fixed inset-0 z-[11] flex flex-col">
+                    <DonateContent />
 
                     <DonateButtonTop />
                   </DialogContent>
@@ -65,18 +61,37 @@ export const AsideDonateButton = () => {
 const DonateButtonBelow = () => {
   const setPosition = useSetAtom(positionAtom)
   const setOverlayShow = useSetAtom(overlayShowAtom)
+
+  const [sheetOpen, setSheetOpen] = useState(false)
+  const isMobile = useIsMobile()
+
   return (
-    <DonateButtonInternal
-      onMouseEnter={(e) => {
-        const $el = e.target as HTMLButtonElement
-        const rect = $el.getBoundingClientRect()
-        setPosition({
-          x: rect.left,
-          y: rect.top,
-        })
-        setOverlayShow(true)
-      }}
-    />
+    <>
+      <DonateButtonInternal
+        onClick={() => {
+          setSheetOpen(true)
+        }}
+        onMouseEnter={(e) => {
+          if (isMobile) return
+          const $el = e.target as HTMLButtonElement
+          const rect = $el.getBoundingClientRect()
+          setPosition({
+            x: rect.left,
+            y: rect.top,
+          })
+
+          setOverlayShow(true)
+        }}
+      />
+      {isMobile && (
+        <PresentSheet
+          content={DonateContent}
+          open={sheetOpen}
+          dismissible
+          onOpenChange={setSheetOpen}
+        />
+      )}
+    </>
   )
 }
 
@@ -89,7 +104,7 @@ const DonateButtonTop = () => {
       action={TrackerAction.Impression}
     >
       <DonateButtonInternal
-        className="focus-visible:text-uk-brown-light focus-visible:!shadow-none"
+        className="text-red-400 focus-visible:!shadow-none"
         style={{
           position: 'fixed',
           left: buttonPos.x,
@@ -99,6 +114,9 @@ const DonateButtonTop = () => {
         }}
         onMouseLeave={() => {
           setOverlayShow(false)
+        }}
+        exit={{
+          opacity: 0,
         }}
       />
     </ImpressionView>
@@ -121,7 +139,32 @@ const DonateButtonInternal: Component<HTMLMotionProps<'button'>> = ({
       }}
       {...props}
     >
-      <ActionAsideIcon className="icon-[mingcute--teacup-line] hover:text-uk-brown-dark" />
+      <ActionAsideIcon className="hover:text-red-400">
+        <RiUserHeartLine />
+      </ActionAsideIcon>
     </MotionButtonBase>
+  )
+}
+
+const DonateContent = () => {
+  const donate = useAppConfigSelector((config) => config.module?.donate)
+
+  return (
+    <>
+      <m.h2 exit={{ opacity: 0 }} className="mb-6 text-lg font-medium">
+        感谢您的支持，助力梦想继续前行。
+      </m.h2>
+      <div className="center flex flex-wrap gap-4 overflow-auto">
+        {donate?.qrcode?.map((src) => (
+          <m.img
+            exit={{ opacity: 0 }}
+            src={src}
+            alt="donate"
+            className="h-[300px] max-h-[70vh]"
+            key={src}
+          />
+        ))}
+      </div>
+    </>
   )
 }

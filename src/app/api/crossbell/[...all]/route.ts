@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 import { NextServerResponse } from '~/lib/edge-function.server'
 
@@ -10,7 +10,6 @@ const factory = (method: string) => async (req: NextRequest) => {
   const res = new NextServerResponse()
 
   const url = `${endpoint}/${pathname.join('/')}`
-  console.log(pathname, 'pathname', url)
 
   const headers = new Headers()
   headers.set(

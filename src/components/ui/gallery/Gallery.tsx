@@ -1,16 +1,18 @@
 'use client'
 
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { useInView } from 'react-intersection-observer'
 import clsx from 'clsx'
 import type { FC, UIEventHandler } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 import { useStateToRef } from '~/hooks/common/use-state-ref'
-import { throttle } from '~/lib/_'
+import { throttle } from '~/lib/lodash'
 import { useMarkdownImageRecord } from '~/providers/article/MarkdownImageRecordProvider'
 import { useWrappedElementSize } from '~/providers/shared/WrappedElementProvider'
 
+import { MotionButtonBase } from '../button'
 import { FixedZoomedImage } from '../image'
+import { MarkdownImage } from '../markdown/renderers/image'
 import styles from './Gallery.module.css'
 
 const IMAGE_CONTAINER_MARGIN_INSET = 60
@@ -139,6 +141,14 @@ export const Gallery: FC<GalleryProps> = (props) => {
     }
   }, [])
 
+  if (images.length === 0) {
+    return null
+  }
+  if (images.length === 1) {
+    const image = images[0]
+    return <MarkdownImage src={image.url} alt={image.footnote} />
+  }
+
   return (
     <div
       className={clsx('w-full', 'relative', styles['root'])}
@@ -162,6 +172,38 @@ export const Gallery: FC<GalleryProps> = (props) => {
         })}
       </div>
 
+      {currentIndex > 0 && (
+        <div className="pointer-events-none absolute inset-y-0 left-2 flex items-center [&_*]:duration-200">
+          <MotionButtonBase
+            onClick={() => {
+              if (!containerRef) {
+                return
+              }
+              const index = currentIndex - 1
+              handleScrollTo(index)
+            }}
+            className="border-border center pointer-events-auto flex size-6 rounded-full border bg-base-100 p-1 opacity-80 hover:opacity-100"
+          >
+            <i className="i-mingcute-left-fill" />
+          </MotionButtonBase>
+        </div>
+      )}
+      {currentIndex < images.length - 1 && (
+        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center [&_*]:duration-200">
+          <MotionButtonBase
+            onClick={() => {
+              if (!containerRef) {
+                return
+              }
+              const index = currentIndex + 1
+              handleScrollTo(index)
+            }}
+            className="border-border center pointer-events-auto flex size-6 rounded-full border bg-base-100 p-1 opacity-80 hover:opacity-100"
+          >
+            <i className="i-mingcute-right-fill" />
+          </MotionButtonBase>
+        </div>
+      )}
       <div className={clsx(styles['indicator'], 'space-x-2')}>
         {Array.from({
           length: images.length,
@@ -169,7 +211,7 @@ export const Gallery: FC<GalleryProps> = (props) => {
           return (
             <div
               className={clsx(
-                'h-[6px] w-[6px] cursor-pointer rounded-full bg-stone-600 opacity-50 transition-opacity duration-200 ease-in-out',
+                'size-[6px] cursor-pointer rounded-full bg-stone-600 opacity-50 transition-opacity duration-200 ease-in-out',
                 currentIndex == i && '!opacity-100',
               )}
               key={i}

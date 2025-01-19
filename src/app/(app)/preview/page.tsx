@@ -1,17 +1,15 @@
 'use client'
 
-import { useMemo } from 'react'
-import Balancer from 'react-wrap-balancer'
-import { useIsomorphicLayoutEffect } from 'foxact/use-isomorphic-layout-effect'
-import { atom, useAtomValue } from 'jotai'
 import type {
   NoteModel,
   NoteWrappedPayload,
   PageModel,
   PostModel,
 } from '@mx-space/api-client'
-
 import { simpleCamelcaseKeys } from '@mx-space/api-client'
+import { useIsomorphicLayoutEffect } from 'foxact/use-isomorphic-layout-effect'
+import { atom, useAtomValue } from 'jotai'
+import { useMemo } from 'react'
 
 import { ErrorBoundary } from '~/components/common/ErrorBoundary'
 import { Paper } from '~/components/layout/container/Paper'
@@ -62,14 +60,15 @@ import {
 const safeParse = (value: string) => {
   try {
     return JSON.parse(value)
-  } catch (e) {
+  } catch {
     return null
   }
 }
 const previewDataAtom = atom<PostModel | NoteModel | null>(null)
 export default function PreviewPage() {
+  // handle preview by storage observer
   useIsomorphicLayoutEffect(() => {
-    const search = location.search
+    const { search } = location
     const searchParams = new URLSearchParams(search)
 
     const sameSite = searchParams.get('same-site')
@@ -106,11 +105,19 @@ export default function PreviewPage() {
     }
   }, [])
 
+  // handle preview by postMessage
+
   useIsomorphicLayoutEffect(() => {
-    const search = location.search
+    const { search } = location
     const searchParams = new URLSearchParams(search)
 
     let targetOrigin = searchParams.get('origin')
+
+    // const isInIframe = window.self !== window.top
+
+    // if (isInIframe) {
+    //   return
+    // }
 
     if (!targetOrigin) {
       return
@@ -122,27 +129,30 @@ export default function PreviewPage() {
 
       if (!parsedData) return
       const PREVIEW_HASH = new URLSearchParams(location.search).get('key')
+
       if (!PREVIEW_HASH) return
       if (parsedData.key !== PREVIEW_HASH) {
         return
       }
-      console.debug('preview page receive data', parsedData)
+
       if (parsedData.type === 'preview') {
         if (
           JSON.stringify(jotaiStore.get(previewDataAtom)) ===
           JSON.stringify(parsedData.data)
         )
           return
+
         jotaiStore.set(previewDataAtom, simpleCamelcaseKeys(parsedData.data))
       }
     }
     window.addEventListener('message', handler)
 
-    console.debug('preview page ready')
-    window.opener.postMessage('ok', targetOrigin)
+    console.info('preview page ready')
+    const parentWindow = window.opener || window.parent
+    parentWindow.postMessage('ok', targetOrigin)
 
     const timer = setInterval(() => {
-      window.opener.postMessage('ok', targetOrigin)
+      parentWindow.postMessage('ok', targetOrigin)
     }, 3000)
     return () => {
       window.removeEventListener('message', handler)
@@ -157,13 +167,16 @@ export default function PreviewPage() {
   }
 
   switch (true) {
-    case isNoteModel(previewData):
+    case isNoteModel(previewData): {
       return <NotePreview />
-    case isPostModel(previewData):
+    }
+    case isPostModel(previewData): {
       return <PostPreview />
+    }
 
-    case isPageModel(previewData):
+    case isPageModel(previewData): {
       return <PagePreview />
+    }
   }
 
   return null
@@ -179,13 +192,11 @@ const PostPreview = () => {
         <div className="relative flex min-h-[120px] grid-cols-[auto,200px] lg:grid">
           <article className="prose relative w-full min-w-0">
             <header className="mb-8">
-              <h1 className="text-center">
-                <Balancer>{data.title}</Balancer>
-              </h1>
+              <h1 className="text-balance text-center">{data.title}</h1>
 
               <PostMetaBarInternal className="mb-8 justify-center" />
             </header>
-            <WrappedElementProvider>
+            <WrappedElementProvider eoaDetect>
               <PostMarkdownImageRecordProvider>
                 <ErrorBoundary>
                   <PostMarkdown />
@@ -219,7 +230,6 @@ const NotePreview = () => {
               next: undefined,
               data: {
                 ...data,
-
                 created: new Date().toISOString(),
                 images: data.images ?? [],
                 count: data.count ?? {
@@ -242,7 +252,7 @@ const NotePreview = () => {
               <NoteRootBanner />
             </header>
 
-            <WrappedElementProvider>
+            <WrappedElementProvider eoaDetect>
               <NoteMarkdownImageRecordProvider>
                 <ErrorBoundary>
                   <NoteMarkdown />
@@ -278,7 +288,7 @@ const PagePreview = () => {
               <PageSubTitle />
             </header>
 
-            <WrappedElementProvider>
+            <WrappedElementProvider eoaDetect>
               <ReadIndicatorForMobile />
               <MarkdownImageRecordProviderInternal>
                 <PageMarkdown />
@@ -291,7 +301,7 @@ const PagePreview = () => {
           </article>
         </div>
 
-        <LayoutRightSideProvider className="absolute bottom-0 right-0 top-0 hidden translate-x-full lg:block" />
+        <LayoutRightSideProvider className="absolute inset-y-0 right-0 hidden translate-x-full lg:block" />
       </CurrentPageDataAtomProvider>
     </div>
   )

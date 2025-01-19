@@ -1,8 +1,9 @@
 'use client'
 
-import { memo, useEffect, useRef } from 'react'
 import { createContextState } from 'foxact/create-context-state'
 import { useIsomorphicLayoutEffect } from 'foxact/use-isomorphic-layout-effect'
+import type React from 'react'
+import { memo, useEffect, useRef } from 'react'
 
 import { ProviderComposer } from '~/components/common/ProviderComposer'
 import { useStateToRef } from '~/hooks/common/use-state-ref'
@@ -46,50 +47,77 @@ const Providers = [
   <ElementPositionProviderInternal key="ElementPositionProviderInternal" />,
   <IsEOArticleElementProviderInternal key="IsEOArticleElementProviderInternal" />,
 ]
-const WrappedElementProvider: Component = ({ children, className }) => {
-  return (
-    <ProviderComposer contexts={Providers}>
-      <ArticleElementResizeObserver />
-      <Content className={className}>{children}</Content>
-    </ProviderComposer>
-  )
+
+interface WrappedElementProviderProps {
+  eoaDetect?: boolean
+  as?: keyof React.JSX.IntrinsicElements
 }
-const ArticleElementResizeObserver = () => {
+
+export const WrappedElementProvider: Component<WrappedElementProviderProps> = ({
+  children,
+  className,
+  ...props
+}) => (
+  <ProviderComposer contexts={Providers}>
+    <ElementResizeObserver />
+    <Content {...props} className={className}>
+      {children}
+    </Content>
+  </ProviderComposer>
+)
+const ElementResizeObserver = () => {
   const setSize = useSetWrappedElementSize()
   const setPos = useSetElementPosition()
-  const $article = useWrappedElement()
+  const $element = useWrappedElement()
   useIsomorphicLayoutEffect(() => {
-    if (!$article) return
-    const { height, width, x, y } = $article.getBoundingClientRect()
+    if (!$element) return
+    const { height, width, left, top } = $element.getBoundingClientRect()
     setSize({ h: height, w: width })
-    setPos({ x, y })
+
+    const pageX = window.scrollX + left
+    const pageY = window.scrollY + top
+    setPos({ x: pageX, y: pageY })
 
     const observer = new ResizeObserver((entries) => {
       const entry = entries[0]
-      const { height, width, x, y } = entry.contentRect
-      setSize({ h: height, w: width })
-      setPos({ x, y })
+
+      const { height, width } = entry.contentRect
+      const { left, top } = $element.getBoundingClientRect()
+      const pageX = window.scrollX + left
+      const pageY = window.scrollY + top
+
+      setSize((size) => {
+        if (size.h === height && size.w === width) return size
+        return { h: height, w: width }
+      })
+      setPos((pos) => {
+        if (pos.x === pageX && pos.y === pageY) return pos
+        return { x: pageX, y: pageY }
+      })
     })
-    observer.observe($article)
+    observer.observe($element)
     return () => {
-      observer.unobserve($article)
+      observer.unobserve($element)
       observer.disconnect()
     }
-  }, [$article])
+  }, [$element])
 
   return null
 }
 
-const Content: Component = memo(({ children, className }) => {
-  const setElement = useSetWrappedElement()
+const Content: Component<WrappedElementProviderProps> = memo(
+  ({ children, className, eoaDetect, as = 'div' }) => {
+    const setElement = useSetWrappedElement()
 
-  return (
-    <div className={clsxm('relative', className)} ref={setElement}>
-      {children}
-      <EOADetector />
-    </div>
-  )
-})
+    const As = as as any
+    return (
+      <As className={clsxm('relative', className)} ref={setElement}>
+        {children}
+        {eoaDetect && <EOADetector />}
+      </As>
+    )
+  },
+)
 
 Content.displayName = 'ArticleElementProviderContent'
 
@@ -104,11 +132,9 @@ const EOADetector: Component = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0]
-        // if (yhRef.current < ) return
-        if (!entry.isIntersecting) {
-          if (getDir.current === 'down') {
-            return
-          }
+
+        if (!entry.isIntersecting && getDir.current === 'down') {
+          return
         }
 
         setter(entry.isIntersecting)
@@ -129,10 +155,9 @@ const EOADetector: Component = () => {
 }
 
 export {
-  WrappedElementProvider,
+  useIsEoFWrappedElement,
   useSetWrappedElement,
   useWrappedElement,
-  useIsEoFWrappedElement,
-  useWrappedElementSize,
   useWrappedElementPosition,
+  useWrappedElementSize,
 }

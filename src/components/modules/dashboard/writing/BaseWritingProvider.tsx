@@ -1,18 +1,17 @@
 'use client'
-
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { useForceUpdate } from 'framer-motion'
 import { produce } from 'immer'
-import { atom, useAtom } from 'jotai'
-import type { WriteEditEvent } from '~/events'
 import type { PrimitiveAtom } from 'jotai'
+import { atom, useAtom } from 'jotai'
 import type { Dispatch, FC, PropsWithChildren, SetStateAction } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 import { StyledButton } from '~/components/ui/button'
 import { useModalStack } from '~/components/ui/modal'
 import { EmitKeyMap } from '~/constants/keys'
+import type { WriteEditEvent } from '~/events'
 import { useBeforeUnload } from '~/hooks/common/use-before-unload'
-import { throttle } from '~/lib/_'
+import { useForceUpdate } from '~/hooks/common/use-force-update'
+import { throttle } from '~/lib/lodash'
 import { buildNSKey } from '~/lib/ns'
 
 const BaseWritingContext = createContext<PrimitiveAtom<BaseModelType>>(null!)
@@ -33,10 +32,10 @@ export const BaseWritingProvider = <T extends BaseModelType>(
     const handler = () => {
       setIsDirty(true)
     }
-    window.addEventListener(EmitKeyMap.EditDataUpdate, handler)
+    globalThis.addEventListener(EmitKeyMap.EditDataUpdate, handler)
 
     return () => {
-      window.removeEventListener(EmitKeyMap.EditDataUpdate, handler)
+      globalThis.removeEventListener(EmitKeyMap.EditDataUpdate, handler)
     }
   }, [])
   useBeforeUnload(isFormDirty)
@@ -63,27 +62,27 @@ const AutoSaverProvider: FC<PropsWithChildren> = ({ children }) => {
       const id = dto.id || ('categoryId' in dto ? 'new-post' : 'new-note')
       const nsKey = buildNSKey(`auto-save-${id}`)
 
-      console.debug('auto save', dto)
       localStorage.setItem(nsKey, JSON.stringify(dto))
     }, 300)
-    window.addEventListener(EmitKeyMap.EditDataUpdate, handler)
+    globalThis.addEventListener(EmitKeyMap.EditDataUpdate, handler)
 
     return () => {
-      window.removeEventListener(EmitKeyMap.EditDataUpdate, handler)
+      globalThis.removeEventListener(EmitKeyMap.EditDataUpdate, handler)
     }
   }, [])
 
   return (
     <AutoSaverContext.Provider
-      value={useMemo(() => {
-        return {
+      value={useMemo(
+        () => ({
           reset(type, nsKey?: string) {
             const id = nsKey || (type === 'note' ? 'new-note' : 'new-post')
             nsKey = buildNSKey(`auto-save-${id}`)
             localStorage.removeItem(nsKey)
           },
-        }
-      }, [])}
+        }),
+        [],
+      )}
     >
       {children}
     </AutoSaverContext.Provider>
@@ -104,14 +103,11 @@ export const useAutoSaver = <T extends { id: string }>([
       editingData.id || ('categoryId' in editingData ? 'new-post' : 'new-note')
     const nsKey = buildNSKey(`auto-save-${id}`)
 
-    console.log('recovery key', nsKey)
     const autoSavedDataString = localStorage.getItem(nsKey)
 
     if (!autoSavedDataString) return
     const autoSavedData = JSON.parse(autoSavedDataString)
     if (!autoSavedData) return
-
-    console.log('recovery data', autoSavedData)
 
     setTimeout(() => {
       present({
@@ -137,9 +133,7 @@ export const useAutoSaver = <T extends { id: string }>([
   return [forceUpdateKey]
 }
 
-export const useBaseWritingContext = () => {
-  return useContext(BaseWritingContext)
-}
+export const useBaseWritingContext = () => useContext(BaseWritingContext)
 
 export const useBaseWritingAtom = (key: keyof BaseModelType) => {
   const ctxAtom = useBaseWritingContext()
@@ -149,11 +143,11 @@ export const useBaseWritingAtom = (key: keyof BaseModelType) => {
         atom(
           (get) => get(ctxAtom)[key],
           (get, set, newValue) => {
-            set(ctxAtom, (prev) => {
-              return produce(prev, (draft) => {
+            set(ctxAtom, (prev) =>
+              produce(prev, (draft) => {
                 ;(draft as any)[key] = newValue
-              })
-            })
+              }),
+            )
           },
         ),
       [ctxAtom, key],

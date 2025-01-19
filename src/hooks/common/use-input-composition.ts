@@ -1,8 +1,8 @@
-import { useCallback, useRef } from 'react'
 import type { CompositionEventHandler } from 'react'
+import { useCallback, useRef } from 'react'
 
 export const useInputComposition = (
-  props:
+  props: Pick<
     | React.DetailedHTMLProps<
         React.InputHTMLAttributes<HTMLInputElement>,
         HTMLInputElement
@@ -11,6 +11,8 @@ export const useInputComposition = (
         React.TextareaHTMLAttributes<HTMLTextAreaElement>,
         HTMLTextAreaElement
       >,
+    'onKeyDown' | 'onCompositionEnd' | 'onCompositionStart'
+  >,
 ) => {
   const { onKeyDown, onCompositionStart, onCompositionEnd } = props
 
@@ -34,12 +36,12 @@ export const useInputComposition = (
 
   const handleKeyDown: React.KeyboardEventHandler<any> = useCallback(
     (e) => {
-      onKeyDown?.(e)
-
+      // 中文正在输入时，不响应 keydown 事件
       if (isCompositionRef.current) {
         e.stopPropagation()
         return
       }
+      onKeyDown?.(e)
     },
     [onKeyDown],
   )

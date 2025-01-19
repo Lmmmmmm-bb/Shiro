@@ -1,14 +1,14 @@
 'use client'
 
-/* eslint-disable react-hooks/rules-of-hooks */
-import React, { Fragment, memo, Suspense, useMemo, useRef } from 'react'
 import { clsx } from 'clsx'
-import { compiler, sanitizeUrl } from 'markdown-to-jsx'
-import dynamic from 'next/dynamic'
-import Script from 'next/script'
 import type { MarkdownToJSX } from 'markdown-to-jsx'
+import { compiler, sanitizeUrl } from 'markdown-to-jsx'
+import Script from 'next/script'
+import type React from 'react'
 import type { FC, PropsWithChildren } from 'react'
+import { Fragment, memo, Suspense, useMemo, useRef } from 'react'
 
+import { CodeBlockRender } from '~/components/modules/shared/CodeBlock'
 import { FloatPopover } from '~/components/ui/float-popover'
 import { MAIN_MARKDOWN_ID } from '~/constants/dom-id'
 import { isDev } from '~/lib/env'
@@ -16,8 +16,8 @@ import { noopObj } from '~/lib/noop'
 import { springScrollToElement } from '~/lib/scroller'
 
 import { Gallery } from '../gallery'
-import { LinkCard, LinkCardSource } from '../link-card'
 import { MLink } from '../link/MLink'
+import { LinkCard, LinkCardSource } from '../link-card'
 import styles from './markdown.module.css'
 import { AlertsRule } from './parsers/alert'
 import { ContainerRule } from './parsers/container'
@@ -32,22 +32,22 @@ import {
   MTableBody,
   MTableHead,
   MTableRow,
+  MTableTd,
 } from './renderers'
 import { MDetails } from './renderers/collapse'
 import { MFootNote } from './renderers/footnotes'
 import { MHeader } from './renderers/heading'
 import { MarkdownImage } from './renderers/image'
+import { Tab, Tabs } from './renderers/tabs'
 import { MTag } from './renderers/tag'
 import { getFootNoteDomId, getFootNoteRefDomId } from './utils/get-id'
 import { redHighlight } from './utils/redHighlight'
-
-const CodeBlock = dynamic(() => import('~/components/modules/shared/CodeBlock'))
 
 export interface MdProps {
   value?: string
 
   style?: React.CSSProperties
-  readonly renderers?: { [key: string]: Partial<MarkdownToJSX.Rule> }
+  readonly renderers?: Record<string, Partial<MarkdownToJSX.Rule>>
   wrapperProps?: React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
@@ -76,6 +76,7 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
       as: As = 'div',
       allowsScript = false,
       removeWrapper = false,
+
       ...rest
     } = props
 
@@ -88,6 +89,7 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
       if (typeof mdContent != 'string') return null
 
       const mdElement = compiler(mdContent, {
+        doNotProcessHtmlElements: ['tab', 'style', 'script'] as any[],
         wrapper: null,
         // @ts-ignore
         overrides: {
@@ -96,12 +98,17 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
           thead: MTableHead,
           tr: MTableRow,
           tbody: MTableBody,
+          td: MTableTd,
           table: MTable,
           // FIXME: footer tag in raw html will renders not as expected, but footer tag in this markdown lib will wrapper as linkReferer footnotes
           footer: MFootNote,
           details: MDetails,
           img: MarkdownImage,
           tag: MTag,
+
+          Tabs,
+
+          tab: Tab,
 
           // for custom react component
           // Tag: MTag,
@@ -131,6 +138,7 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
                   key={state?.key}
                   checked={node.completed}
                   readOnly
+                  className="!size-[1em]"
                 />
               )
             },
@@ -171,12 +179,12 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
                   const isCurrentHost =
                     thisUrl.hostname === window.location.hostname
                   if (!isCurrentHost && !isDev) {
-                    return undefined
+                    return
                   }
-                  const pathname = thisUrl.pathname
+                  const { pathname } = thisUrl
                   return pathname.slice(1)
                 } catch {
-                  return undefined
+                  return
                 }
               })()
 
@@ -185,7 +193,7 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
                   <FloatPopover
                     wrapperClassName="inline"
                     as="span"
-                    TriggerComponent={() => (
+                    triggerElement={
                       <a
                         href={`${getFootNoteDomId(content)}`}
                         onClick={(e) => {
@@ -202,7 +210,7 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
                           id={`${getFootNoteRefDomId(content)}`}
                         >{`[^${content}]`}</sup>
                       </a>
-                    )}
+                    }
                     type="tooltip"
                   >
                     {footnote?.footnote?.substring(1)}
@@ -217,14 +225,44 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
               )
             },
           },
+          codeFenced: {
+            parse(capture /* , parse, state */) {
+              return {
+                content: capture[4],
+                lang: capture[2] || undefined,
+                type: 'codeBlock',
+
+                attrs: capture[3],
+              }
+            },
+          },
+          // htmlBlock: {
+          //   react(node, output, state) {
+          //     console.log(node, state)
+          //     return null
+          //   },
+          // },
           codeBlock: {
             react(node, output, state) {
               return (
-                <CodeBlock
+                <CodeBlockRender
                   key={state?.key}
                   content={node.content}
                   lang={node.lang}
+                  attrs={node?.attrs}
                 />
+              )
+            },
+          },
+          codeInline: {
+            react(node, output, state) {
+              return (
+                <code
+                  key={state?.key}
+                  className="rounded-md bg-zinc-200 px-2 font-mono dark:bg-neutral-800"
+                >
+                  {node.content}
+                </code>
               )
             },
           },
@@ -237,7 +275,7 @@ export const Markdown: FC<MdProps & MarkdownToJSX.Options & PropsWithChildren> =
                 <Tag key={state?.key} start={node.start}>
                   {node.items.map((item: any, i: number) => {
                     let className = ''
-                    if (item[0]?.type == 'gfmTask') {
+                    if (item[0]?.type === 'gfmTask') {
                       className = 'list-none flex items-center'
                     }
 

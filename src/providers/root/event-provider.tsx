@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
 import { useIsomorphicLayoutEffect } from 'foxact/use-isomorphic-layout-effect'
+import { useEffect } from 'react'
 
 import { setIsPrintMode } from '~/atoms/css-media'
 import { viewportAtom } from '~/atoms/viewport'
-import { throttle } from '~/lib/_'
+import { throttle } from '~/lib/lodash'
 import { jotaiStore } from '~/lib/store'
 
 export const EventProvider: Component = ({ children }) => {
@@ -48,7 +48,6 @@ export const EventProvider: Component = ({ children }) => {
     }
     try {
       window.matchMedia('screen').addEventListener('change', callback)
-      // eslint-disable-next-line no-empty
     } catch {}
 
     return () => {

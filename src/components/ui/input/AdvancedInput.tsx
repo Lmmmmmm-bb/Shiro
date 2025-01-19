@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useEffect, useId } from 'react'
 import clsx from 'clsx'
-import { tv } from 'tailwind-variants'
 import type { ContextType, FC, PropsWithChildren } from 'react'
+import React, { createContext, useContext, useEffect, useId } from 'react'
+import { tv } from 'tailwind-variants'
 
-import { isUndefined, merge } from '~/lib/_'
 import { clsxm } from '~/lib/helper'
+import { isUndefined, merge } from '~/lib/lodash'
 
 import { MotionButtonBase } from '../button'
 import { ErrorLabelLine } from '../label'
@@ -100,7 +100,7 @@ export const AdvancedInput = React.forwardRef<
         className={clsxm(
           {
             'flex flex-col': labelPlacement === 'top',
-            'flex flex-grow flex-row items-center': labelPlacement === 'left',
+            'flex grow flex-row items-center': labelPlacement === 'left',
           },
           'peer relative',
           className,
@@ -126,7 +126,7 @@ export const AdvancedInput = React.forwardRef<
             {label}
           </Label>
         )}
-        <div className="relative flex-grow">
+        <div className="relative grow">
           <input
             id={id}
             value={isUndefined(bindValue) ? inputValue : bindValue}
@@ -177,8 +177,8 @@ export const AdvancedInput = React.forwardRef<
                   'text-lg text-gray-500',
 
                   isPasswordVisible
-                    ? 'icon-[mingcute--eye-line]'
-                    : 'icon-[mingcute--eye-close-line]',
+                    ? 'i-mingcute-eye-line'
+                    : 'i-mingcute-eye-close-line',
                 )}
               />
             </MotionButtonBase>
@@ -200,7 +200,7 @@ export const AdvancedInput = React.forwardRef<
                 placement: labelPlacement,
               })}
             >
-              <i className="loading loading-spinner h-5 w-5 text-primary/80" />
+              <i className="loading loading-spinner size-5 text-primary/80" />
             </div>
           )}
         </div>

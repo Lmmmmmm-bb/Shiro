@@ -1,22 +1,24 @@
 'use client'
 
-import { forwardRef, memo, useMemo } from 'react'
-import { m } from 'framer-motion'
 import type {
   HTMLMotionProps,
+  MotionProps,
   Spring,
   Target,
   TargetAndTransition,
-} from 'framer-motion'
+} from 'motion/react'
+import { m } from 'motion/react'
 import type {
   ForwardRefExoticComponent,
   PropsWithChildren,
   RefAttributes,
 } from 'react'
-import type { BaseTransitionProps } from './typings'
+import { forwardRef, memo, useState } from 'react'
 
 import { isHydrationEnded } from '~/components/common/HydrationEndDetector'
 import { microReboundPreset } from '~/constants/spring'
+
+import type { BaseTransitionProps } from './typings'
 
 interface TransitionViewParams {
   from: Target
@@ -49,40 +51,38 @@ export const createTransitionView = (params: TransitionViewParams) => {
       HTMLMotionProps<any> & RefAttributes<HTMLElement>
     >
 
-    return (
-      <MotionComponent
-        initial={useMemo(
-          () =>
-            lcpOptimization
-              ? isHydrationEnded()
-                ? initial || from
-                : true
-              : initial || from,
-          [],
-        )}
-        ref={ref}
-        animate={{
-          ...to,
-          transition: {
-            duration,
-            ...(preset || microReboundPreset),
-            ...animation.enter,
-            delay: enter / 1000,
-          },
-        }}
-        exit={{
-          ...from,
-          transition: {
-            duration,
-            ...animation.exit,
-            delay: exit / 1000,
-          } as TargetAndTransition['transition'],
-        }}
-        transition={{
+    const [stableIsHydrationEnded] = useState(isHydrationEnded)
+
+    const motionProps: MotionProps = {
+      initial: initial || from,
+      animate: {
+        ...to,
+        transition: {
           duration,
-        }}
-        {...rest}
-      >
+          ...(preset || microReboundPreset),
+          ...animation.enter,
+          delay: enter / 1000,
+        },
+      },
+      transition: {
+        duration,
+      },
+      exit: {
+        ...from,
+        transition: {
+          duration,
+          ...animation.exit,
+          delay: exit / 1000,
+        } as TargetAndTransition['transition'],
+      },
+    }
+    if (lcpOptimization && !stableIsHydrationEnded) {
+      motionProps.initial = to
+      delete motionProps.animate
+    }
+
+    return (
+      <MotionComponent ref={ref} {...motionProps} {...rest}>
         {props.children}
       </MotionComponent>
     )

@@ -1,7 +1,7 @@
 'use client'
 
-import { useCallback, useMemo } from 'react'
 import { useParams, usePathname } from 'next/navigation'
+import { useCallback, useMemo } from 'react'
 
 import { FABPortable } from '~/components/ui/fab'
 import { useModalStack } from '~/components/ui/modal'
@@ -22,18 +22,21 @@ export const TocFAB = () => {
       ...$mainMarkdownRender.querySelectorAll('h1,h2,h3,h4,h5,h6'),
     ] as HTMLHeadingElement[]
 
-    return $headings
+    return $headings.filter(($heading) => {
+      if ($heading.dataset['markdownHeading'] === 'true') return true
+      return false
+    })
   }, [])
   const presentToc = useCallback(() => {
-    const dispose = present({
-      title: 'Table of Content',
+    present({
+      title: '文章目录',
       clickOutsideToDismiss: true,
-      content: () => (
+      content: ({ dismiss }) => (
         <TocTree
           $headings={$headings!}
-          className="space-y-3 [&>li]:py-1"
+          className="max-h-full space-y-3 overflow-y-auto [&>li]:py-1"
           onItemClick={() => {
-            dispose()
+            dismiss()
           }}
           scrollInNextTick
         />
@@ -45,7 +48,7 @@ export const TocFAB = () => {
 
   return (
     <FABPortable aria-label="Show ToC" onClick={presentToc}>
-      <i className="icon-[mingcute--list-expansion-line]" />
+      <i className="i-mingcute-list-expansion-line" />
     </FABPortable>
   )
 }

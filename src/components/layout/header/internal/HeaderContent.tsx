@@ -1,6 +1,5 @@
 'use client'
 
-import React, { memo } from 'react'
 import clsx from 'clsx'
 import {
   AnimatePresence,
@@ -8,16 +7,18 @@ import {
   m,
   useMotionTemplate,
   useMotionValue,
-} from 'framer-motion'
+} from 'motion/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { IHeaderMenu } from '../config'
+import * as React from 'react'
+import { memo } from 'react'
 
 import { RootPortal } from '~/components/ui/portal'
 import useDebounceValue from '~/hooks/common/use-debounce-value'
 import { clsxm } from '~/lib/helper'
 import { useIsScrollUpAndPageIsOver } from '~/providers/root/page-scroll-info-provider'
 
+import type { IHeaderMenu } from '../config'
 import { useHeaderConfig } from './HeaderDataConfigureProvider'
 import { useHeaderHasMetaInfo, useMenuOpacity } from './hooks'
 import { MenuPopover } from './MenuPopover'
@@ -49,7 +50,7 @@ const AccessibleMenu: Component = () => {
             initial={{ y: -20 }}
             animate={{ y: 0 }}
             exit={{ y: -20, opacity: 0 }}
-            className="fixed left-0 right-0 top-[3rem] z-10 flex justify-center duration-[100ms]"
+            className="pointer-events-none fixed inset-x-0 top-12 z-10 mr-[var(--removed-body-scroll-bar-size)] flex justify-center"
           >
             <ForDesktop />
           </m.div>
@@ -66,7 +67,7 @@ const AnimatedMenu: Component = ({ children }) => {
   const shouldHideNavBg = !hasMetaInfo && opacity === 0
   return (
     <m.div
-      className="duration-[100ms]"
+      className="duration-100"
       style={{
         opacity: hasMetaInfo ? opacity : 1,
         visibility: opacity === 0 && hasMetaInfo ? 'hidden' : 'visible',
@@ -93,7 +94,7 @@ const ForDesktop: Component<{
       const bounds = currentTarget.getBoundingClientRect()
       mouseX.set(clientX - bounds.left)
       mouseY.set(clientY - bounds.top)
-      radius.set(Math.sqrt(bounds.width ** 2 + bounds.height ** 2) / 2.5)
+      radius.set(Math.hypot(bounds.width, bounds.height) / 2.5)
     },
     [mouseX, mouseY, radius],
   )
@@ -110,7 +111,7 @@ const ForDesktop: Component<{
         'shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md',
         'dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10',
         'group [--spotlight-color:oklch(var(--a)_/_0.12)]',
-        'duration-200',
+        'pointer-events-auto duration-200',
         shouldHideNavBg && '!bg-none !shadow-none !ring-transparent',
         className,
       )}
@@ -136,7 +137,8 @@ const ForDesktop: Component<{
               subItemActive={section.subMenu?.[subItemActive]}
               isActive={
                 pathname === section.path ||
-                pathname.startsWith(`${section.path}/`) ||
+                (pathname.startsWith(`${section.path}/`) &&
+                  !section.exclude?.includes(pathname)) ||
                 subItemActive > -1 ||
                 false
               }

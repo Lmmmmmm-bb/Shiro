@@ -1,8 +1,19 @@
-import { lazy } from 'react'
+import { lazy, Suspense, useMemo } from 'react'
 
-const XLogEnableImpl = lazy(() =>
-  import('./XlogSwitch').then((mo) => ({ default: mo.XlogSwitch })),
-)
-export const XLogEnable = () => {
-  return 'ethereum' in window ? <XLogEnableImpl /> : null
+export const XLogEnable = () =>
+  'ethereum' in globalThis ? <XlogSwitchLazy /> : null
+
+const XlogSwitchLazy = () => {
+  const Component = useMemo(
+    () =>
+      lazy(() =>
+        import('./XlogSwitch').then((mo) => ({ default: mo.XlogSwitch })),
+      ),
+    [],
+  )
+  return (
+    <Suspense>
+      <Component />
+    </Suspense>
+  )
 }

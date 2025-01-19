@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useMemo } from 'react'
 import { useAtomValue } from 'jotai'
 import { atomWithStorage, selectAtom } from 'jotai/utils'
+import { useEffect, useMemo } from 'react'
 
 import { MotionButtonBase } from '~/components/ui/button'
 import { FABPortable } from '~/components/ui/fab'
@@ -22,7 +22,7 @@ export const NoteFontSettingFab = () => {
       <FloatPanel
         triggerElement={
           <FABPortable onClick={Noop}>
-            <i className="icon-[mingcute--font-line]" />
+            <i className="i-mingcute-font-line" />
           </FABPortable>
         }
       >
@@ -77,7 +77,7 @@ function loadAndApplyFont(
 
   const $style = document.createElement('style')
   $style.innerHTML = `#${MAIN_MARKDOWN_ID} { font-family: ${config.fontFamily};`
-  document.head.appendChild($style)
+  document.head.append($style)
 
   return () => {
     document.head.removeChild($style)
@@ -133,7 +133,7 @@ export const YouZaiFontSvg = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 16 17"
-      className="h-[1em] w-[1em] text-[30px]"
+      className="size-[1em] text-[30px]"
     >
       <path
         fill="currentColor"
@@ -147,7 +147,7 @@ export const LXGWFontSvg = () => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 16 17"
-      className="h-[1em] w-[1em] text-[30px]"
+      className="size-[1em] text-[30px]"
     >
       <path
         fill="currentColor"
@@ -162,7 +162,7 @@ export const SerifFontSvg = () => {
     <svg
       viewBox="0 0 90.7 91"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-[1em] w-[1em] text-[30px]"
+      className="size-[1em] text-[30px]"
     >
       <g
         id="svgGroup"

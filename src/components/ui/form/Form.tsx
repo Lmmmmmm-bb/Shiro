@@ -1,4 +1,3 @@
-import { useCallback, useMemo } from 'react'
 import { produce } from 'immer'
 import { atom } from 'jotai'
 import type {
@@ -6,50 +5,68 @@ import type {
   FormHTMLAttributes,
   PropsWithChildren,
 } from 'react'
-import type { Field } from './types'
+import { forwardRef, useCallback, useImperativeHandle, useMemo } from 'react'
 
 import { useRefValue } from '~/hooks/common/use-ref-value'
 import { jotaiStore } from '~/lib/store'
 
+import type { FormContextType } from './FormContext'
 import { FormConfigContext, FormContext, useForm } from './FormContext'
+import type { Field } from './types'
 
-export const Form = (
-  props: PropsWithChildren<
+export const Form = forwardRef<
+  FormContextType,
+  PropsWithChildren<
     DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> & {
       showErrorMessage?: boolean
     }
-  >,
-) => {
+  >
+>((props, ref) => {
   const { showErrorMessage = true, ...formProps } = props
   const fieldsAtom = useRefValue(() => atom({}))
-  return (
-    <FormContext.Provider
-      value={useRefValue(() => ({
-        showErrorMessage,
-        fields: fieldsAtom,
-        getField: (name: string) => {
-          // @ts-expect-error
-          return jotaiStore.get(fieldsAtom)[name]
-        },
-        addField: (name: string, field: Field) => {
-          jotaiStore.set(fieldsAtom, (p) => {
-            return {
-              ...p,
-              [name]: field,
-            }
-          })
-        },
+  const ctxValue: FormContextType = useRefValue(() => ({
+    showErrorMessage,
+    fields: fieldsAtom,
+    getField: (name: string) => {
+      return (jotaiStore.get(fieldsAtom as any) as any)[name]
+    },
+    getCurrentValues: () => {
+      return Object.fromEntries(
+        Object.entries(jotaiStore.get(fieldsAtom)).map(([key, value]) => {
+          const nextValue = (value as any as Field).getEl()?.value
 
-        removeField: (name: string) => {
-          jotaiStore.set(fieldsAtom, (p) => {
-            const pp = { ...p }
-            // @ts-expect-error
-            delete pp[name]
-            return pp
-          })
-        },
-      }))}
-    >
+          return [
+            key,
+            (value as Field).transform
+              ? (value as Field).transform?.(nextValue)
+              : nextValue,
+          ]
+        }),
+      )
+    },
+    addField: (name: string, field: Field) => {
+      jotaiStore.set(fieldsAtom, (p) => {
+        return {
+          ...p,
+          [name]: field,
+        }
+      })
+    },
+
+    removeField: (name: string) => {
+      jotaiStore.set(fieldsAtom, (p) => {
+        const pp = { ...p }
+        // @ts-expect-error
+        delete pp[name]
+        return pp
+      })
+    },
+  }))
+
+  useImperativeHandle(ref, () => ctxValue, [ctxValue])
+
+  return (
+    <FormContext.Provider value={ctxValue}>
       <FormConfigContext.Provider
         value={useMemo(() => ({ showErrorMessage }), [showErrorMessage])}
       >
@@ -57,7 +74,8 @@ export const Form = (
       </FormConfigContext.Provider>
     </FormContext.Provider>
   )
-}
+})
+Form.displayName = 'Form'
 
 const FormInternal = (
   props: PropsWithChildren<
@@ -72,12 +90,11 @@ const FormInternal = (
 
       const fields = jotaiStore.get(fieldsAtom)
       for await (const [key, field] of Object.entries(fields)) {
-        const $ref = field.$ref
+        const $ref = field.getEl()
         if (!$ref) continue
-        const value = $ref.value
-        const rules = field.rules
-        for (let i = 0; i < rules.length; i++) {
-          const rule = rules[i]
+        const { value } = $ref
+        const { rules } = field
+        for (const [i, rule] of rules.entries()) {
           try {
             const isOk = await rule.validator(value)
             if (!isOk) {

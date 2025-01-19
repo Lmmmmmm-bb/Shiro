@@ -1,10 +1,9 @@
-import { flip, offset, shift, useFloating } from '@floating-ui/react-dom'
-import { cloneElement, useMemo, useRef, useState } from 'react'
-import { AnimatePresence, m } from 'framer-motion'
 import type { Placement, Strategy } from '@floating-ui/react-dom'
+import { flip, offset, shift, useFloating } from '@floating-ui/react-dom'
+import { AnimatePresence, m } from 'motion/react'
 import type { FC, PropsWithChildren } from 'react'
+import { cloneElement, useMemo, useRef, useState } from 'react'
 
-import useClickAway from '~/hooks/common/use-click-away'
 import { clsxm } from '~/lib/helper'
 
 import { RootPortal } from '../portal'
@@ -34,9 +33,10 @@ export const FloatPanel: FC<FloatPanelProps & PropsWithChildren> = (props) => {
   const floatingRef = useRef<HTMLElement>()
   floatingRef.current = elements.floating || undefined
   // @ts-ignore
-  useClickAway(floatingRef, () => {
-    setPanelOpen(false)
-  })
+  // useClickAway(floatingRef, (e) => {
+
+  //   setPanelOpen(false)
+  // })
 
   return (
     <>
@@ -62,7 +62,7 @@ export const FloatPanel: FC<FloatPanelProps & PropsWithChildren> = (props) => {
               className={clsxm(
                 '!shadow-out-sm focus:!shadow-out-sm focus-visible:!shadow-out-sm',
                 'rounded-xl border border-zinc-400/20 p-4 shadow-lg outline-none backdrop-blur-lg dark:border-zinc-500/30',
-                'bg-slate-50/80 dark:bg-neutral-900/80',
+                'bg-zinc-50/80 dark:bg-neutral-900/80',
 
                 'relative z-[2]',
               )}

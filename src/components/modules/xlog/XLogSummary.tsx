@@ -23,7 +23,7 @@ export const XLogSummary: FC<XLogSummaryProps> = (props) => {
         },
       }).then((res) => res.json())
       if (!data) throw new Error('请求错误')
-      if (!data.data) throw new Error('内容暂时无法获取')
+      if (!data.summary) throw new Error('内容暂时无法获取')
       return data
     },
     enabled: !!cid,
@@ -39,7 +39,7 @@ export const XLogSummary: FC<XLogSummaryProps> = (props) => {
       )}
     >
       <div className="flex items-center">
-        <i className="icon-[mingcute--sparkles-line] mr-2 text-lg" />
+        <i className="i-mingcute-sparkles-line mr-2 text-lg" />
         AI 生成的摘要
       </div>
 
@@ -52,11 +52,11 @@ export const XLogSummary: FC<XLogSummaryProps> = (props) => {
               <span className="block h-5 w-full animate-pulse rounded-xl bg-zinc-200 dark:bg-neutral-800" />
             </div>
           ) : (
-            data?.data
+            data?.summary
           )}
         </div>
         {isLoading && (
-          <p className="border-slate-200 text-right text-sm dark:border-slate-800 ">
+          <p className="mt-3 border-slate-200 text-right text-sm dark:border-slate-800 ">
             (此服务由{' '}
             <a href="https://xlog.app" target="_blank" rel="noreferrer">
               xLog

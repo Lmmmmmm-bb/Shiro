@@ -1,7 +1,6 @@
-import dayjs from 'dayjs'
-
 import 'dayjs/locale/zh-cn'
 
+import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 
@@ -84,4 +83,19 @@ export const secondOfDay = () => {
 export const secondOfDays = 86400
 export function isValidDate(d: any) {
   return d instanceof Date && !Number.isNaN(+d)
+}
+
+export function formatSeconds(seconds: number) {
+  const days = Math.floor(seconds / (3600 * 24))
+  seconds -= days * 3600 * 24
+  const hrs = Math.floor(seconds / 3600)
+  seconds -= hrs * 3600
+  const mins = Math.floor(seconds / 60)
+
+  let formatted = ''
+  if (days > 0) formatted += `${days} 天 `
+  if (hrs > 0) formatted += `${hrs} 小时 `
+  if (mins > 0) formatted += `${mins} 分钟`
+
+  return formatted.trim()
 }

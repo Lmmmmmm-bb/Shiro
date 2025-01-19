@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
 import { useAtom, useStore } from 'jotai'
+import { useEffect } from 'react'
 
 import { XLogIcon } from '~/components/icons/platform/XLogIcon'
 import { LabelSwitch } from '~/components/ui/switch'
 import { PublishEvent } from '~/events'
+import { RefetchEvent } from '~/events/refetch'
 import { apiClient } from '~/lib/request'
 
 import { syncToXlogAtom } from '../writing/atoms'
@@ -41,7 +42,7 @@ export const XlogSwitch = () => {
       onCheckedChange={setChecked}
     >
       <span className="flex items-center gap-2">
-        同步到 XLog <XLogIcon className="h-5 w-5" />
+        同步到 XLog <XLogIcon className="size-5" />
       </span>
       <PublishEventSubscriber />
     </LabelSwitch>
@@ -57,7 +58,9 @@ const PublishEventSubscriber = () => {
       const enabled = store.get(syncToXlogAtom)
       if (!enabled) return
 
-      CrossBellConnector.createOrUpdate(ev.data)
+      CrossBellConnector.createOrUpdate(ev.data).then(() => {
+        window.dispatchEvent(new RefetchEvent())
+      })
     })
   }, [store])
 

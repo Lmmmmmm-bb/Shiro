@@ -1,6 +1,7 @@
 import clsx from 'clsx'
-import { blockRegex, Priority } from 'markdown-to-jsx'
 import type { MarkdownToJSX } from 'markdown-to-jsx'
+import { blockRegex, Priority } from 'markdown-to-jsx'
+import type { FC } from 'react'
 
 import {
   FluentShieldError20Regular,
@@ -17,16 +18,39 @@ const textColorMap = {
 } as any
 
 const borderColorMap = {
-  NOTE: 'border-blue-500 dark:border-blue-400',
-  IMPORTANT: 'border-accent',
-  WARNING: 'border-amber-500 dark:border-amber-400',
+  NOTE: 'before:bg-blue-500 before:bg-blue-400',
+  IMPORTANT: 'before:bg-accent',
+  WARNING: 'before:bg-amber-500 dark:before:bg-amber-400',
 } as any
 
 const typedIconMap = {
   NOTE: IonInformation,
   IMPORTANT: FluentWarning28Regular,
   WARNING: FluentShieldError20Regular,
-} as any
+}
+
+export const AlertIcon: FC<{
+  type: keyof typeof typedIconMap
+}> = ({ type }) => {
+  const finalType = type || 'NOTE'
+  const Icon = typedIconMap[finalType] || typedIconMap.NOTE
+  const typePrefix = finalType[0] + finalType.toLowerCase().slice(1)
+
+  return (
+    <span
+      className={clsx('mb-1 inline-flex items-center', textColorMap[finalType])}
+    >
+      <Icon
+        className={clsx(
+          `shrink-0 text-3xl md:mr-2 md:self-start md:text-left`,
+          typedIconMap[finalType] || typedIconMap.NOTE,
+        )}
+      />
+
+      {typePrefix}
+    </span>
+  )
+}
 
 /**
  *
@@ -34,7 +58,7 @@ const typedIconMap = {
  * > Highlights information that users should take into account, even when skimming.
  */
 const ALERT_BLOCKQUOTE_R =
-  /^(> \[!(?<type>NOTE|IMPORTANT|WARNING)\].*?)(?<body>(?:\n *>.*?)*)(?=\n{2,}|$)/
+  /^(> \[!(?<type>NOTE|IMPORTANT|WARNING)\].*)(?<body>(?:\n *>.*)*)(?=\n{2,}|$)/
 
 export const AlertsRule: MarkdownToJSX.Rule = {
   match: blockRegex(ALERT_BLOCKQUOTE_R),
@@ -49,28 +73,14 @@ export const AlertsRule: MarkdownToJSX.Rule = {
   },
   react(node, output, state) {
     const { type, body } = node.parsed
-    const bodyClean = body.replace(/^> */gm, '')
+    const bodyClean = body.replaceAll(/^> */gm, '')
 
-    const typePrefix = type[0] + type.toLowerCase().slice(1)
-
-    const Icon = typedIconMap[type] || typedIconMap.info
     return (
-      <blockquote className={clsx(borderColorMap[type], 'not-italic')}>
-        <span
-          className={clsx(
-            'text-semibold mb-1 inline-flex items-center',
-            textColorMap[type],
-          )}
-        >
-          <Icon
-            className={clsx(
-              `flex-shrink-0 text-3xl md:mr-2 md:self-start md:text-left`,
-              typedIconMap[type] || typedIconMap.info,
-            )}
-          />
-
-          {typePrefix}
-        </span>
+      <blockquote
+        className={clsx(borderColorMap[type], 'not-italic')}
+        key={state.key}
+      >
+        <AlertIcon type={type as any} />
         <br />
 
         <Markdown

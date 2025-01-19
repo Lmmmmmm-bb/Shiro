@@ -1,5 +1,656 @@
 # CHANGELOG
 
+## [1.2.5](https://github.com/Innei/sprightly/compare/v1.2.4...v1.2.5) (2025-01-08)
+
+
+### Bug Fixes
+
+* type error ([5d01a4d](https://github.com/Innei/sprightly/commit/5d01a4df3db0730563fbf9f1e1f39b715db25732))
+
+
+
+## [1.2.4](https://github.com/Innei/sprightly/compare/v1.2.3...v1.2.4) (2025-01-04)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#492](https://github.com/Innei/sprightly/issues/492)) ([8ed7b74](https://github.com/Innei/sprightly/commit/8ed7b74e2c10c2dfa9a0bb316b63ebd3b722d0b3))
+* **deps:** update all non-major dependencies ([#497](https://github.com/Innei/sprightly/issues/497)) ([0040c37](https://github.com/Innei/sprightly/commit/0040c3719441c4988533e1e160e9057cb56a2b71))
+* **deps:** update all non-major dependencies ([#510](https://github.com/Innei/sprightly/issues/510)) ([8efa115](https://github.com/Innei/sprightly/commit/8efa11521a76dd01ba0bd0aab8205de05bbc603c))
+* **deps:** update all non-major dependencies ([#511](https://github.com/Innei/sprightly/issues/511)) ([f25e34b](https://github.com/Innei/sprightly/commit/f25e34ba027a87ae19c685fa526b0cbabfcd2f16))
+* **deps:** update all non-major dependencies ([#512](https://github.com/Innei/sprightly/issues/512)) ([5b58d6a](https://github.com/Innei/sprightly/commit/5b58d6ab0916dd5a04310308e0fff099bed2391c))
+* **deps:** update all non-major dependencies (minor) ([#483](https://github.com/Innei/sprightly/issues/483)) ([50301db](https://github.com/Innei/sprightly/commit/50301dbfc262f00e3e96e7b46db9651ef984f351))
+* **deps:** update all non-major dependencies (minor) ([#487](https://github.com/Innei/sprightly/issues/487)) ([589cfb1](https://github.com/Innei/sprightly/commit/589cfb11a98c4fa3652d98a66168c86526a0c863))
+* **deps:** update dependency @simplewebauthn/browser to v13 ([#506](https://github.com/Innei/sprightly/issues/506)) ([60589cd](https://github.com/Innei/sprightly/commit/60589cd89525e8a614bf4616b6af4a1ede2b7f32))
+* **deps:** update dependency better-auth to v1.1.6 [security] ([#517](https://github.com/Innei/sprightly/issues/517)) ([5edae6f](https://github.com/Innei/sprightly/commit/5edae6fd74c3998424ee77b2c63c7e97e9c28832))
+* **deps:** update dependency marked to v15 ([#490](https://github.com/Innei/sprightly/issues/490)) ([e3ce4a8](https://github.com/Innei/sprightly/commit/e3ce4a8f5bec4dc844d2ddccddfaf260ef445fe8))
+* **deps:** update dependency nanoid to v5.0.9 [security] ([#508](https://github.com/Innei/sprightly/issues/508)) ([9d23979](https://github.com/Innei/sprightly/commit/9d239798705d641c4033b479d13e13ea3e557802))
+* **deps:** update dependency react-error-boundary to v5 ([#515](https://github.com/Innei/sprightly/issues/515)) ([2126042](https://github.com/Innei/sprightly/commit/212604281fad6c24984b9b31a0e9c9d79b626fc6))
+* **deps:** update dependency react-router-dom to v7 ([#494](https://github.com/Innei/sprightly/issues/494)) ([04b53f0](https://github.com/Innei/sprightly/commit/04b53f01fde033901042c2cddfa00cc5a98b0e98))
+* **deps:** update dependency react-toastify to v11 ([#514](https://github.com/Innei/sprightly/issues/514)) ([1ac4f2f](https://github.com/Innei/sprightly/commit/1ac4f2f038e0ebf27119b8415b65c5063af9e1d0))
+* **deps:** update dependency vite to v6 ([#498](https://github.com/Innei/sprightly/issues/498)) ([f754c63](https://github.com/Innei/sprightly/commit/f754c634ffb9ce970a8cac7fc9b9a8d32875ae00))
+* link popover transition ([77cb460](https://github.com/Innei/sprightly/commit/77cb4601b03fc4037d0a79dd4d91bcfb4f5098f7))
+* provider account id ([b6d777b](https://github.com/Innei/sprightly/commit/b6d777be75c48a5b9e1f0836be2ded286868934a))
+* reduce rss cache time, resolves [#516](https://github.com/Innei/sprightly/issues/516) ([80b4460](https://github.com/Innei/sprightly/commit/80b4460f4bd036fd27b2bc0f27dd7d45ed6da78b))
+* **sheet:** trigger only in has children ([c3dd574](https://github.com/Innei/sprightly/commit/c3dd574efe4832c8ebd07a968de43e6b463875c8))
+* ts types ([b36fda0](https://github.com/Innei/sprightly/commit/b36fda0b0f954fb4e35c7195a06e5247eec6a564))
+* update disallow rules in robots metadata ([8a88d2b](https://github.com/Innei/sprightly/commit/8a88d2ba35905efa8ca547047d99594220d4504f))
+
+
+### Features
+
+* support hash in github link ([#513](https://github.com/Innei/sprightly/issues/513)) ([7cffc4a](https://github.com/Innei/sprightly/commit/7cffc4adf1d3624189000fe74f7798fc3edb2abb))
+
+
+
+## [1.2.3](https://github.com/Innei/sprightly/compare/v1.2.2...v1.2.3) (2024-10-27)
+
+
+### Bug Fixes
+
+* activity icon position ([8f32bff](https://github.com/Innei/sprightly/commit/8f32bffc4d6d606c50158c83f17af08380fe6fd5))
+* build ([c6ee7f5](https://github.com/Innei/sprightly/commit/c6ee7f56ddb4d3b9352d5933ee649e408156ef0d))
+* **deps:** update all non-major dependencies (minor) ([#475](https://github.com/Innei/sprightly/issues/475)) ([3786f61](https://github.com/Innei/sprightly/commit/3786f611dcba41c9c5ead98ef63c89c98c8722bb))
+* downgrade next ([b71fcb6](https://github.com/Innei/sprightly/commit/b71fcb657763602b0b1a9f6aa1e6b0a4b8e2d674))
+* header auth ([7a3aab6](https://github.com/Innei/sprightly/commit/7a3aab68086ea60585d32bf849f46e1a36412b85))
+* next version ([e8a92d3](https://github.com/Innei/sprightly/commit/e8a92d38274a9a0a8f7a780c27c88c5f52675e3d))
+
+
+
+## [1.2.2](https://github.com/Innei/sprightly/compare/v1.2.1...v1.2.2) (2024-10-10)
+
+
+### Bug Fixes
+
+* build ([0d8b053](https://github.com/Innei/sprightly/commit/0d8b053484ddeed054099de9853bb678fbe554a7))
+* **deps:** update all non-major dependencies ([434a47b](https://github.com/Innei/sprightly/commit/434a47b029aa504a574e4ee90d5e1fce21a511c0))
+* **deps:** update all non-major dependencies ([#467](https://github.com/Innei/sprightly/issues/467)) ([4c96297](https://github.com/Innei/sprightly/commit/4c962978d19bc6fc11f7f58f46399a20ad0cef87))
+* **deps:** update dependency qrcode.react to v4 ([#444](https://github.com/Innei/sprightly/issues/444)) ([a1f96fb](https://github.com/Innei/sprightly/commit/a1f96fb495a80876102c8f3e15ec7bf1a629e81f))
+
+
+### Features
+
+* add music card to LinkCard (netease/tencent) ([#470](https://github.com/Innei/sprightly/issues/470)) ([2165b6a](https://github.com/Innei/sprightly/commit/2165b6a598a6b464bb85fe0a54f87e939f0e8efb))
+
+
+
+## [1.2.1](https://github.com/Innei/sprightly/compare/v1.2.0...v1.2.1) (2024-10-05)
+
+
+### Bug Fixes
+
+* auto switch legacy comment if no providers ([3fcad20](https://github.com/Innei/sprightly/commit/3fcad2042d16e30040cea04935f5950a92240e33))
+* ci ([243886f](https://github.com/Innei/sprightly/commit/243886fc41593a44e1128bfe47ad02b8493dd168))
+* **deps:** update all non-major dependencies ([f02f45b](https://github.com/Innei/sprightly/commit/f02f45b2041622c88a8dcdfcf07b53f5a60729c4))
+* **deps:** update all non-major dependencies (minor) ([#455](https://github.com/Innei/sprightly/issues/455)) ([79a507b](https://github.com/Innei/sprightly/commit/79a507b4f9b1decd7c3eab196cf7f59e834c4f66))
+* **deps:** update all non-major dependencies (minor) ([#460](https://github.com/Innei/sprightly/issues/460)) ([e2e4756](https://github.com/Innei/sprightly/commit/e2e47567c95c8caa5ceef7e25080c8414f45d9a2))
+* **deps:** update all non-major dependencies (minor) ([#464](https://github.com/Innei/sprightly/issues/464)) ([c566a33](https://github.com/Innei/sprightly/commit/c566a3387625a44bd08745c7f5a60d9421bd4be7))
+* **deps:** update dependency vaul to v1 ([#463](https://github.com/Innei/sprightly/issues/463)) ([36295b4](https://github.com/Innei/sprightly/commit/36295b488f171a3e20c828e03b939cd701086bb4))
+* **deps:** update dependency vite to v5.4.6 [security] ([f0037a3](https://github.com/Innei/sprightly/commit/f0037a37c3799425ec864118adcbf0def8bad210))
+* import markdown modal ([5b7431f](https://github.com/Innei/sprightly/commit/5b7431fe0bee3b002ca85d71613c565736ef9cd0))
+* katex parser ([86c114a](https://github.com/Innei/sprightly/commit/86c114a680bbdbdf1408f74c8d8185d98d73778a))
+* next-auth ([715fcc0](https://github.com/Innei/sprightly/commit/715fcc05efc174f9dce836bc2b1d6f15a5217b4e))
+* next-auth ([19a28c8](https://github.com/Innei/sprightly/commit/19a28c8bc52bfef8239dec86d8159cf062db7799))
+
+
+### Features
+
+* add admin url ([a7b9cd7](https://github.com/Innei/sprightly/commit/a7b9cd7375752dc24fa221a47f1b8519d9fe0e2c))
+* comment info get from reader ([22492bf](https://github.com/Innei/sprightly/commit/22492bf19a70c534e318fc0239227b606236c95f))
+* fetch app url after login ([32a21b4](https://github.com/Innei/sprightly/commit/32a21b44ae0f4f468c0e75741782b9258a694070))
+
+
+
+# [1.2.0](https://github.com/Innei/sprightly/compare/v1.1.5...v1.2.0) (2024-09-17)
+
+
+### Bug Fixes
+
+* add default two line breaks per line break in comment Textarea ([db4a859](https://github.com/Innei/sprightly/commit/db4a8590aec257d6e434967e8a3b0a661c096c30)), closes [#410](https://github.com/Innei/sprightly/issues/410) [#411](https://github.com/Innei/sprightly/issues/411) [#410](https://github.com/Innei/sprightly/issues/410)
+* **deps:** update all non-major dependencies ([055ba6f](https://github.com/Innei/sprightly/commit/055ba6fe577b1d63b10e00ed3395e4daa46997aa))
+* **deps:** update all non-major dependencies ([3004eff](https://github.com/Innei/sprightly/commit/3004eff495ea097063bb6fb1cf37f55b3af45355))
+* **deps:** update all non-major dependencies ([#405](https://github.com/Innei/sprightly/issues/405)) ([46b6c08](https://github.com/Innei/sprightly/commit/46b6c087f43f1c5ab2f523dc7a2ece538545e5e4))
+* **deps:** update all non-major dependencies ([#424](https://github.com/Innei/sprightly/issues/424)) ([952dbea](https://github.com/Innei/sprightly/commit/952dbeac5f0a87dad2c6399c323959b2596192a4))
+* **deps:** update all non-major dependencies (minor) ([#396](https://github.com/Innei/sprightly/issues/396)) ([ed30e11](https://github.com/Innei/sprightly/commit/ed30e11ae94176bbdbdff3ea0f2d2679da98e3e8))
+* **deps:** update all non-major dependencies (minor) ([#403](https://github.com/Innei/sprightly/issues/403)) ([90b6a32](https://github.com/Innei/sprightly/commit/90b6a32785a7aac1b0a2a14e9701b304af7ce2fc))
+* **deps:** update all non-major dependencies (minor) ([#406](https://github.com/Innei/sprightly/issues/406)) ([36d4d69](https://github.com/Innei/sprightly/commit/36d4d691a828075a7e5eb6383253c88e3a65e7bd))
+* **deps:** update all non-major dependencies (minor) ([#413](https://github.com/Innei/sprightly/issues/413)) ([9a8ee6e](https://github.com/Innei/sprightly/commit/9a8ee6ebfae4185067aad879619c87de3070ab2b))
+* **deps:** update all non-major dependencies (minor) ([#418](https://github.com/Innei/sprightly/issues/418)) ([9fdcddf](https://github.com/Innei/sprightly/commit/9fdcddf1a45cec2d77e05193407ce228b468ee8a))
+* **deps:** update all non-major dependencies (minor) ([#420](https://github.com/Innei/sprightly/issues/420)) ([399b2b0](https://github.com/Innei/sprightly/commit/399b2b09461b251ed79b099d217129773a8c705c))
+* **deps:** update all non-major dependencies (minor) ([#447](https://github.com/Innei/sprightly/issues/447)) ([ada2d48](https://github.com/Innei/sprightly/commit/ada2d48b131bbff525168711a4bfc845d8061f2b))
+* **deps:** update all non-major dependencies (patch) ([#409](https://github.com/Innei/sprightly/issues/409)) ([13ed6b7](https://github.com/Innei/sprightly/commit/13ed6b77cfe3a3a3954c0d24c45f8ecf2c2ab12a))
+* **deps:** update all non-major dependencies (patch) ([#412](https://github.com/Innei/sprightly/issues/412)) ([a74ae5c](https://github.com/Innei/sprightly/commit/a74ae5cee7b68fc88a98b2cc5982805b458bb0e6))
+* **deps:** update all non-major dependencies (patch) ([#415](https://github.com/Innei/sprightly/issues/415)) ([3c1cdbb](https://github.com/Innei/sprightly/commit/3c1cdbb3e209eb8b2e3f9236fca27ed70672c113))
+* **deps:** update all non-major dependencies (patch) ([#417](https://github.com/Innei/sprightly/issues/417)) ([73730d6](https://github.com/Innei/sprightly/commit/73730d6b22180540a1435fba6744b5a72f255fa4))
+* **deps:** update dependency chroma-js to v3 ([#432](https://github.com/Innei/sprightly/issues/432)) ([f7ab7e7](https://github.com/Innei/sprightly/commit/f7ab7e7a0b1ebaafa10acb35110f57512a783ecb)), closes [#431](https://github.com/Innei/sprightly/issues/431)
+* **deps:** update dependency marked to v14 ([#419](https://github.com/Innei/sprightly/issues/419)) ([7dc7e1d](https://github.com/Innei/sprightly/commit/7dc7e1de292be7cd6279bcb7b18c5f4856c6a101))
+* **deps:** update dependency mermaid to v11 ([#442](https://github.com/Innei/sprightly/issues/442)) ([2590ab0](https://github.com/Innei/sprightly/commit/2590ab06ce79990c1eb0e7345681b1b855b68320))
+* **deps:** update dependency openai to v4.61.0 ([#453](https://github.com/Innei/sprightly/issues/453)) ([98710de](https://github.com/Innei/sprightly/commit/98710de863028d3d596ece415a3e941ca7c78521))
+* disable prettier sort ([1eb5a68](https://github.com/Innei/sprightly/commit/1eb5a68232ff93c31fe64e0072ffa6f0d3c6a6ec))
+* emoji picker style ([1e896f2](https://github.com/Innei/sprightly/commit/1e896f2197d5c45d57b3d324c4e2004a0e64c29a))
+* feed image ([a2455d7](https://github.com/Innei/sprightly/commit/a2455d78f1d605c244af65060f8f5408dba26cfb))
+* home hero styles ([c1c0066](https://github.com/Innei/sprightly/commit/c1c0066f6a93d297606abad20ce75613342d87f7))
+* kbd color in dark mode ([5e7df37](https://github.com/Innei/sprightly/commit/5e7df376247c386cec249793f6768b0326cafa12))
+* leetcode api proxy ([0649f97](https://github.com/Innei/sprightly/commit/0649f97242c3c1979b86577283c67dcbb612f8c1))
+* link card style ([e9d7aab](https://github.com/Innei/sprightly/commit/e9d7aabc3c03f6e4c9a7b1498769845cf4977494))
+* link underline style when selected ([fa7fb07](https://github.com/Innei/sprightly/commit/fa7fb074c1462d013455b5b9995e5d91e1cbc517))
+* note paragraph style ([c50113c](https://github.com/Innei/sprightly/commit/c50113c48362793eea38a3e9b4a2b8b98b8b04ea))
+* persist typing ([6031d85](https://github.com/Innei/sprightly/commit/6031d85074d81d603f6664d8cf2401bea1d4af14))
+* project list style ([f4d66cf](https://github.com/Innei/sprightly/commit/f4d66cf2497f94d8e57355d84a3f7724ebf407e4))
+* project style ([46e10f7](https://github.com/Innei/sprightly/commit/46e10f7e0fa1eee1cbf7510212f881a96ddc2b64))
+* slug replacer ([d3f7f99](https://github.com/Innei/sprightly/commit/d3f7f99503d17a1214c895a03493928fa65ac277))
+* social link ([4e26b42](https://github.com/Innei/sprightly/commit/4e26b429f61bd89be883c2211e4ca853fbd48e58))
+* storybook ([a995ff8](https://github.com/Innei/sprightly/commit/a995ff8392b632f520e7e8511d24ebb33f020561))
+* table overflow x fixes [#428](https://github.com/Innei/sprightly/issues/428) ([2878220](https://github.com/Innei/sprightly/commit/2878220cbf8c6993cf1dc194d8697c7098711de9))
+* toc fab sheet close transition ([94aa73e](https://github.com/Innei/sprightly/commit/94aa73e2829b365ff17106b585eaa5ec052744aa))
+* toc scroller and mask ([9b70e9b](https://github.com/Innei/sprightly/commit/9b70e9bef89d3f9cdc526c67629b9ac10be18a92))
+* typing ([b1f9ee2](https://github.com/Innei/sprightly/commit/b1f9ee2d3c272a6272b5206c74b28efe47acbc16))
+* when comand pressed, skip peek, fixed  Innei/Shiro[#436](https://github.com/Innei/sprightly/issues/436) ([27b0fdc](https://github.com/Innei/sprightly/commit/27b0fdca0d3e7dfa19e7c795266f47cd598709bb))
+* wrapped element `x,y` detection ([8e37913](https://github.com/Innei/sprightly/commit/8e37913eee703b4a23bc71610e23eb48b0269f7a))
+* wrapped element calcation size and position ([86a702c](https://github.com/Innei/sprightly/commit/86a702cc19c331d892bb62e818054a0c6f7b7cc3))
+
+
+### Features
+
+* add fetchLeetCodeQuestionData function to LinkCard ([#439](https://github.com/Innei/sprightly/issues/439)) ([7df7448](https://github.com/Innei/sprightly/commit/7df74485ccbf880856dca881ac862971bd8cabe6)), closes [#431](https://github.com/Innei/sprightly/issues/431) [#427](https://github.com/Innei/sprightly/issues/427)
+* make oauth great again! ([ee0fc7a](https://github.com/Innei/sprightly/commit/ee0fc7a8c3f33e5ea4af1db2d0e0cd83b32d75d0))
+* render single link style in thinking ([1581b69](https://github.com/Innei/sprightly/commit/1581b698cc3eb804c780f5ab2321f583d48f1765))
+* scroll mask ([00a6921](https://github.com/Innei/sprightly/commit/00a692141028dc6bd25da602f807a093b4ee77f3))
+* update spring scroll preset ([d665858](https://github.com/Innei/sprightly/commit/d6658580877cd6d1c89d555d4f6196b9ea8ca0ab))
+
+
+
+## [1.1.5](https://github.com/Innei/sprightly/compare/v1.1.4...v1.1.5) (2024-07-06)
+
+
+### Bug Fixes
+
+* authed input name getter ([2bae0e7](https://github.com/Innei/sprightly/commit/2bae0e794c8fb0b13563273a05e8c4303cf1ba11))
+* **deps:** update all non-major dependencies ([ba98daf](https://github.com/Innei/sprightly/commit/ba98daf63f5b8b9a603bda3355ea776ecd452347))
+* **deps:** update all non-major dependencies ([#380](https://github.com/Innei/sprightly/issues/380)) ([46a9a57](https://github.com/Innei/sprightly/commit/46a9a57de175a7c53a307a2debe24bcd67144335))
+* **deps:** update all non-major dependencies (minor) ([#386](https://github.com/Innei/sprightly/issues/386)) ([1365704](https://github.com/Innei/sprightly/commit/1365704e96037dd26da863e396b84917781668c4))
+* **deps:** update all non-major dependencies (minor) ([#389](https://github.com/Innei/sprightly/issues/389)) ([6b5075f](https://github.com/Innei/sprightly/commit/6b5075ffffdcd729900207430efcde9391a36bfa))
+* **deps:** update all non-major dependencies (minor) ([#391](https://github.com/Innei/sprightly/issues/391)) ([9a44f93](https://github.com/Innei/sprightly/commit/9a44f93248a3b61df8d3c6b5cd64e2fb3d1ee2c0))
+* **deps:** update all non-major dependencies (minor) ([#392](https://github.com/Innei/sprightly/issues/392)) ([913cddd](https://github.com/Innei/sprightly/commit/913cddd7c8a5f7ec5b5421ca0fd5df8d98462767))
+* **deps:** update all non-major dependencies (patch) ([#385](https://github.com/Innei/sprightly/issues/385)) ([cb9264f](https://github.com/Innei/sprightly/commit/cb9264f5f3715943a46f308423727d9aacd2953f))
+* **deps:** update dependency marked to v13 ([#384](https://github.com/Innei/sprightly/issues/384)) ([9625774](https://github.com/Innei/sprightly/commit/9625774d26ba29035fbfb4f320b2fab1b7a8fda7))
+* feed language ([ce7bc0d](https://github.com/Innei/sprightly/commit/ce7bc0d7fe486a58d11d74a6b6b185ebdb249446))
+* feed link ([6d354c2](https://github.com/Innei/sprightly/commit/6d354c24080d8d4785201a7b968a13154ff98560))
+* framer modal enter motion ([c5f0a59](https://github.com/Innei/sprightly/commit/c5f0a59ffedd2fefe757eea49d1abb9354231db4))
+* list p style ([c3f5c79](https://github.com/Innei/sprightly/commit/c3f5c793a3e845e81356c7c2e8065e8946adbe50))
+* remove katex in toc tree ([0097e9f](https://github.com/Innei/sprightly/commit/0097e9fe6440714f788fcafe103d7e7261a15537))
+* remvoe panel clickaway ([434efee](https://github.com/Innei/sprightly/commit/434efee18b86c700c2e6d6088896718eb36c137f))
+* scrollbar color, fixes [#390](https://github.com/Innei/sprightly/issues/390) ([3fa97c3](https://github.com/Innei/sprightly/commit/3fa97c3ea6a593d57b3224d157d9cad62cf073a0))
+* tag detail modal loading ([2a5621b](https://github.com/Innei/sprightly/commit/2a5621b5b006b791e6b87a11559252d7721b44ed))
+* type ([a6471df](https://github.com/Innei/sprightly/commit/a6471df65f0fe9d0d495eda5cf04a65bd55b5dbb))
+
+
+### Features
+
+* footnote style and gfm task style ([fafd9e4](https://github.com/Innei/sprightly/commit/fafd9e4499e9929c529336fb777c5c6501a9fe31))
+
+
+
+## [1.1.4](https://github.com/Innei/sprightly/compare/v1.1.3...v1.1.4) (2024-06-11)
+
+
+### Bug Fixes
+
+* ci ([3431ac8](https://github.com/Innei/sprightly/commit/3431ac8292e84cca6fa107b904ad8a553fcb2f8b))
+* **deps:** update all non-major dependencies (minor) ([#368](https://github.com/Innei/sprightly/issues/368)) ([f0679ae](https://github.com/Innei/sprightly/commit/f0679ae56f3679237009ea94ef4f6c4a926a191b))
+* jotai path configuration on windows ([#373](https://github.com/Innei/sprightly/issues/373)) ([fec6f9b](https://github.com/Innei/sprightly/commit/fec6f9be035fdad59249f09cf9e025ba14506b89))
+* katex deps ([#375](https://github.com/Innei/sprightly/issues/375)) ([8209bb0](https://github.com/Innei/sprightly/commit/8209bb0c9971a558f5350192be2a54735cd57826))
+* link card github pr parser ([2e5b9aa](https://github.com/Innei/sprightly/commit/2e5b9aa4a90be105528ee22ee836d01a9732c1c0))
+* markdown first line of list ([51a10f1](https://github.com/Innei/sprightly/commit/51a10f1c256d38c94a9fb796a222b4f8124128be))
+* markdown render error ([653cac2](https://github.com/Innei/sprightly/commit/653cac2ee21b7ddb9f9fdc4ab1c4d53cb511db4e))
+* metabar reading count ([13917d8](https://github.com/Innei/sprightly/commit/13917d86a99fbf5b4fd9505c9f7badfd102b1d47))
+* preview page ([2bc2500](https://github.com/Innei/sprightly/commit/2bc250080f1b2f4fd8e2ffe5a47a3ff70633a890))
+* rss render ([4825aef](https://github.com/Innei/sprightly/commit/4825aefc7948cee5de8940b4958401a2b2b88dfc))
+* xlog summary, closes [#24](https://github.com/Innei/sprightly/issues/24) ([3a7e297](https://github.com/Innei/sprightly/commit/3a7e297fb979dbf7f509d9082bc31799b5633950))
+
+
+
+## [1.1.3](https://github.com/Innei/sprightly/compare/v1.1.2...v1.1.3) (2024-05-31)
+
+
+### Bug Fixes
+
+* article html struture ([609299a](https://github.com/Innei/sprightly/commit/609299a0d75ea407eb36847ddc5284ff0b55609f))
+* attach final header ([3e166f8](https://github.com/Innei/sprightly/commit/3e166f8030fbf713b8d2df29321bf2e4a96318f0))
+* call `notfound` if has no any notes ([23bff57](https://github.com/Innei/sprightly/commit/23bff57b3ff0bcfc8a2ef7a8d9de931b42972dfe))
+* ci build ([7f23e52](https://github.com/Innei/sprightly/commit/7f23e5290536483cc25909e74a243052bd6dfdcd))
+* deps ([a2df050](https://github.com/Innei/sprightly/commit/a2df05060f9206399c366b1512e343c952a74d8e))
+* **deps:** update all non-major dependencies ([6fb964a](https://github.com/Innei/sprightly/commit/6fb964a7fd291f5645136a57b01f47033c76e2fb))
+* **deps:** update all non-major dependencies ([5fec3d2](https://github.com/Innei/sprightly/commit/5fec3d27d854cb3aefc321fd22e95d223e0ae001))
+* **deps:** update all non-major dependencies (minor) ([#360](https://github.com/Innei/sprightly/issues/360)) ([7a36109](https://github.com/Innei/sprightly/commit/7a36109431e4667f3a8e75679aaa168dd3732e9b))
+* **deps:** update all non-major dependencies (minor) ([#364](https://github.com/Innei/sprightly/issues/364)) ([4c6da75](https://github.com/Innei/sprightly/commit/4c6da75a2bed49418dc1448f2f03206e1c47ea5d))
+* **deps:** update dependency use-context-selector to v2 ([#353](https://github.com/Innei/sprightly/issues/353)) ([71f5329](https://github.com/Innei/sprightly/commit/71f532967bdb799881330b1cbf2ad2074a812218))
+* friend section style ([df98c4f](https://github.com/Innei/sprightly/commit/df98c4fed4f426f13a7ea12ed37f15a7718ceddb))
+* header meta bar style ([4dd56bb](https://github.com/Innei/sprightly/commit/4dd56bb160a5033e4d5c79c1c39cec493f82bf9d))
+* home og container fixed size ([13468e0](https://github.com/Innei/sprightly/commit/13468e09cc871f4dab52c917d0256b6763fad953))
+* not optmize for gif ([56d5c25](https://github.com/Innei/sprightly/commit/56d5c25809ab832328f8809603a3eb06a8eb1e65))
+* note edit button position ([762083c](https://github.com/Innei/sprightly/commit/762083c6b823fa62f42550d873cf4f65262adb78))
+* remove og title style ([9314ff8](https://github.com/Innei/sprightly/commit/9314ff8cf7df307b9548145966bff0b1d647120f))
+* shiki copy code button pos ([fa68aca](https://github.com/Innei/sprightly/commit/fa68acabf3a255b73ecfefc2bd6f327933aa002d))
+* styles ([3ab82a2](https://github.com/Innei/sprightly/commit/3ab82a26c1264aea1a93667b6f54e99e6d1a9099))
+* tooltip style ([ab0ab97](https://github.com/Innei/sprightly/commit/ab0ab97817b6763df2075208c6dbcabdabf11058))
+* try fix ci ([9823a00](https://github.com/Innei/sprightly/commit/9823a00d75a0bfda6a6ff93d256275f0f53ee7a3))
+* try fix pnpm version ([853fda7](https://github.com/Innei/sprightly/commit/853fda728013d3f15e325ae54e27664c8d50d6f6))
+
+
+### Features
+
+* comment oauth set url ([54eaf32](https://github.com/Innei/sprightly/commit/54eaf327dc499d339338dc6c73e8c539e8efd9ca))
+* new copy code animate ([44033bf](https://github.com/Innei/sprightly/commit/44033bfd2a8b60e4d161030ee6e7a67f6f07c383))
+
+
+
+## [1.1.2](https://github.com/Innei/sprightly/compare/v1.1.1...v1.1.2) (2024-05-04)
+
+
+### Bug Fixes
+
+* activity card like type render ([38655f2](https://github.com/Innei/sprightly/commit/38655f28b1828f5e5c55f174b15e1d706df14f7b))
+* clerk style ([33f0669](https://github.com/Innei/sprightly/commit/33f0669fb24576b11580014816254c103b794fe9))
+* comment markdown style ([03bc7b1](https://github.com/Innei/sprightly/commit/03bc7b11d6183f40b66e74d773e490a4ca79f94e))
+* comment transition ([a2bf130](https://github.com/Innei/sprightly/commit/a2bf1308c470461bba25e2094c586a458d6e09d8))
+* enable middleware to get search in layout ([cd4ee10](https://github.com/Innei/sprightly/commit/cd4ee10746302c7100496e01d46032a9b49d0365))
+* framer motion bg layout ([1643f95](https://github.com/Innei/sprightly/commit/1643f95c2145220ad27fe3db40d40c2476ea395c))
+* hero text pos ([b9608de](https://github.com/Innei/sprightly/commit/b9608de4de31e4e5bc138a103478146d929bd8c6))
+* modal title bar ([17d467c](https://github.com/Innei/sprightly/commit/17d467cdb2b6a2f04bf3bef9f4e988d632a263db))
+* og cjk char width calc ([3f193a4](https://github.com/Innei/sprightly/commit/3f193a41b2a798925f3ee67e2b4c99435cb49329))
+* optimize comment style ([c1a738b](https://github.com/Innei/sprightly/commit/c1a738b187008ce8d0f575a973f2060cdac5c6fd))
+* shiki highlight jumping ([919c4c1](https://github.com/Innei/sprightly/commit/919c4c1258d665667fbaed4d305ab8f92379e454))
+* some styles ([84cea05](https://github.com/Innei/sprightly/commit/84cea0591bff8da5026e8e969629f88a69f0cbf4))
+* type error ([b04194c](https://github.com/Innei/sprightly/commit/b04194c72f483178b2354b23e76053f003aec014))
+
+
+### Features
+
+* shiki block `expand` attr ([f6b0d1d](https://github.com/Innei/sprightly/commit/f6b0d1d2066a4598da5b77b71fb0326a72e3720d))
+
+
+
+## [1.1.1](https://github.com/Innei/sprightly/compare/v1.1.0...v1.1.1) (2024-04-28)
+
+
+### Bug Fixes
+
+* [#346](https://github.com/Innei/sprightly/issues/346) ([ab359f5](https://github.com/Innei/sprightly/commit/ab359f577f116de97fc4346e1072357ce08ed0cf))
+* **deps:** update all non-major dependencies ([279fbb5](https://github.com/Innei/sprightly/commit/279fbb56c0a5b37047811e0dcead3501a7f9c9ca))
+* **deps:** update all non-major dependencies ([#310](https://github.com/Innei/sprightly/issues/310)) ([a9e0674](https://github.com/Innei/sprightly/commit/a9e067433a5197f08d5a53e9c25930a3d5e076e3))
+* donate qrcode map ([#347](https://github.com/Innei/sprightly/issues/347)) ([005485c](https://github.com/Innei/sprightly/commit/005485cc8b09b28b91293938176f99567f2316c5))
+* header logo style in mobile ([e21ffad](https://github.com/Innei/sprightly/commit/e21ffadbce0ae7fc768bef0bab350782be049c8d))
+* help icon style ([528cb9b](https://github.com/Innei/sprightly/commit/528cb9baf61323101e549da7d1fe109745ce51b3))
+* home activity ref type link ([0bb00bd](https://github.com/Innei/sprightly/commit/0bb00bdf365c439b83c57da4ec8d02e7703aa9ce))
+* home page layout center ([a6f5533](https://github.com/Innei/sprightly/commit/a6f5533f70714dd482bf96be0568d735228193b1))
+* home screen style, fix [#16](https://github.com/Innei/sprightly/issues/16) ([78a59fa](https://github.com/Innei/sprightly/commit/78a59fa8118ebb6bf03a50119dee9eb3c48fc87a))
+* hydration error ([0132723](https://github.com/Innei/sprightly/commit/0132723cbbba5d27c4b0e9ba569818cf12cd362b))
+* import statement in next.config.mjs in nodejs version ([9eb603c](https://github.com/Innei/sprightly/commit/9eb603c94e4c7f032e6791f929432b68d8ff7ed5))
+* katex regexp ([810deb4](https://github.com/Innei/sprightly/commit/810deb4a27ab09dcccd85e5099811a9e3b0b6ccd))
+* link parser ([3b7fcfd](https://github.com/Innei/sprightly/commit/3b7fcfda38e94baa506acea0fcc372fe91898768))
+* lint ([44f7151](https://github.com/Innei/sprightly/commit/44f7151ebebb868957fed10e95040125c5ba8788))
+* not-found route segment ([5b73dc9](https://github.com/Innei/sprightly/commit/5b73dc9468ad4459351ca03d3981ca998c8c104f))
+* note root banner style, closes [#13](https://github.com/Innei/sprightly/issues/13) ([70e282c](https://github.com/Innei/sprightly/commit/70e282c02ff78fc04914d0a57c652f36a144bcb1))
+* pm2 config ([3478e54](https://github.com/Innei/sprightly/commit/3478e54c908b0fd59389e16efe78de08ca02d6d1))
+* reduce shiki bundle ([2b7f89f](https://github.com/Innei/sprightly/commit/2b7f89f6a3e496594ac30b0b1d5840ef74cfe2ed))
+* remove `Supsense` in note page detail ([3d5a773](https://github.com/Innei/sprightly/commit/3d5a773e30db3853fb0569979b857934221ff389))
+* s3 config ([185b5d5](https://github.com/Innei/sprightly/commit/185b5d5ca85029bf6f8bfb951e6f06d5eb10f780))
+* shiki code block cls and lcp ([d9dfd41](https://github.com/Innei/sprightly/commit/d9dfd411246a29966ce197008fd1b96fde9186b4))
+* storybook ([de67097](https://github.com/Innei/sprightly/commit/de670975262c9a8d7f1f89d5796f36ded5207f72))
+* toast style ([6f75a2e](https://github.com/Innei/sprightly/commit/6f75a2e66cfaf669c0762d6b478dee7e18ecfb8d))
+* type error ([e3bfebf](https://github.com/Innei/sprightly/commit/e3bfebf8b18775cdf926f54335771e5d7387d18b))
+* typing error ([280fe3d](https://github.com/Innei/sprightly/commit/280fe3d60029ff9553a79591988a3555f0ea88a7))
+
+
+### Features
+
+* add `popper` for `MLink` ([2bcf16c](https://github.com/Innei/sprightly/commit/2bcf16cf40a0a788ecdf896c6c8c34e55b23f5e3))
+* new comment observer ([d8595b8](https://github.com/Innei/sprightly/commit/d8595b85384b9e1c67cc629258bb8c7e2046276e))
+* optimize popover in mobile ([83771f2](https://github.com/Innei/sprightly/commit/83771f295b0c4c62e6308779dedcfe316c9e839e))
+* self favicon in `MLink` ([4aac9b8](https://github.com/Innei/sprightly/commit/4aac9b8c66445f1ceb36dbd0398dcdf4e63cc1dc))
+* shiki fully support ([42e21cc](https://github.com/Innei/sprightly/commit/42e21cc9df5ae73ffd6d65c7152f631a92e8cd74))
+
+
+
+# [1.1.0](https://github.com/Innei/sprightly/compare/v1.0.3...v1.1.0) (2024-04-17)
+
+
+### Bug Fixes
+
+* add `peek` to global ([cfe4195](https://github.com/Innei/sprightly/commit/cfe4195f7ef72b4fdf5a96171ad511f7a124e372))
+* add missing props ([0501f62](https://github.com/Innei/sprightly/commit/0501f627dbb9c830bf5f10a4a60558519d9a7cc3))
+* artifact ([6545e41](https://github.com/Innei/sprightly/commit/6545e41fb62875ec11ba67337015cecb50406dc0))
+* build script ([16b43fb](https://github.com/Innei/sprightly/commit/16b43fb21c62a29f616f93ab55ff6ebc96ebd28c))
+* clerk card padding top ([#333](https://github.com/Innei/sprightly/issues/333)) ([3512f53](https://github.com/Innei/sprightly/commit/3512f53cbf2b48f6fd2d03363d29b63a38d0f071))
+* deps ([4b7cc63](https://github.com/Innei/sprightly/commit/4b7cc6371b20b19eedf43cd1fcb3377a74b85e49))
+* **deps:** update all non-major dependencies ([7fce5c4](https://github.com/Innei/sprightly/commit/7fce5c42167762d76e8fc858a52c21b7bc5adea3))
+* **deps:** update all non-major dependencies ([1fb5a0f](https://github.com/Innei/sprightly/commit/1fb5a0f7a12d6411b82af4044e7228d44fd2ea35))
+* **deps:** update dependency vite to v5.2.6 [security] ([659fdb7](https://github.com/Innei/sprightly/commit/659fdb773392ab04a4407aa4e9844e0cb13956c6))
+* dom nodes increase ([5d90266](https://github.com/Innei/sprightly/commit/5d902663de17e854a6244df198fd2d7598a3e7db))
+* git remote url ([6de0109](https://github.com/Innei/sprightly/commit/6de010999a6c031323cd287e1d0928d32290317e))
+* if access hidden note when loggin ([787c7e7](https://github.com/Innei/sprightly/commit/787c7e7ed97392dcce07dd914b435f246f11b0cb))
+* **md:** container style ([70884aa](https://github.com/Innei/sprightly/commit/70884aa4b0f9d6ddb29a6dfdab624fffb1381ea6))
+* modal present get scroll top ([e1ec6c9](https://github.com/Innei/sprightly/commit/e1ec6c913e0bc5b8640364899d7d7a9b31fc02c1))
+* note head cover cls ([cc75e1f](https://github.com/Innei/sprightly/commit/cc75e1f22c68995ba2af4331a4125e7729692e89))
+* note password access ([cfd3cbc](https://github.com/Innei/sprightly/commit/cfd3cbc68cbdf66f33520b3e7c46848d325db320))
+* note timeline nav to hide note should accessible if logged ([6412e28](https://github.com/Innei/sprightly/commit/6412e28adfc82c33cad3d881e974e25bf3092352))
+* popover ([cb17b83](https://github.com/Innei/sprightly/commit/cb17b83a6a29245868e66e7e7834faab77427e41))
+* post related blocl style ([e52cb55](https://github.com/Innei/sprightly/commit/e52cb55101c86785fb008850c516b6c02e93cefe))
+* request ([c901dbb](https://github.com/Innei/sprightly/commit/c901dbbdc5d914a548e6ceee99e4b1dbbfb0c841))
+* selection bg in dark mode ([b9390c5](https://github.com/Innei/sprightly/commit/b9390c57ba6306795e622ec113c132ff798900a3))
+* server fetch lastest note ([790d934](https://github.com/Innei/sprightly/commit/790d9342856e742197165a820949be6ce8894f2d))
+* SharedWorker not working on some mobile browsers ([#336](https://github.com/Innei/sprightly/issues/336)) ([c549a2f](https://github.com/Innei/sprightly/commit/c549a2fcbe38ab701bcb55c9ce5a4536fb720778))
+* shiki dynamic render ([0bff0db](https://github.com/Innei/sprightly/commit/0bff0db0e4bad150ccc056cf1bc80bda3fdbc95d))
+* type error ([ca04806](https://github.com/Innei/sprightly/commit/ca0480649813e9d47661fa93009f50b328fa3b36))
+* use client ([e39a1c9](https://github.com/Innei/sprightly/commit/e39a1c9a6a7f8d628e943542cbc671c58afba50d))
+* wrap home page ([158f30b](https://github.com/Innei/sprightly/commit/158f30bafc07cedc92ced95dda1e5855fa1ad96f))
+
+
+### Features
+
+* home page redesign ([5630729](https://github.com/Innei/sprightly/commit/5630729bd8820a783c31bd44dc42915912d3aca4))
+* upgrade nextjs 14.2 ([4c377eb](https://github.com/Innei/sprightly/commit/4c377eb3d4ac4eb909dccdd8b18a69d8fa2de9ea))
+* worker socket ([#3](https://github.com/Innei/sprightly/issues/3)) ([550abd7](https://github.com/Innei/sprightly/commit/550abd72508d9b586342eeae3b706ad7a8bc35ae))
+
+
+
+## [1.0.3](https://github.com/Innei/sprightly/compare/v1.0.2...v1.0.3) (2024-04-04)
+
+
+### Bug Fixes
+
+* back top ([70e8437](https://github.com/Innei/sprightly/commit/70e8437ad5b10ed729edcf5d329cc124e383e108))
+* broswer support check ([#327](https://github.com/Innei/sprightly/issues/327)) ([a413e6e](https://github.com/Innei/sprightly/commit/a413e6eb4b64bd8c87e4a56e2d65b25dfd5f0286))
+* cc ([89b136a](https://github.com/Innei/sprightly/commit/89b136a8332d33deb0335c87f9cc51157b130d3d))
+* comment toast ([d9fd460](https://github.com/Innei/sprightly/commit/d9fd460dc6af8c809b1acd800ef7c42365bf6afd))
+* css ([301a5f2](https://github.com/Innei/sprightly/commit/301a5f2ffe576e53cea1908edf68e27d912919e7))
+* donate side button motion ([acbb77d](https://github.com/Innei/sprightly/commit/acbb77d6ac3199daefc4adf22c72df6468d190c5))
+* footer GatewayInfo divider ([#328](https://github.com/Innei/sprightly/issues/328)) ([15c92d9](https://github.com/Innei/sprightly/commit/15c92d9ad874167b1e12d3c483ed0cd900abe5fa))
+* form ref getter ([4257ba1](https://github.com/Innei/sprightly/commit/4257ba13013c8808b7d74e0c352c6f70755b10e3))
+* gallery and text indent style ([53b8b91](https://github.com/Innei/sprightly/commit/53b8b915e52d1ecb281710be56cdcca938afc8c9))
+* katex overflow ([42c4e41](https://github.com/Innei/sprightly/commit/42c4e41bbbdcabd650f0417deec7ce5f583e0b74))
+* lockfile ([cb116f9](https://github.com/Innei/sprightly/commit/cb116f9522b1de448cd42517f92c3df0331cdf1d))
+* prose style ([0c06c2d](https://github.com/Innei/sprightly/commit/0c06c2d0125390dd8ce5fbf32e177def359c52ae))
+* say data fetching and masonry layout ([82dd584](https://github.com/Innei/sprightly/commit/82dd5842c276303d8c3cd2651fc44750ef871dc2))
+* script inject ([50c200b](https://github.com/Innei/sprightly/commit/50c200bac22a56ab068974642721b0571a4e4736))
+* sync server time ([fb167c5](https://github.com/Innei/sprightly/commit/fb167c53e3e0243d72d21350ccc15433a8e4aecc))
+* textarea style ([958df38](https://github.com/Innei/sprightly/commit/958df38580c5faba13e52593fe19e3035b68ac41))
+* thinking query offset ([bb3dbf4](https://github.com/Innei/sprightly/commit/bb3dbf4f08f6f5364e174dfbf80991c37ea2cf20))
+* toc auto scroll ([b59f029](https://github.com/Innei/sprightly/commit/b59f0291b125dfd07225a37a7ee817822ceb8668))
+* vite build ([9bc80c1](https://github.com/Innei/sprightly/commit/9bc80c10ce05128af68adbc30ba36acebd9c0e74))
+
+
+### Features
+
+* add version hash ([143d646](https://github.com/Innei/sprightly/commit/143d646263aa5beb9aef88ebea6a90c79ab2ae54))
+* bilibili video render ([21954c7](https://github.com/Innei/sprightly/commit/21954c7f0973a7b3439e07970ba6984ccbfb73c1))
+* hide module when no data ([#322](https://github.com/Innei/sprightly/issues/322)) ([c878b8f](https://github.com/Innei/sprightly/commit/c878b8f5c262b89517e02791d143d6019646f298))
+
+
+
+## [1.0.2](https://github.com/Innei/sprightly/compare/v1.0.1...v1.0.2) (2024-03-29)
+
+
+### Bug Fixes
+
+* docker ci ([b1a64f5](https://github.com/Innei/sprightly/commit/b1a64f5da2b87863032feb50b016a91951e431f6))
+
+
+
+## [1.0.1](https://github.com/Innei/sprightly/compare/v1.0.0...v1.0.1) (2024-03-29)
+
+
+### Bug Fixes
+
+*  Excalidraw component styling ([d1529c5](https://github.com/Innei/sprightly/commit/d1529c506b894953be4bd50d85db738cb905c520))
+* `FavoriteSection` style ([d89cb1f](https://github.com/Innei/sprightly/commit/d89cb1f8b00a18c099fd06db32a1f4dd27f7c7e5))
+* accurate image size calculation ([184f652](https://github.com/Innei/sprightly/commit/184f6520c29c354e674f94d653afd10173e7c9b9))
+* activity icon fallback ([f07f390](https://github.com/Innei/sprightly/commit/f07f3902e2c9516c9f4ffdbf01366680ab83e66a))
+* add `Tabs` support ([04f989a](https://github.com/Innei/sprightly/commit/04f989ae0d86568b43cad7400960097c0080a1ce))
+* add default `nid`for note dto ([a4143ff](https://github.com/Innei/sprightly/commit/a4143fff19396caeebf53cff7d355a552b2a4b2f))
+* Add Excalidraw support to Writing component ([e7dfbd0](https://github.com/Innei/sprightly/commit/e7dfbd0b2de363b4b680c6e2760dced14c75d0eb))
+* add global alias ([cf3c7eb](https://github.com/Innei/sprightly/commit/cf3c7ebb8a2bed0c10f006e5be362ff4b7395c12))
+* add revalidate ([01a9aaa](https://github.com/Innei/sprightly/commit/01a9aaae562ec8e4df4375bd74b52669e39553a8))
+* add say background ([#319](https://github.com/Innei/sprightly/issues/319)) ([b864b96](https://github.com/Innei/sprightly/commit/b864b96ed56e88cdacacbcabe986c80af8841c5f))
+* add support for `NOTE_DELETE` event in webhook route ([e5e56ba](https://github.com/Innei/sprightly/commit/e5e56baf2d2d04ac8e8eb4754e8e69f2021d818f))
+* apply friend form in mobile ([348560a](https://github.com/Innei/sprightly/commit/348560ad8800867b535a7a69c3c45023b16c6e30))
+* artifact script ([9f7f119](https://github.com/Innei/sprightly/commit/9f7f11915a772a62e2a55f3fe6aae5fb48216c1a))
+* border color ([9228b16](https://github.com/Innei/sprightly/commit/9228b16844b8d6fa5b7bda97a6d141fb9286ef68))
+* category slug reactive closes [#294](https://github.com/Innei/sprightly/issues/294) ([c6e8d69](https://github.com/Innei/sprightly/commit/c6e8d69f7a5e45eb65dea12a4c4f55a69a97d5f9))
+* ci ([4c4f4e9](https://github.com/Innei/sprightly/commit/4c4f4e9304eb7f54798e9d4ae4e28d10fecff60a))
+* cleanup ([5499991](https://github.com/Innei/sprightly/commit/549999185880206dc824d55a5a88f46cc8cac0a8))
+* clerk can't interactive when modal open ([7209233](https://github.com/Innei/sprightly/commit/720923330ce676f682eb4e958d85477670f38e55))
+* code block events handler in milkdown ([9092b9c](https://github.com/Innei/sprightly/commit/9092b9c76879ddd08d65d9024b100aab41992d48))
+* code block initial style ([d38f314](https://github.com/Innei/sprightly/commit/d38f314411c0f17f36b330cc3ee4554917c0d42c))
+* code diff ([1435df2](https://github.com/Innei/sprightly/commit/1435df2672a48b51d7a1372ac4d8a67674995c6d))
+* code editor ([ff4137c](https://github.com/Innei/sprightly/commit/ff4137c4c2c53b46b5e6f1d2ce75b8b4cff59139))
+* code node clean ([9a2535d](https://github.com/Innei/sprightly/commit/9a2535d429ee8093a09e14539254a79d00f927e8))
+* code scrollbar align ([2d9fa2f](https://github.com/Innei/sprightly/commit/2d9fa2fa314a1f6a3099ad24f3c62e1e52e37ac9))
+* code style ([66528c4](https://github.com/Innei/sprightly/commit/66528c421094306b516900f373df144e5d59a167))
+* comment cls ([4d38b0f](https://github.com/Innei/sprightly/commit/4d38b0f365bb39a71ad6cf27c13cb655051fd960))
+* comment content title cell ([2fdf655](https://github.com/Innei/sprightly/commit/2fdf65553bbe786f5b8a1dc0a629c72f6c3938d1))
+* comment modal style ([887e44b](https://github.com/Innei/sprightly/commit/887e44bcd4562115a67e415c0c034b7afee881d3))
+* comment reply mutation ([bbd6f90](https://github.com/Innei/sprightly/commit/bbd6f9012043a9b3cbf08b5b8ab46858e424e900))
+* comment source style ([38f395d](https://github.com/Innei/sprightly/commit/38f395d0c61d52524d94eb66618a3408b6c59bf0))
+* copy button style ([861fe47](https://github.com/Innei/sprightly/commit/861fe474fdd61fd515c8afd4220e71d0f8a21ac3))
+* copyright ([ae65b25](https://github.com/Innei/sprightly/commit/ae65b253c448cb29f7cf5ee87b039603dcf49513))
+* data source error ([9e53302](https://github.com/Innei/sprightly/commit/9e53302374883b78beffc7e1b16d1b385a09259f))
+* debug ([a890612](https://github.com/Innei/sprightly/commit/a89061213cc87cf96a95d6d95663fd2c4b8042f4))
+* **deps:** update all non-major dependencies ([a1298f4](https://github.com/Innei/sprightly/commit/a1298f471107568e3807afc183607af2cea56104))
+* **deps:** update all non-major dependencies ([29e98cd](https://github.com/Innei/sprightly/commit/29e98cddda1dfc208a42cb548b02394954c225c1))
+* **deps:** update all non-major dependencies ([cce80a9](https://github.com/Innei/sprightly/commit/cce80a9b783e272a824bafd6d0cffaa838545ffe))
+* **deps:** update all non-major dependencies ([613d684](https://github.com/Innei/sprightly/commit/613d6848bb9beaa1cb658035a2ff29e11f214e6f))
+* **deps:** update all non-major dependencies ([a11f2f4](https://github.com/Innei/sprightly/commit/a11f2f4918bd1f7cd0ec9547cd624f4179bc8d2f))
+* **deps:** update all non-major dependencies ([5861fa4](https://github.com/Innei/sprightly/commit/5861fa4f00ca3ab8d89aeec4c884ba5e8bd1079e))
+* **deps:** update all non-major dependencies ([#218](https://github.com/Innei/sprightly/issues/218)) ([0aed3f7](https://github.com/Innei/sprightly/commit/0aed3f7eeb7fd35bd2a2788662911213a9a00f9c))
+* **deps:** update all non-major dependencies ([#248](https://github.com/Innei/sprightly/issues/248)) ([9630d03](https://github.com/Innei/sprightly/commit/9630d035829687ad7949193ddb5514576779e599))
+* **deps:** update all non-major dependencies ([#249](https://github.com/Innei/sprightly/issues/249)) ([a8bf331](https://github.com/Innei/sprightly/commit/a8bf33110727a8056fcb0c6c4006f6f5d72c10ca))
+* **deps:** update all non-major dependencies ([#255](https://github.com/Innei/sprightly/issues/255)) ([f18d879](https://github.com/Innei/sprightly/commit/f18d8791df5d2c3eaf5c398da78d8020737870a1))
+* **deps:** update all non-major dependencies ([#257](https://github.com/Innei/sprightly/issues/257)) ([187221a](https://github.com/Innei/sprightly/commit/187221a609aea95ef1c82f9e85252d2878eb8722))
+* **deps:** update all non-major dependencies ([#260](https://github.com/Innei/sprightly/issues/260)) ([321fff7](https://github.com/Innei/sprightly/commit/321fff7dc57ca9cc7dc6bf1afbd067e140df1867))
+* **deps:** update all non-major dependencies ([#272](https://github.com/Innei/sprightly/issues/272)) ([30c8287](https://github.com/Innei/sprightly/commit/30c82876c3c1b7411ab48083543c82450f87b42a))
+* **deps:** update all non-major dependencies ([#277](https://github.com/Innei/sprightly/issues/277)) ([b7cbde6](https://github.com/Innei/sprightly/commit/b7cbde6dce499d42f3df4f557f8ca4a8c1cc8b04))
+* **deps:** update all non-major dependencies ([#291](https://github.com/Innei/sprightly/issues/291)) ([46492a2](https://github.com/Innei/sprightly/commit/46492a20c1270171c392ffd619741c222b065911))
+* **deps:** update all non-major dependencies ([#299](https://github.com/Innei/sprightly/issues/299)) ([a0474b3](https://github.com/Innei/sprightly/commit/a0474b36cd96f1a14584d3d620a1a21aca41b6da))
+* **deps:** update all non-major dependencies ([#307](https://github.com/Innei/sprightly/issues/307)) ([29231d6](https://github.com/Innei/sprightly/commit/29231d68f90fb2d223c69e7126e0d011f7529db3))
+* **deps:** update all non-major dependencies (minor) ([#268](https://github.com/Innei/sprightly/issues/268)) ([e0132ef](https://github.com/Innei/sprightly/commit/e0132efa7b6163b1a6313ac9b9ade5b4ff66234f))
+* **deps:** update all non-major dependencies (minor) ([#283](https://github.com/Innei/sprightly/issues/283)) ([ab8d7a5](https://github.com/Innei/sprightly/commit/ab8d7a51d402d6b4dca2e1ec827d7cb5ebafcb57))
+* **deps:** update all non-major dependencies (minor) ([#286](https://github.com/Innei/sprightly/issues/286)) ([72ba9f0](https://github.com/Innei/sprightly/commit/72ba9f0bfb852dc90e777dc9a5b920bc9fe19ab6))
+* **deps:** update all non-major dependencies (patch) ([#215](https://github.com/Innei/sprightly/issues/215)) ([e391bc3](https://github.com/Innei/sprightly/commit/e391bc3b87a4ad107a6d45350e37b8e6e6fbeef6))
+* **deps:** update all non-major dependencies to v5.15.0 ([#210](https://github.com/Innei/sprightly/issues/210)) ([cb3a75a](https://github.com/Innei/sprightly/commit/cb3a75a422d5a6cf4aac7b465d09fe04645654ee))
+* **deps:** update dependency @aws-sdk/client-s3 to v3.509.0 ([#281](https://github.com/Innei/sprightly/issues/281)) ([80e9b25](https://github.com/Innei/sprightly/commit/80e9b2523c5c8d70a088558f4e7bd0ec8332b642))
+* **deps:** update dependency @clerk/nextjs to v4.29.3 [security] ([#241](https://github.com/Innei/sprightly/issues/241)) ([0d67edc](https://github.com/Innei/sprightly/commit/0d67edce73eb796fc5a08b8c5da5a3f44ea345f4))
+* **deps:** update dependency @mx-space/api-client to v1.7.2 ([#213](https://github.com/Innei/sprightly/issues/213)) ([eab47dd](https://github.com/Innei/sprightly/commit/eab47dd58786258b6bb9c40c4c6d5ad2282631f4))
+* **deps:** update dependency axios to v1.6.3 ([#212](https://github.com/Innei/sprightly/issues/212)) ([a332f75](https://github.com/Innei/sprightly/commit/a332f759451524fc02e30c6fac8151212f77944f))
+* **deps:** update dependency foxact to v0.2.28 ([#211](https://github.com/Innei/sprightly/issues/211)) ([7b0ee9c](https://github.com/Innei/sprightly/commit/7b0ee9ccb9c6d39d2f3c5ad6c1caf646ad5b48d8))
+* **deps:** update dependency framer-motion to v11 ([#256](https://github.com/Innei/sprightly/issues/256)) ([7f83c15](https://github.com/Innei/sprightly/commit/7f83c15ca33128516657100eb71d096e7b811ca0))
+* **deps:** update dependency marked to ^11.1.1 ([29db44c](https://github.com/Innei/sprightly/commit/29db44c04bf0cf35b7fd4767e2b943afc11edb65))
+* **deps:** update dependency marked to v12 ([#274](https://github.com/Innei/sprightly/issues/274)) ([ef95da1](https://github.com/Innei/sprightly/commit/ef95da13063911bcb71297e8609426eae038b109))
+* **deps:** update dependency postcss-import to v16 ([#224](https://github.com/Innei/sprightly/issues/224)) ([f426390](https://github.com/Innei/sprightly/commit/f426390c24a7cd36e9f79e4e876413011406310c))
+* **deps:** update dependency react-toastify to v10 ([#250](https://github.com/Innei/sprightly/issues/250)) ([5b0b654](https://github.com/Innei/sprightly/commit/5b0b654761f95955d16c5941d14f8528ea852d3a))
+* **deps:** update dependency vite to v5.0.12 [security] ([#253](https://github.com/Innei/sprightly/issues/253)) ([f31fab5](https://github.com/Innei/sprightly/commit/f31fab5348c6c31dff1a6d8588a410e737100313))
+* disable auto focus comment box ([8b8ce23](https://github.com/Innei/sprightly/commit/8b8ce232fca930a830b180cabc90fa3174cad839))
+* disable render code block in rss ([3f18021](https://github.com/Innei/sprightly/commit/3f18021cf0f34177d1883a1a3efe25b8317ee679))
+* dom click event tracker ([c8f3337](https://github.com/Innei/sprightly/commit/c8f3337f34753a5cdfe860bc2bab86eeb7bf61c6))
+* downgrade framer motion ([daa50a1](https://github.com/Innei/sprightly/commit/daa50a18f8bdd7ba525a3c57f123e4251794d528))
+* drone config ([2504d2d](https://github.com/Innei/sprightly/commit/2504d2d783bbfb314088977c7cd3b26ff08db61d))
+* duplicate Markdown heading id, closes  [#261](https://github.com/Innei/sprightly/issues/261) ([984acbe](https://github.com/Innei/sprightly/commit/984acbe7c90e0cd90c5f2bdc3554adcdc99d06d7))
+* empty line of shiki line ([3db5128](https://github.com/Innei/sprightly/commit/3db512867a54c7dbfa65589fe1b69aa0c2d8353d))
+* env ([b4c74e3](https://github.com/Innei/sprightly/commit/b4c74e3abaab1bf72eb56d64555f5e3d0fbd9ff8))
+* excalidraw modal event ([3833c80](https://github.com/Innei/sprightly/commit/3833c80d35af095154d3325bbe5afbfcd72fef04))
+* excalidraw preview ([f9c9781](https://github.com/Innei/sprightly/commit/f9c97814519a81276e2e0eda1b3d5860e9eb6e1c))
+* excalidraw preview button logic in mobile ([06e8284](https://github.com/Innei/sprightly/commit/06e8284f7a7ed46d5916bdac5b45e79029944416))
+* Excalidraw render in ssr ([5915e47](https://github.com/Innei/sprightly/commit/5915e4709347c3824ca900f45ff2ece2b62e46ff))
+* excalidraw theme ([94d4766](https://github.com/Innei/sprightly/commit/94d47663b0d382d9b0ae3dfa2f6ee08c0a129134))
+* exclude header active status ([bf8b3ab](https://github.com/Innei/sprightly/commit/bf8b3abc070061d09d0e1eae94227179ba66f675))
+* favicon ([d212c69](https://github.com/Innei/sprightly/commit/d212c69d9ebfd8764f09cdb6e58aaca5a829dfb2))
+* fetch category error ([e9935f0](https://github.com/Innei/sprightly/commit/e9935f0fafd855a90e494c627c294fdec767e153))
+* filter real markdown headings ([3baf262](https://github.com/Innei/sprightly/commit/3baf26273c7ccadbaf458553712634bc3d250584))
+* float popover position calculation ([73fa809](https://github.com/Innei/sprightly/commit/73fa8099d55b1c490e9d64c1fa280b76018d2d3c))
+* footer divider ([1f6bfd0](https://github.com/Innei/sprightly/commit/1f6bfd06f6a3d10096214d8d3735eb4516a2e154))
+* force update ([7012092](https://github.com/Innei/sprightly/commit/7012092db96f8cc3e53b46d7237e56c0788a848a))
+* framer motion bug and improve modal dismissal ([6204682](https://github.com/Innei/sprightly/commit/6204682ce53028ded59fe14aabe442e899b139de))
+* friend desc text balance ([33b43dc](https://github.com/Innei/sprightly/commit/33b43dcbb2ea6754303fa62618740794df7818a2))
+* full movie card ([5934fc3](https://github.com/Innei/sprightly/commit/5934fc381d94256b559c89b0d997bed603a6495e))
+* get pos and insert node ([bcb3e5b](https://github.com/Innei/sprightly/commit/bcb3e5b6fab5308d25f2ca06b8455a73d1ed30c2))
+* github page not discover `_` prefix file ([8e2adfa](https://github.com/Innei/sprightly/commit/8e2adfaa2eceffca21ab63ec8691befe34366714))
+* hack nextjs bug 60021 ([ef7a0d8](https://github.com/Innei/sprightly/commit/ef7a0d831c0886259510a5b1a41bad35857ff5a9))
+* header ([b2d5e68](https://github.com/Innei/sprightly/commit/b2d5e6892c8d1b2f21711dad5818451466df3780))
+* **header-sheet:** auto close when click ([c849680](https://github.com/Innei/sprightly/commit/c849680b07177045d8bccf204180a7e5aa7c2468))
+* hide activity icon when reading focus ([b54e687](https://github.com/Innei/sprightly/commit/b54e6878508960bcb99533e7c2f07574aeba6c04))
+* hide back to top fab in mobile ([4c20d96](https://github.com/Innei/sprightly/commit/4c20d960d021ac0215b4e09fc53a9d94100429a9))
+* hide header cover in print ([d9d7315](https://github.com/Innei/sprightly/commit/d9d73151b203f2c6823605fb1f42d290d82373be))
+* icons not aligned & modal window height not enough ([#217](https://github.com/Innei/sprightly/issues/217)) ([98e1084](https://github.com/Innei/sprightly/commit/98e1084fde9d8060de00ac0802ead62ad0639747))
+* image grid ([c1ef2db](https://github.com/Innei/sprightly/commit/c1ef2db2bc174379c93e03c518a6c05d344b93e3))
+* image src ([34f5b73](https://github.com/Innei/sprightly/commit/34f5b7353e5ecc969c11fce9febd976de30cd3dd))
+* images grids ([1f43e6c](https://github.com/Innei/sprightly/commit/1f43e6cf8490213b41d60b0dfe89a22408e75eec))
+* import ([d3d7612](https://github.com/Innei/sprightly/commit/d3d76129efb0bbb55a34f36a09244d0ca28edb71))
+* improve favicon for md fixes [#298](https://github.com/Innei/sprightly/issues/298) ([a84cb55](https://github.com/Innei/sprightly/commit/a84cb554f4ba7f58ec6b0de1d5b31849f044f94a))
+* improve ux ([139cf2e](https://github.com/Innei/sprightly/commit/139cf2e960d7f06816d707b11c2b12b1ca22886f))
+* jotai store and ui bg ([82690a1](https://github.com/Innei/sprightly/commit/82690a116f300c776addf3e654859a2bdc340683))
+* katex inline, closes [#237](https://github.com/Innei/sprightly/issues/237) ([fd59a7a](https://github.com/Innei/sprightly/commit/fd59a7a31a015f3d786bd1f9cdad40992d826d07))
+* keyboard shortcut for opening search panel ([61587c0](https://github.com/Innei/sprightly/commit/61587c0328d3406e140570f79caee9058d7446e5))
+* **link-card:** add fallback url ([f58c9d2](https://github.com/Innei/sprightly/commit/f58c9d228aa5b5b8f53708f9d3a6564490624195))
+* lockfile ([30a37be](https://github.com/Innei/sprightly/commit/30a37be705d504571c9b73ad17fccf1e5d859509))
+* lockfile ([235837f](https://github.com/Innei/sprightly/commit/235837f92e7bf47a77f26d26eb4a64a362a72c35))
+* mark text color ([83d85ab](https://github.com/Innei/sprightly/commit/83d85aba0773d5e13927dc43991ea70d6cf4e357))
+* markdown banner style ([9d207d5](https://github.com/Innei/sprightly/commit/9d207d5d64ada3581bc4b09b99ebff5c761dfc13))
+* markdown mark style ([97ab708](https://github.com/Innei/sprightly/commit/97ab7081eaa945b96bac2ae6970d3e85eca844c0))
+* markdown video align center ([ea25d83](https://github.com/Innei/sprightly/commit/ea25d838168f9a79f2cfd1e2740fa82ecad109e6))
+* max-height of header sheet ([aa6b4fc](https://github.com/Innei/sprightly/commit/aa6b4fc0e4d9b2a614d5678b7d20c74f4087ee93))
+* motion ([dcba4ec](https://github.com/Innei/sprightly/commit/dcba4eca3c24328cb5edd735a2792afa5daa4759))
+* movie card style ([dbb4791](https://github.com/Innei/sprightly/commit/dbb47919896a63c344ce7011d5db2d8edae1b442))
+* my domain copyright ([fa650b9](https://github.com/Innei/sprightly/commit/fa650b99f78c4d07fef255f65ccc82df1b04778a))
+* next image ([4274a17](https://github.com/Innei/sprightly/commit/4274a17d95ee03a915c965eff92433f94e8680b7))
+* note blockquite style ([a0da237](https://github.com/Innei/sprightly/commit/a0da2370d6d17dae806cdbb060acc602372d1ce2))
+* npmrc ([7da78a5](https://github.com/Innei/sprightly/commit/7da78a5df02f5ee7d3b6e192685928d11c1ce206))
+* og padding ([74fd89c](https://github.com/Innei/sprightly/commit/74fd89c4161e756cf70c1c0c0562cd6a08144590))
+* og padding ([dcd2d33](https://github.com/Innei/sprightly/commit/dcd2d33f8f690956aae11f4693d934d0d7b108de))
+* og title ([95f54c2](https://github.com/Innei/sprightly/commit/95f54c2ac9111f926727a2f601401687bd3341fb))
+* og title overflow ([75ba051](https://github.com/Innei/sprightly/commit/75ba0516d5ed7520433981073321ced8561d7fd9))
+* oklch color channel ([75432f8](https://github.com/Innei/sprightly/commit/75432f8bd62c5d8671bbbb8c950a73720f989e09))
+* optimize ui ([a58f629](https://github.com/Innei/sprightly/commit/a58f629db567d18e4e7ae683ee60870198560b25))
+* overflow ([70c6079](https://github.com/Innei/sprightly/commit/70c6079315a7018fe23ae7bfe02bed2d10163c9f))
+* peek link ([d2627f7](https://github.com/Innei/sprightly/commit/d2627f7de5f2d15f3b3d1572381ef1b7b9c8ea52))
+* post related ([d8ba333](https://github.com/Innei/sprightly/commit/d8ba333fe92f2320e21c4bb61951a01c323c23e0))
+* presence calculation ([6fe7f65](https://github.com/Innei/sprightly/commit/6fe7f658ed095fe671b04bcdb963f9d93c94ba48))
+* process icon ([212aa05](https://github.com/Innei/sprightly/commit/212aa05c2bdefbf7bfac91fec44ea0eb8d819235))
+* process name ([cd6044d](https://github.com/Innei/sprightly/commit/cd6044d1f43248f8bd81edf71cfc0d2749ad77ce))
+* react render component style ([28bc85f](https://github.com/Innei/sprightly/commit/28bc85f5f535bd834696eef15e7219c42af39825))
+* refresh can apply friends ([7c6ca38](https://github.com/Innei/sprightly/commit/7c6ca3860d0e2d1e0744895cc4d2dc48ad8c0603))
+* refresh token ([0ab7f0d](https://github.com/Innei/sprightly/commit/0ab7f0d91f6cbb79e7872c83c1a04776e1ec854f))
+* remote component render ([2401325](https://github.com/Innei/sprightly/commit/240132543c8f46717fd3dc75c3a7773ddf6f45d6))
+* remove `A` ([6961dc0](https://github.com/Innei/sprightly/commit/6961dc086bcd915cb0f8f2fedeed368491750774))
+* remove `revalidateTag` ([93a4f23](https://github.com/Innei/sprightly/commit/93a4f239a9e3969e27616a80396d54548640e385))
+* remove cache ([00a7551](https://github.com/Innei/sprightly/commit/00a7551cfab68127491fc625a19934d01779958a))
+* remove fuck unstable_cache ([c5c7f23](https://github.com/Innei/sprightly/commit/c5c7f232e449ab142b01a4342ad4620b81b5b917))
+* remove ring style ([5aa9c85](https://github.com/Innei/sprightly/commit/5aa9c85640b1f138e82c73e2b1dc42b49ef66ce6))
+* remove route state replace ([acc815e](https://github.com/Innei/sprightly/commit/acc815e6bd94b278902135ee4a48478a355c9a94))
+* remove stupid code ([e5d3a08](https://github.com/Innei/sprightly/commit/e5d3a08e9e337947517925b83c06f1178e94455e))
+* remove 数据万象 params ([2a393b7](https://github.com/Innei/sprightly/commit/2a393b7280312edd6af5ba68fd493eb5f65d5095))
+* render alert rule but can not edit now ([9efdf29](https://github.com/Innei/sprightly/commit/9efdf2958afe466746378fd9bcf529edc4d701f5))
+* reply comment ([946b234](https://github.com/Innei/sprightly/commit/946b2345e9b580d94aba887c2eebb432e2090a27))
+* requestErrorHandler to fetchQuery calls ([8844c36](https://github.com/Innei/sprightly/commit/8844c36949bca765400e49cdc72637372cc9a85f))
+* reset auto save data when saved ([c5bae13](https://github.com/Innei/sprightly/commit/c5bae1396b8fd54585c64a917e871b7acb018e1a))
+* reset initial data ([12351b9](https://github.com/Innei/sprightly/commit/12351b900790fbf036699114d3cbc377600127a0))
+* room context ([8ec33d1](https://github.com/Innei/sprightly/commit/8ec33d1003aac2272c3d6e6ba3ed1f8156ede52b))
+* route enum ([f5a9ff8](https://github.com/Innei/sprightly/commit/f5a9ff8b58576da73d49f380e3bda93d1f9df292))
+* rss route export ([d018f74](https://github.com/Innei/sprightly/commit/d018f74a27ecc5c810287e84539916a1b4cd26cb))
+* scroll area ([8085e65](https://github.com/Innei/sprightly/commit/8085e65459875f7bf4e4e8d888c72b65c68921c7))
+* scrollbar color ([1eaad9b](https://github.com/Innei/sprightly/commit/1eaad9b1508c4a6218038bff237c48fe102f0990))
+* search panel loading spinner bug ([33fa4ba](https://github.com/Innei/sprightly/commit/33fa4bae1facb8cb4de9ce9be13e48fdcb044aa0))
+* seesion key case ([f20edb9](https://github.com/Innei/sprightly/commit/f20edb9656bab353455181b694f310b102dc7f0d))
+* select loading style ([19fb3d2](https://github.com/Innei/sprightly/commit/19fb3d204a897772350fd779845907aee5df1aaa))
+* seo favicon ([3b4f23c](https://github.com/Innei/sprightly/commit/3b4f23cd30380bb2ffb0b9d6f405b90a9c283758))
+* set `w-full` first ([9b38e09](https://github.com/Innei/sprightly/commit/9b38e09671a7df23c680d20eea1e0274b06d9ea9))
+* set image view max-w ([32f076c](https://github.com/Innei/sprightly/commit/32f076cc1a6b1223a1457c3a5a6db3ecbec025e3))
+* shiki copy button position ([65a64fb](https://github.com/Innei/sprightly/commit/65a64fb1ff71c8dacfec1adf346ede7cfe9546be))
+* shiki highlight line ([a3769cb](https://github.com/Innei/sprightly/commit/a3769cbb368125d3f62c45d56311666da078d352))
+* social icon overflow ([ff12ca8](https://github.com/Innei/sprightly/commit/ff12ca8a0c5380e50f3b5645ca6d41b9b9b5549a))
+* some styles ([9b53db0](https://github.com/Innei/sprightly/commit/9b53db0960e440a9e901f9c64a52f9935481effc))
+* source ([afcfd4b](https://github.com/Innei/sprightly/commit/afcfd4b0da875a9f7567e2c70a14988f91c23b1c))
+* **storybook:** update deps ([111fc65](https://github.com/Innei/sprightly/commit/111fc6580726111dc83c730cb364210fbe3992c7))
+* style ([1dd58b6](https://github.com/Innei/sprightly/commit/1dd58b657629971bd95cb1e4fed07552564852e8))
+* summary condition ([c009425](https://github.com/Innei/sprightly/commit/c009425b7898c8df311d26c29da92c90ad6fdd83))
+* summary render ([b465230](https://github.com/Innei/sprightly/commit/b4652309acc6e420d25aa695cbf86c07182fb8e3))
+* svg preview viewport ([7888b72](https://github.com/Innei/sprightly/commit/7888b72c95aa2e9f776a57de8a3e8549fcad7343))
+* tab content cls ([cb40ff6](https://github.com/Innei/sprightly/commit/cb40ff62283ebd29a3668f783479fab783fcb17a))
+* tag value ([10aa47f](https://github.com/Innei/sprightly/commit/10aa47f5e8cc85651d7bda0fc9c811cc490f3159))
+* theme provider ([cc58472](https://github.com/Innei/sprightly/commit/cc584722564aa3b60d274db708210e600a727cca))
+* to admin ([88f4523](https://github.com/Innei/sprightly/commit/88f45232b3c987dc505d7e8a32a917c433e1c37f))
+* transition view ([20b2d11](https://github.com/Innei/sprightly/commit/20b2d114dfdf23d3cfc1796ec5346cc25744420c))
+* transition view ([fede3f6](https://github.com/Innei/sprightly/commit/fede3f65bf9f658058658f9e6578d0fdd6b81de3))
+* type ([84ed850](https://github.com/Innei/sprightly/commit/84ed850ca87dfa3b7414832db7276781b16bd99a))
+* type error ([d2d2806](https://github.com/Innei/sprightly/commit/d2d2806f2715a194dceac4672db39613899c9bb2))
+* type error ([30a212b](https://github.com/Innei/sprightly/commit/30a212b474891eb925d6531f5df691669f82f0a8))
+* typing error ([a3ea932](https://github.com/Innei/sprightly/commit/a3ea932d0a43c49ea22d1dbbe72d97c0753a8ffc))
+* unoptimize some image ([8f88dc9](https://github.com/Innei/sprightly/commit/8f88dc9b5b23f9b16241265985bf3f2cf882881e))
+* update copy button ([a94194e](https://github.com/Innei/sprightly/commit/a94194e1cd1e2d99b8972455bd7af51a5de6669a))
+* update data when save csb successful ([31529c0](https://github.com/Innei/sprightly/commit/31529c085bc3077ee44bfb9562d1e1de435f4e86))
+* update Excalidraw component styling ([9671837](https://github.com/Innei/sprightly/commit/9671837d8bae9fed6c933f0d167c9a9b8e6e05c4))
+* update katex to v0.16.9 and prevent throwing ParseError ([#227](https://github.com/Innei/sprightly/issues/227)) ([8873514](https://github.com/Innei/sprightly/commit/8873514226cea2dd1e8c3f2bdb9c35f331f3f2bb))
+* Update NoteTopicInfo.tsx ([2c98d46](https://github.com/Innei/sprightly/commit/2c98d464e38adca56490093dc3377af1fd9cf378))
+* update style ([453d7c9](https://github.com/Innei/sprightly/commit/453d7c9aeb6b0d5a82364fbd16a1f5bce43e9496))
+* update tags modal style ([612efd9](https://github.com/Innei/sprightly/commit/612efd90d1b9350f8e58626185f63906ba9b7f8b))
+* update thing ([6cbf46a](https://github.com/Innei/sprightly/commit/6cbf46af59b1345b4ccbc9758c35ea49e36e4c67))
+* upload need token ([f0453db](https://github.com/Innei/sprightly/commit/f0453dbe2333d073f106c345dba11449205c9d26))
+* use client component of note home page ([fde1bca](https://github.com/Innei/sprightly/commit/fde1bca03dba0ed42f346997a5c1f091d731ae20))
+* use put instead of patch in post update ([1620699](https://github.com/Innei/sprightly/commit/162069903b366ed2a92ff2209b18dba5ddd62623))
+* vercel cache ([acdd7f6](https://github.com/Innei/sprightly/commit/acdd7f6dadde2c4e8056a8d5c9336c493cea0fa7))
+* vertical container layout style ([f5d84ca](https://github.com/Innei/sprightly/commit/f5d84cab10c18e4de7550988625ab6b741165acb))
+* webhook type ([e676c3f](https://github.com/Innei/sprightly/commit/e676c3f696735d453c750e8adfe2e29b3849eda9))
+
+
+### Features
+
+*  add feed metadata ([1c9aba2](https://github.com/Innei/sprightly/commit/1c9aba2a332ed5a8e305a5ce1a3deedb2b0803e7))
+* add @mx-space/webhook dependency and update revalidate time ([99dca50](https://github.com/Innei/sprightly/commit/99dca509b7de05b2d73fbc883ed139bb106caeea))
+* add activity rooms ([4426fa6](https://github.com/Innei/sprightly/commit/4426fa680c2d1b8a276dfaccfc0f53f4e55633e6))
+* add comment source ([28e71b4](https://github.com/Innei/sprightly/commit/28e71b4d4ba3f3e4398ccc5f4890c964d05a085f))
+* Add language support & fix: Tooltip now hides when scrolling to… ([#305](https://github.com/Innei/sprightly/issues/305)) ([0761eaa](https://github.com/Innei/sprightly/commit/0761eaad1e5f15e8283c4043f4339093cba2c036))
+* add s3 uploader ([244e96e](https://github.com/Innei/sprightly/commit/244e96ea47123e7c46b08d4caf07beff1cce9c3a))
+* add some block in milkdown editor ([#270](https://github.com/Innei/sprightly/issues/270)) ([6b1635b](https://github.com/Innei/sprightly/commit/6b1635b96bfec39e537f07724990f3843ea08ebf))
+* add star count ([04ad6d0](https://github.com/Innei/sprightly/commit/04ad6d0d1d02414099c90ca3664893d05da0f9ce))
+* Add support for Mermaid diagrams in Writing component ([488ca57](https://github.com/Innei/sprightly/commit/488ca57d9c4bbaf6e5e0b8177d67fccc787450c1))
+* Add support for unknown languages & style: Update code line for… ([#306](https://github.com/Innei/sprightly/issues/306)) ([59a8f61](https://github.com/Innei/sprightly/commit/59a8f61d085079511ac52505947468f4b341b1dc))
+* autosave ([6daaf06](https://github.com/Innei/sprightly/commit/6daaf06530ac0cdc5cb3ece43f293493e39911f2))
+* cache more ([0fe5b44](https://github.com/Innei/sprightly/commit/0fe5b44654ff42461ff4a4539480d3eb9a86667f))
+* cache something ([6848154](https://github.com/Innei/sprightly/commit/6848154c19c54d6dcbc7a9e3250358ca465489ea))
+* comment markdown improve ([65d4618](https://github.com/Innei/sprightly/commit/65d4618fe4aa14bdc0e59febfaa3a66c9566dc90))
+* copy excalidraw data ([6897840](https://github.com/Innei/sprightly/commit/68978407a802b3dfe7fbd52f35fa532acb6c305d))
+* discord icon, fixes [#315](https://github.com/Innei/sprightly/issues/315) ([f91267e](https://github.com/Innei/sprightly/commit/f91267e51e5871c622899b0b91d97288f5df83e4))
+* editor add menubar ([#231](https://github.com/Innei/sprightly/issues/231)) ([8feb41f](https://github.com/Innei/sprightly/commit/8feb41fe742d323c24b037086b29003c007f1c79))
+* feature provider ([1617ca8](https://github.com/Innei/sprightly/commit/1617ca8adadc540c5e42b66d09f2b3b57e24526a))
+* form transform value ([661fe5c](https://github.com/Innei/sprightly/commit/661fe5c2b377a719243d11985bf461fe6916de51))
+* hack route blocker ([#236](https://github.com/Innei/sprightly/issues/236)) ([0826096](https://github.com/Innei/sprightly/commit/0826096de8a34233a63e82fc2b58bf1288451dd0))
+* home og ([015ca83](https://github.com/Innei/sprightly/commit/015ca839d4d6e299e7e12eb6a83684f430dd78c2))
+* image node view ([c7c1fc0](https://github.com/Innei/sprightly/commit/c7c1fc0e4826af26b5698adad20a041ca69d4a96))
+* improve donate modal in mobile ([148bc2e](https://github.com/Innei/sprightly/commit/148bc2ebe289da3338078e92c897341e4f27d8bb))
+* improve mobile paper cover style ([2092aa2](https://github.com/Innei/sprightly/commit/2092aa27ed0453cc4e991774605372614f61b2ad))
+* json highlighter editor ([06db5eb](https://github.com/Innei/sprightly/commit/06db5ebcf5767f775466e0bdf07b0138cc9d2611))
+* lazyload image ([59d1944](https://github.com/Innei/sprightly/commit/59d1944fb70c79e43869b46c7a639973a9d42c76))
+* light dashboard ([#228](https://github.com/Innei/sprightly/issues/228)) ([dc5ed08](https://github.com/Innei/sprightly/commit/dc5ed0847bc87cbc4f67aba6fa8ebeeefa1fbfd7))
+* **markdown:** add grid type ([868dbcb](https://github.com/Innei/sprightly/commit/868dbcb1b42e5b0a336b18ad79c08602542a056b))
+* **markdown:** images grid ([5e08d59](https://github.com/Innei/sprightly/commit/5e08d59fea599c4575026dfd8d97ca5935ce9e8f))
+* **md:** support load remote react component ([9e28418](https://github.com/Innei/sprightly/commit/9e284181a9e2cba89d40cda3a0da5c295660d178))
+* note topic rank ([8918ba7](https://github.com/Innei/sprightly/commit/8918ba7ef6016aa31934840d72c7889ded22a7b4))
+* re-add loading file ([9112c1b](https://github.com/Innei/sprightly/commit/9112c1b28d1bc18bb85f86525c0b4721a03f8e97))
+* runtime env ([#320](https://github.com/Innei/sprightly/issues/320)) ([55b994c](https://github.com/Innei/sprightly/commit/55b994cffe43d32e35c729f477a96a19a5d46905))
+* shiki ([#303](https://github.com/Innei/sprightly/issues/303)) ([207658f](https://github.com/Innei/sprightly/commit/207658f6bb17330c49e36926fca9570291309d83))
+* shiki add line number, fixes [#309](https://github.com/Innei/sprightly/issues/309) ([e76df6f](https://github.com/Innei/sprightly/commit/e76df6fc8a98aa27fdc9b645fdb702c67e469c47))
+* support code block for excalidraw ([5fd5b64](https://github.com/Innei/sprightly/commit/5fd5b646ab4dcb9ec5229338e2b752e2f91afd41))
+* support delta of excalidraw data structure ([bec612d](https://github.com/Innei/sprightly/commit/bec612d740c7b82e59de450aa078b57ba048f5fd))
+* support manual summary ([2eb880a](https://github.com/Innei/sprightly/commit/2eb880a6e98848a98bcc1c10ea4d893ef15956f6))
+* support realtime page reader presence ([#288](https://github.com/Innei/sprightly/issues/288)) ([abe2460](https://github.com/Innei/sprightly/commit/abe2460b191d2db503aa10fe90fd6dc47e095833))
+* support tmdb link card parser ([a70f638](https://github.com/Innei/sprightly/commit/a70f63840c9fb8e1362987977f32251a5339822c))
+* update generated noise background ([cfb8c6a](https://github.com/Innei/sprightly/commit/cfb8c6a9d6777274fe3aafc9bc8d5318875562e2))
+* upgrade daisyui ([76c0596](https://github.com/Innei/sprightly/commit/76c059687acda18eb3731f8c1f36c607c1f30de9))
+* ws event real read count ([0a61a81](https://github.com/Innei/sprightly/commit/0a61a81e36e359de3e08e5e1e3c0a50228404d1c))
+* 添加一些windows上的进程名称 ([#276](https://github.com/Innei/sprightly/issues/276)) ([8d39b48](https://github.com/Innei/sprightly/commit/8d39b4800b990c002f72ddca922a14b92ece7c16))
+
+
+
 # [1.0.0](https://github.com/Innei/sprightly/compare/v0.2.0...v1.0.0) (2023-12-26)
 
 

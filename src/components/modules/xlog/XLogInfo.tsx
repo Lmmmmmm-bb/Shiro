@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from 'react'
 import { clsx } from 'clsx'
-import type { FC, SVGProps } from 'react'
-import type { XLogMeta } from './types'
+import type { FC, JSX, SVGProps } from 'react'
+import { useState } from 'react'
 
 import { CollapseContent } from '~/components/ui/collapse'
 import { useIsClient } from '~/hooks/common/use-is-client'
 import { useCurrentNoteDataSelector } from '~/providers/note/CurrentNoteDataProvider'
 import { useCurrentPostDataSelector } from '~/providers/post/CurrentPostDataProvider'
+
+import type { XLogMeta } from './types'
 
 export const XLogInfoForPost: FC = () => {
   const meta = useCurrentPostDataSelector((data) => data?.meta?.xLog)
@@ -100,7 +101,7 @@ const XLogInfoBase: FC<{
         }}
       >
         <div className="flex w-full items-center justify-between">
-          <span className="flex flex-grow items-center space-x-2">
+          <span className="flex grow items-center space-x-2">
             <SafeIcon />
             <span>
               此数据所有权由区块链加密技术和智能合约保障仅归创作者所有。
@@ -109,7 +110,7 @@ const XLogInfoBase: FC<{
           <IcRoundKeyboardArrowDown
             className={clsx(
               !collapse ? '' : 'rotate-180',
-              'transform text-lg transition-transform duration-200 ease-linear',
+              'text-lg transition-transform duration-200 ease-linear',
             )}
           />
         </div>

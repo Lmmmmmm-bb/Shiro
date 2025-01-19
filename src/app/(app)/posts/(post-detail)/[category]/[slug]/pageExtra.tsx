@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
-import Balancer from 'react-wrap-balancer'
 import type { Image } from '@mx-space/api-client'
+import { useRouter } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { useSetHeaderMetaInfo } from '~/components/layout/header/hooks'
 import { PostMetaBar } from '~/components/modules/post/PostMetaBar'
@@ -17,8 +17,8 @@ export const PostTitle = () => {
   const title = useCurrentPostDataSelector((data) => data?.title)!
 
   return (
-    <h1 className="text-center">
-      <Balancer>{title}</Balancer>
+    <h1 className="mb-8 text-balance text-center text-4xl font-bold leading-tight">
+      {title}
     </h1>
   )
 }
@@ -92,4 +92,16 @@ export const PostMetaBarInternal: Component = ({ className }) => {
   })
   if (!meta) return null
   return <PostMetaBar meta={meta} className={className} />
+}
+
+export const SlugReplacer = ({ to }: { to: string }) => {
+  const router = useRouter()
+  const onceRef = useRef(false)
+
+  if (!onceRef.current) {
+    onceRef.current = true
+    router.replace(to)
+  }
+
+  return null
 }

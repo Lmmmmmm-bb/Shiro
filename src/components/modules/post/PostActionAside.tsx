@@ -1,12 +1,13 @@
 'use client'
 
-import { m, useAnimationControls, useForceUpdate } from 'framer-motion'
+import { m, useAnimationControls } from 'motion/react'
 
-import { useIsMobile } from '~/atoms'
+import { useIsMobile } from '~/atoms/hooks'
 import { ThumbsupIcon } from '~/components/icons/thumbs-up'
 import { MotionButtonBase } from '~/components/ui/button'
 import { useModalStack } from '~/components/ui/modal'
 import { NumberSmoothTransition } from '~/components/ui/number-transition/NumberSmoothTransition'
+import { useForceUpdate } from '~/hooks/common/use-force-update'
 import { useIsClient } from '~/hooks/common/use-is-client'
 import { isLikedBefore, setLikeId } from '~/lib/cookie'
 import { clsxm } from '~/lib/helper'
@@ -35,7 +36,7 @@ export const PostBottomBarAction: Component = () => {
   const isMobile = useIsMobile()
   if (!isMobile) return null
   return (
-    <div className="flex items-center justify-center space-x-8">
+    <div className="my-6 flex items-center justify-center space-x-8">
       <LikeButton />
       <ShareButton />
       <SubscribeButton />
@@ -60,22 +61,24 @@ const SubscribeButton = () => {
   const { present } = usePresentSubscribeModal(['post_c'])
   return (
     <MotionButtonBase className="flex flex-col space-y-2" onClick={present}>
-      <ActionAsideIcon className="icon-[material-symbols--notifications-active-outline] hover:text-accent" />
+      <ActionAsideIcon className="i-material-symbols-notifications-active-outline hover:text-accent" />
     </MotionButtonBase>
   )
 }
 
 const PostAsideCommentButton = () => {
-  const { title, id } =
+  const { title, id, allowComment } =
     useCurrentPostDataSelector((data) => {
       return {
         title: data?.title,
         id: data?.id,
+        allowComment: data?.allowComment,
       }
     }) || {}
   const isEof = useIsEoFWrappedElement()
   if (!id) return null
   if (isEof) return null
+  if (!allowComment) return null
 
   return <AsideCommentButton refId={id} title={title!} />
 }
@@ -145,7 +148,7 @@ const LikeButton = () => {
       >
         <ThumbsupIcon />
         {!!likeCount && (
-          <span className="absolute bottom-0 right-0 translate-x-[8px] transform text-[10px]">
+          <span className="absolute bottom-0 right-0 translate-x-[8px] text-[10px]">
             <NumberSmoothTransition>{likeCount}</NumberSmoothTransition>
           </span>
         )}
@@ -196,7 +199,7 @@ const ShareButton = () => {
         }
       }}
     >
-      <ActionAsideIcon className="icon-[mingcute--share-forward-line] hover:text-uk-cyan-light" />
+      <ActionAsideIcon className="i-mingcute-share-forward-line hover:text-uk-cyan-light" />
     </MotionButtonBase>
   )
 }

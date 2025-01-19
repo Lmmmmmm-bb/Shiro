@@ -1,7 +1,7 @@
 'use client'
 
+import type { DetailedHTMLProps, FC, ImgHTMLAttributes, JSX } from 'react'
 import React, { createElement, useMemo, useRef, useState } from 'react'
-import type { DetailedHTMLProps, FC, ImgHTMLAttributes } from 'react'
 
 import { useIsDark } from '~/hooks/common/use-is-dark'
 import { getColorScheme, stringToHue } from '~/lib/color'
@@ -91,14 +91,14 @@ export const Avatar: FC<
         imageUrl && !loadError ? (
           <div
             className={clsxm(
-              'h-full w-full bg-cover bg-center bg-no-repeat transition-opacity duration-300',
+              'size-full bg-cover bg-center bg-no-repeat transition-opacity duration-300',
               className,
             )}
           >
             <img
               src={imageUrl}
               style={{
-                ...{ opacity: loaded ? 1 : 0 },
+                opacity: loaded ? 1 : 0,
                 ...(radius
                   ? { borderRadius: radius === 'full' ? '100%' : `${radius}px` }
                   : undefined),
@@ -116,7 +116,7 @@ export const Avatar: FC<
             />
           </div>
         ) : text ? (
-          <div className="relative flex h-full w-full flex-grow select-none items-center justify-center">
+          <div className="relative flex size-full grow select-none items-center justify-center">
             <FlexText scale={0.5} text={text} />
           </div>
         ) : null,
